@@ -1,0 +1,15 @@
+@import "../../style.scss";
+
+.posts {
+  @include themify($themes) {
+    background: themed("bgs");
+  }
+}
+
+.regis_right{
+ @include themify($themes) {
+    background: themed("bgs");
+    padding-left: 24px;
+    color: themed("textColor");
+    }
+}

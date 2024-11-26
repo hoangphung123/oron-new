@@ -1,0 +1,322 @@
+@import "../../style.scss";
+
+.posts {
+  @include themify($themes) {
+    background: themed("bgs");
+
+
+    
+  }
+}
+
+.popups {
+  @include themify($themes) {
+    position: fixed;
+    top: 54%;
+    left: 50%;
+    transform: translate(-50%, -49%);
+    padding: 20px;
+    border: 1px solid #000000;
+    z-index: 999;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: themed("bg"); /* Màu nền mờ với độ mờ 45% */
+    // backdrop-filter: blur(30px); /* Tạo hiệu ứng mờ bằng backdrop-filter */
+    box-shadow: 0 4px 6px rgba(226, 223, 223, 0.704);
+    border-radius: 10px;
+    min-height: 83vh;
+    overflow: hidden;
+    z-index: 2;
+    height: 45%;
+    overflow-y: auto;  /* Cho phép cuộn lên xuống khi nội dung dài hơn */
+    max-height: 80vh;
+
+    .close{
+      color: themed("textColor") ;
+      
+    }
+
+    
+  }
+
+  input{
+      border: none;
+      width: 96%;
+      margin-bottom: 20px;
+      padding: 20px 0 20px 4%;
+  }
+
+  .input_description {
+      display: flex;
+      height: 100px;
+      width: 96%; /* hoặc giá trị mong muốn cho chiều cao */
+      padding: 20px 0 20px 4%;
+      resize: vertical;
+      margin-bottom: 20px;
+      max-height: 100px;
+      min-height: 100px;
+      background: #e9e9e9;
+      /* Thêm các thuộc tính CSS khác nếu cần thiết */
+  }
+
+
+  select{
+      border: none;
+      padding: 20px;
+      width: 100%;
+      height: 58.4px;
+      margin-bottom: 20px;   
+      background: #e9e9e9; 
+
+      
+  }
+
+  .selectStatus {
+      height: 20px;
+      padding: 0;
+  }
+
+  select.statusSelect{
+      padding: 0;
+      width: auto;
+      height: auto;
+  }
+
+  h2{
+      color: #555;
+      font-size: 30px;
+      margin-bottom: 20px;
+      margin-top: -20px;
+  }
+
+  // p{
+  //     display: flex;
+  //     position: fixed;
+  //     top: 50%;
+  //     left: 50%;
+  //     transform: translate(-50%, -50%);
+  //     width: 100%;
+  //     height: 50%;
+  //     justify-content: center;
+  //     align-items: center;
+  // }
+
+  .imageContainer {
+      width: 100%;
+      height: 227px;
+      margin-bottom: 20px;
+      border: 1px solid white;
+      margin-left: -2px;
+      background: #e9e9e9;
+  }
+
+  .imageContainer img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: relative;
+      top: -109%;
+      z-index: 1;
+  }
+
+  .dropzone {
+      height: 100%;
+      position: relative;
+      margin-top: 21px;
+      margin-right: 20px;
+  }
+
+  .imageContainer_p{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 9999;
+      position: relative;
+  }
+
+  .popup-content{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 60%;
+
+      .right{
+          width: 60%;
+          margin-right: 40px;
+          margin-top: -67px;
+          
+      }
+
+      .left{
+          width: 40%;
+          margin-right: 40px;
+          margin-left: 40px;
+          // margin-top: -22%;
+      }
+
+      .left-container{
+          position: relative;
+          top: -144px;
+      }
+
+  }
+  
+  .popup-title{
+      display: flex;
+      justify-content: space-between;
+      font-size: 20px;
+      border-bottom: 1px solid white;
+      width: 100%;
+      // padding-bottom: 10px;
+
+      h2{
+          margin-top: 5px;
+      }
+
+      .shareTop-content{
+          display: flex;
+          flex-direction: column;
+      }
+  }
+
+  
+
+  .popup-avatar{
+      padding-top: 10px;
+      position: relative;
+      width: 100%;
+      height: 20%;
+      top: 0;
+
+      
+  }
+  .popup-action{
+      width: 100%;
+      display: flex;
+      height: 20%;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .acsess_button{
+      width: 92%;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Màu đen với độ trong suốt 0.5 */
+  z-index: 1; /* Đặt z-index thấp hơn popup nhưng cao hơn nền để tạo hiệu ứng che mờ */
+}
+
+.items{
+  @include themify($themes) {
+    background: themed("bgs");
+  }  
+}
+
+.items:hover{
+    cursor: pointer;
+}
+
+.button-delete{
+    height: 30%;
+}
+
+
+/* Thêm đoạn mã CSS sau vào file detailSavePost.scss */
+.item_saves {
+    // column-count: 2;
+    // column-gap: 20px; /* Khoảng cách giữa các cột */
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .rectangle-content {
+    display: flex;
+    width: 70%;
+  }
+  
+  .rectangle-boxs {
+    @include themify($themes) {
+        page-break-inside: avoid;
+        break-inside: avoid;
+        margin-bottom: 20px;
+        display: flex;
+        background: themed("bg");
+        padding: 20px;
+        border-radius: 10px;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+  }
+  
+
+.squares {
+    width: 200px;
+    height: 150px;
+    background-color: rgb(247, 247, 250);
+    /* You can set the background color as needed */
+    margin-right: 10px;
+    border-radius: 10px;
+    display: flex;
+
+    img.square_imgs {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+    }
+
+    
+}
+
+.img-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.infor-containers {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.text-containers {
+    @include themify($themes) {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+
+        color: themed("textColor") ;
+    }
+}
+
+.Names {
+    margin-bottom:1%;
+    font-size: 15px;
+    // font-weight: bold;
+    
+}
+.Decripstions {
+    margin-bottom:1%;
+    font-size: 30px;
+    font-weight:initial;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}

@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Passion+One&display=swap');
+
+@import "../../style.scss";
+
+.ranking {
+    @include themify($themes) {
+        background-color: themed("bgSoft");
+        color: themed("textColor");
+        height: 130vh;
+
+        .top_rank{
+            margin-left: 30px;
+        }
+
+        .h1 {
+            margin-top: 3%;
+            margin-left: 5%;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .left-container {
+            height: 700px;
+            margin-top: 2%;
+            margin-left: 2%;
+            flex: 1;
+
+            select-row-container {}
+        }
+
+        .right-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 9%;
+
+        }
+
+        h2,
+        h3 { 
+            font-size: 370%;
+            font-family: 'Passion One', sans-serif;
+            animation: twinkling 2s infinite; // Adjust the duration as needed
+        }
+
+        h3 {
+            font-size: 320%;
+            margin: 5% 25px 5% 5%;
+
+        }
+
+        .h3_profile {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile img {
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 50%;
+            position: relative;
+            border: 40px solid;
+            animation: borderChange 2s infinite alternate;
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+
+            .star {
+                font-size: 300%;
+                margin: 5% 5px 5% 5%;
+                color: gold;
+                position: relative;
+                animation: colorChange 5s infinite;
+            }
+
+            .star:nth-child(1) {
+                animation-delay: 0s;
+            }
+
+            .star:nth-child(2) {
+                animation-delay: 1s;
+            }
+
+            .star:nth-child(3) {
+                animation-delay: 2s;
+            }
+
+            .star:nth-child(4) {
+                animation-delay: 3s;
+            }
+
+            .star:nth-child(5) {
+                animation-delay: 4s;
+            }
+        }
+
+        .css-ptkaw2-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
+            color: themed("textColor");
+        }
+        
+        .css-ptkaw2-MuiDataGrid-root .MuiDataGrid-cell--textLeft {
+            color: themed("textColor");
+        }
+
+        .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+            color: themed("textColor");
+            margin-bottom: 20px;
+            border: themed("textColor");
+        }
+
+        .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+            border-color: themed("textColor");
+        }
+
+        .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+            color: themed("textColor");
+        } 
+        
+        .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+            color: themed("textColor");
+            top: -10px;
+        }
+
+        .css-ptkaw2-MuiDataGrid-root {
+            border-color:  themed("textColor"); 
+        }
+
+        .css-ptkaw2-MuiDataGrid-root .MuiDataGrid-withBorderColor {
+            border-color: themed("textColor");
+        }
+
+    }
+}
+
+
+
+@keyframes twinkling {
+    0% {
+        color: gold;
+        text-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+
+    20% {
+        color: #FAFAD2;
+        text-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+
+    40% {
+        color: #EEE8AA;
+        text-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+
+    60% {
+        color: #F0E68C;
+        text-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+
+    80% {
+        color: #DAA520;
+        text-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+
+    100% {
+        color: gold;
+        text-shadow: 0 0 5px gold, 0 0 10px orange;
+    }
+}
+
+@keyframes borderChange {
+    from {
+        color: gold;
+        text-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red, 0 0 40px purple, 0 0 50px gold;
+        box-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red, 0 0 40px purple, 0 0 50px gold;
+    }
+
+    to {
+        color: gold;
+        text-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red;
+        box-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red;
+    }
+}
+
+@keyframes colorChange {
+    0% {
+        color: gold;
+        text-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red;
+
+    }
+
+    25% {
+        color: gold;
+        text-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red;
+
+    }
+
+    50% {
+        color: gold;
+        text-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red;
+
+    }
+
+    75% {
+        color: gold;
+        text-shadow: 0 0 10px gold, 0 0 20px orange, 0 0 30px red;
+
+    }
+
+    100% {
+        color: silver;
+    }
+}

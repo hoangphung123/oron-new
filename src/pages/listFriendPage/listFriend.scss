@@ -1,0 +1,7 @@
+@import "../../style.scss";
+
+.Friend_content-follow{
+    @include themify($themes){
+        background: themed("bgs");
+    }
+}

@@ -1,0 +1,92 @@
+$themes: (
+  light: (
+    textColor: #000,
+    bg: white,
+    logo: darkblue,
+    bgSoft: #f6f3f3,
+    textColorSoft: #555,
+    border: lightgray,
+    bgs: #f6f3f3,
+    bgl: #f5f5f5,
+  ),
+  dark: (
+    textColor: whitesmoke,
+    bg: #222,
+    logo: white,
+    bgSoft: #333,
+    textColorSoft: lightgray,
+    border: #444,
+    bgs: #333333,
+    bgl: #333333,
+  ),
+);
+
+@mixin themify($themes) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      $theme-map: () !global;
+      @each $key, $submap in $map {
+        $value: map-get(map-get($themes, $theme), "#{$key}");
+        $theme-map: map-merge(
+          $theme-map,
+          (
+            $key: $value,
+          )
+        ) !global;
+      }
+      @content;
+      $theme-map: null !global;
+    }
+  }
+}
+@function themed($key) {
+  @return map-get($theme-map, $key);
+}
+
+@mixin mobile {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+@mixin tablet {
+  @media (max-width: 960px) {
+    @content;
+  }
+}
+
+.field {
+  @include themify($themes) {
+    position: relative;
+    margin-top: 15px;
+    input {
+      color: themed("textColor");
+      background: none;
+      margin: 0.625rem 0.625rem 0.625rem 0;
+      border: 2px solid #03014d;
+    }
+
+    label {
+      position: absolute;
+      top: -5px;
+      left: 0.4rem;
+      translate: 0.625rem 0.625rem;
+      color: themed("textColor");
+      background-color: themed("bg");
+      padding-inline: 0.25rem;
+      border: 2px solid transparent;
+      pointer-events: none;
+      transition: translate 250ms, background-color 250ms, border-color 250ms;
+    }
+
+    &:focus-within label,
+    &:not(:has(:placeholder-shown)) label {
+      translate: 0.625rem -1rem;
+      border-color: themed("textColor");
+    }
+  }
+
+  input::placeholder {
+    color: transparent;
+  }
+}
+

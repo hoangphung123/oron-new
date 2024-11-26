@@ -1,0 +1,239 @@
+@import "../../style.scss";
+.ranking-container {
+  @include themify($themes) {
+    padding: 20px;
+    // border: 1px solid #ddd;
+    // border-radius: 8px;
+    height: 100%;
+    padding-top: 20px;
+    background-color: themed("bgs");
+
+    .ranking-content {
+      background-color: themed("bg");
+      height: 100%;
+      padding: 20px;
+      h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: themed("textColor");
+      }
+      .top-ranking {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+        padding: 0 20%;
+
+        .top-user {
+          text-align: center;
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .ranking-decoration {
+            width: 160px;
+            height: auto;
+          }
+
+          .ranking-decoration1 {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            /* height: auto; */
+            margin-top: 160px;
+            margin-left: 160px;
+            border-radius: 50%;
+            background: themed("bg");
+            border: 5px solid silver;
+          }
+
+          .ranking-decoration2 {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            /* height: auto; */
+            margin-top: 200px;
+            margin-left: 160px;
+            border-radius: 50%;
+            background: themed("bg");
+            border: 5px solid #cd7f32;
+          }
+
+          .img-container {
+            border-radius: 0 0 50px 50px;
+            border: 5px solid transparent;
+            height: 250px;
+          }
+
+          .user-image {
+            width: 170px;
+            height: 210px;
+            border-radius: 15px;
+            border: 5px solid transparent;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          }
+
+          .user-name {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+
+            .star {
+              color: gold;
+            }
+          }
+
+          &.top-1 {
+            .img-container {
+              border-color: silver;
+              margin-top: 190px;
+            }
+            .user-name {
+              color: silver;
+            }
+          }
+
+          &.top-2 {
+            .img-container {
+              border-color: gold;
+            }
+            .user-name {
+              color: gold;
+            }
+          }
+
+          &.top-3 {
+            .img-container {
+              border-color: #cd7f32; // Bronze color
+              margin-top: 240px;
+            }
+            .user-name {
+              color: #cd7f32; // Bronze color
+            }
+          }
+
+          .medal {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 40px;
+            height: 40px;
+          }
+        }
+      }
+
+      .ranking-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        thead {
+          tr {
+            color: themed("bg");
+          }
+        }
+        tbody {
+          tr {
+            color: themed("textColor");
+          }
+        }
+        th,
+        td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: center;
+        }
+
+        th {
+          background-color: #f4f4f4;
+          font-weight: bold;
+        }
+
+        .table-user-image {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          margin-right: 5px;
+        }
+      }
+
+      .pagination {
+        display: flex;
+        justify-content: center;
+        button {
+          margin: 0 5px;
+          padding: 5px 10px;
+          border: none;
+          background-color: #ddd;
+          cursor: pointer;
+          &:hover {
+            background-color: #bbb;
+          }
+        }
+      }
+
+      .css-ptkaw2-MuiDataGrid-root .MuiDataGrid-columnHeaderTitleContainer {
+        color: themed("textColor");
+      }
+
+      .css-ptkaw2-MuiDataGrid-root .MuiDataGrid-cell--textLeft {
+        color: themed("textColor");
+      }
+
+      .css-1yk1gt9-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+        color: themed("textColor");
+        margin-bottom: 20px;
+        border: themed("textColor");
+      }
+
+      .css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+        border-color: themed("textColor");
+      }
+
+      .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+        color: themed("textColor");
+      }
+
+      .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root {
+        color: themed("textColor");
+        padding: 0 2px;
+        background: themed("bg");
+        border: 1px solid themed("textColor");
+        top: -10px;
+      }
+
+      .css-ptkaw2-MuiDataGrid-root {
+        border-color: themed("textColor");
+      }
+
+      .css-ptkaw2-MuiDataGrid-root .MuiDataGrid-withBorderColor {
+        border-color: themed("textColor");
+      }
+      .css-rtrcn9-MuiTablePagination-root:last-child {
+        color: themed("textColor");
+      }
+      .css-zylse7-MuiButtonBase-root-MuiIconButton-root.Mui-disabled {
+        color: themed("textColor");
+      }
+      .css-yrdy0g-MuiDataGrid-columnHeaderRow {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+      }
+      .MuiDataGrid-columnHeadersInner.css-gl260s-MuiDataGrid-columnHeadersInner {
+        width: 100%;
+      }
+      .ant-table {
+        background: themed("bg");
+        color: themed("textColor");
+        border: 2px solid themed("textColor");
+      }
+      .ant-table-cell {
+        border: 1px solid themed("textColor");
+        text-align: center;
+      }
+      .ranking-medal{
+        font-size: 24px;
+      }
+    }
+  }
+}

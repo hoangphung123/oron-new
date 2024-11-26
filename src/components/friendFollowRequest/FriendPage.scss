@@ -1,0 +1,50 @@
+.friend-container {
+  padding: 20px;
+}
+
+.friend-request-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  // justify-content: space-around;
+}
+
+.friend-request-card {
+  width: 150px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+
+  .friend-request-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .friend-request-name {
+    margin: 10px 0;
+    font-size: 1.2em;
+  }
+
+  .accept-button,
+  .delete-button {
+    background-color: #808080;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: white;
+    margin: 5px 0;
+
+    &.accept-button {
+      background-color: #add8e6; // Light blue
+    }
+
+    &.delete-button {
+      background-color: #808080; // Gray
+    }
+  }
+}

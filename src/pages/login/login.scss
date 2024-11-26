@@ -1,0 +1,95 @@
+.form-container {
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: center; */
+    height: 100vh;
+    position: relative;
+  }
+  
+  .remember-block{
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .background-image {
+    background: url("./Rectangle 24.png") no-repeat center center;
+    background-size: cover;
+    width: 50%;
+    height: 100%;
+    flex: 1;
+  }
+  
+  .form-box {
+    width: 400px;
+    padding: 30px;
+    background-color: white;
+    color: black;
+    /* border-radius: 8px; */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .title-login{
+    text-align: center;
+  }
+  
+  .acount{
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    left: 25%;
+  }
+  
+  .Form-login {
+    margin-top: -80px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .input-login {
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  label {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  .button-login{
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #5293f5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .button-login:hover {
+    background-color: #4562a0;
+  }
+  
+  .social-login {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  .social-login a {
+    color: #666;
+    font-size: 20px;
+  }
+  
+  .social-login a:hover {
+    color: #000;
+  }

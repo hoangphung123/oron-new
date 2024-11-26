@@ -1,0 +1,124 @@
+@import "../../style.scss";
+
+.leftBar {
+  @include themify($themes) {
+    // flex: 2.5;
+    position: sticky;
+    top: 50px;
+    // height: calc(100vh - 70px);
+    overflow: scroll;
+    background-color: themed("bgs");
+    color: themed("textColor");
+    height: 100vh;
+
+    @include mobile {
+      display: none;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .container {
+      margin-top: 20px;
+      padding: 20px;
+      background-color: themed("bg");
+
+      hr {
+        margin: 20px 0;
+        border: none;
+        height: 0.5px;
+        background-color: themed("border");
+      }
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        span {
+          font-size: 12px;
+          font-weight: 600;
+        }
+
+        .user {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+          }
+
+          span {
+            font-size: 14px;
+          }
+        }
+
+        .item {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+
+          img {
+            width: 30px;
+            height: 30px;
+          }
+
+          span {
+            font-size: 14px;
+          }
+        }
+
+        .rectangle-box {
+          display: flex;
+          // align-items: center;
+          /* You can adjust the width as needed */
+          padding: 10px;
+          padding-left: 0;
+        }
+
+        .square {
+          width: 40%;
+          height: 100px;
+          background-color: rgb(247, 247, 250);
+          /* You can set the background color as needed */
+          margin-right: 10px;
+          border-radius: 10px;
+          display: flex;
+
+          img.square_img {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+          }
+        }
+
+        .text-container {
+          // flex: 1;
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+        }
+
+        .Name {
+          margin-bottom: 1%;
+          font-size: 100%;
+          font-weight: bold;
+        }
+        .Decripstion {
+          margin-bottom: 1%;
+          font-size: 70%;
+          font-weight: initial;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          color: #B3B3B3;
+        }
+      }
+    }
+  }
+}

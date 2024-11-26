@@ -1,0 +1,384 @@
+@import "../../style.scss";
+.profile {
+  padding: 20px 120px;
+  min-height: 100vh;
+  // height: 100vh;
+  @include themify($themes) {
+    background-color: themed("bgSoft");
+    .images {
+      width: 100%;
+      height: 300px;
+      position: relative;
+      .covers {
+        width: 98%;
+        height: 100%;
+        object-fit: cover;
+        left: 50%;
+        top: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+      }
+      .profilePics {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        position: absolute;
+        left: 0;
+        right: 0;
+        // margin: auto;
+        margin-left: 30px;
+        top: 200px;
+        left: 0;
+        z-index: 2;
+      }
+      button.uploadButtonPics {
+        position: relative;
+        top: 327px;
+        left: 210px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        cursor: pointer;
+        background-color: themed("bgSoft");
+        padding-top: 4px;
+        padding-bottom: 4px;
+        z-index: 3;
+        width: 50px;
+        height: 50px;
+      }
+
+      .uploadButtonPics svg {
+        width: 20px;
+      }
+
+      button.uploadButtonPicCover {
+        position: relative;
+        top: 91%;
+        left: 97%;
+        transform: translate(-50%, -50%);
+        border-radius: 20%;
+        cursor: pointer;
+        background-color: themed("bgSoft");
+        padding-top: 4px;
+        padding-bottom: 4px;
+        width: 50px;
+        border-radius: 50%;
+        height: 50px;
+      }
+    }
+    .popups {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      border: 1px solid #ccc;
+      z-index: 999;
+      width: 20%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.384); /* Màu nền mờ với độ mờ 45% */
+      backdrop-filter: blur(30px); /* Tạo hiệu ứng mờ bằng backdrop-filter */
+      box-shadow: 0 4px 6px rgba(226, 223, 223, 0.704);
+      border-radius: 10px;
+      min-height: 200px;
+      overflow: hidden;
+      z-index: 2;
+
+      input {
+        border: none;
+        padding: 20px;
+        width: 80%;
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        color: #555;
+        font-size: 30px;
+        margin-bottom: 20px;
+        margin-top: -20px;
+      }
+
+      p {
+        display: flex;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 50%;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .imageContainer {
+        width: 100%;
+        height: 227px;
+        border: 2px solid;
+        margin-bottom: 20px;
+      }
+
+      .imageContainer img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .popup-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .button_AS {
+          width: calc(80% + 40px);
+          display: flex;
+          justify-content: space-between;
+
+          .Access_button {
+            width: 35%;
+            padding: 5px;
+            border: none;
+            background-color: rgb(174, 222, 228);
+            font-weight: bold;
+            color: rgb(242, 242, 242);
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+          }
+
+          .SendOTP_button {
+            width: 60%;
+            padding: 5px;
+            border: none;
+            background-color: rgb(29, 67, 89);
+            font-weight: bold;
+            color: rgb(242, 242, 242);
+            cursor: pointer;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+          }
+        }
+      }
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5); /* Màu đen với độ trong suốt 0.5 */
+      z-index: 1; /* Đặt z-index thấp hơn popup nhưng cao hơn nền để tạo hiệu ứng che mờ */
+    }
+    .profileContainer_user {
+      display: flex;
+      padding: 0 20px 20px 20px;
+      gap: 20px;
+      @include mobile {
+        padding: 10px;
+      }
+      @include tablet {
+        padding: 20px;
+      }
+      .Information_left {
+        flex: 1;
+        background-color: themed("bg");
+        box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+        border-radius: 20px;
+        padding: 10px;
+        height: fit-content;
+        .introduction {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          h3 {
+            border-bottom: 1px solid themed("textColorSoft");
+            width: fit-content;
+            color: themed("textColor");
+            margin-bottom: 10px;
+            font-size: 24px;
+          }
+          .location {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            span {
+              color: themed("textColorSoft");
+            }
+          }
+          .link {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            a {
+              color: themed("textColorSoft");
+              text-decoration: none;
+            }
+          }
+          .icon-profile {
+            width: 30px;
+            height: 30px;
+          }
+        }
+      }
+      .posts_content {
+        flex: 2;
+      }
+    }
+    .uInfo_user {
+      height: 120px;
+      margin: 0 20px 0 20px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid themed("textColorSoft");
+      // -webkit-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+      // -moz-box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+      // box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
+      // border-radius: 20px;
+      background-color: themed("bg");
+      color: themed("textColor");
+      // padding: 50px;
+      display: flex;
+      // align-items: center;
+      justify-content: space-between;
+      @include mobile {
+        flex-direction: column;
+        height: 30vh;
+        padding: 20px;
+        margin-top: 100px;
+      }
+      .left {
+        flex: 1;
+        display: flex;
+        gap: 10px;
+        margin-left: 220px;
+
+        @include tablet {
+          flex-wrap: wrap;
+        }
+
+        a {
+          color: themed("textColorSoft");
+        }
+        .info {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          .item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: themed("textColorSoft");
+            span {
+              font-size: 12px;
+            }
+          }
+        }
+        span {
+          font-size: 30px;
+          font-weight: 500;
+        }
+        button {
+          border: none;
+          background-color: #5271ff;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+        }
+      }
+      .center {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+      .right {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+    }
+    .menu_content {
+      background-color: themed("bg");
+      margin: 0 20px 20px 20px;
+      padding-bottom: 2px;
+      border-radius: 0 0 5px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      button {
+        border: none;
+        background-color: #5271ff;
+        color: white;
+        // padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        height: auto;
+        padding: 10px;
+        text-align: center;
+        font-size: 15px;
+        margin-right: 15px;
+      }
+    }
+    .menu {
+      width: 100%;
+      background-color: themed("bg");
+      margin: 0 20px; /* Light background color */
+      border-bottom: 1px solid themed("textColorSoft"); /* Light bottom border */
+      padding: 10px 0;
+      margin-bottom: 20px; /* Add some margin to separate it from the profile section */
+      width: fit-content;
+    }
+
+    .menu ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex; /* Align the items horizontally */
+      gap: 40px;
+    }
+
+    .menu ul li {
+      margin: 0 15px; /* Add space between the menu items */
+      font-size: 20px;
+      font-weight: bold;
+      color: themed("textColorSoft");
+    }
+
+    .menu ul li:hover {
+      cursor: pointer;
+      color: #007bff; /* Change color when hovering */
+    }
+
+    .menu ul li:active {
+      color: #0056b3; /* Change color when active */
+    }
+
+    .menu ul li a {
+      text-decoration: none;
+      color: inherit; /* Inherit color from li */
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .menu ul li a:hover {
+      background-color: #f0f0f0; /* Background on hover */
+    }
+  }
+}

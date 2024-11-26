@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* *,
+*::before,
+*::after {
+  box-sizing: unset;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+} */
+
+textarea {
+  color: black;
+}
+
+select {
+  color: black;
+}

@@ -1,0 +1,23 @@
+@import "../../style.scss";
+
+.background {
+    .container {
+        margin-bottom: 5%;
+        margin-top: 5%;
+        margin-left: 5%;
+        height: 600px;
+        width: 70%;
+    }
+
+    @include themify($themes) {
+        background-color: themed("bgSoft");
+        color: themed("textColor");
+
+        .reportdashboard {
+            h1 {
+                margin-bottom: 5%;
+                margin-top: 5%;
+            }
+        }
+    }
+}

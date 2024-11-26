@@ -1,0 +1,27 @@
+@import "../../style.scss";
+
+.home{
+    @include themify($themes){
+        background-color: themed("bgSoft");
+        padding: 20px 70px 20px 90px;
+        color: themed("textColor");
+        @include mobile{
+            padding: 10px;
+        }
+        @include tablet{
+            padding: 20px;
+        }
+
+        .button_next{
+            position: fixed;
+            right: 25%;
+            top: 50%;
+            z-index: 1;
+            border: none;
+            background-color: themed("bgs");
+            color: themed("textColor") ;
+        }
+    }
+    
+}
+    
