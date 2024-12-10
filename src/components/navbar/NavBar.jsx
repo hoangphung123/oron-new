@@ -245,7 +245,7 @@ const NavBar = () => {
                     >
                       {/* Assuming user data has properties like 'profilePic' and 'username' */}
                       <img
-                        src={userData.profilePic.url}
+                        src={userData?.profilePic?.url || ''} 
                         alt={`${userData.username} avatar`}
                         className="avatar"
                       />
@@ -268,7 +268,8 @@ const NavBar = () => {
       <div className="right">
         <div className="user" onClick={handleUserClick}>
           <img
-            src={currentUser.data.profilePic.url}
+            src={currentUser?.data?.profilePic?.url || ""
+            }
             alt=""
           />
           <span>{currentUser.data.username}</span>
