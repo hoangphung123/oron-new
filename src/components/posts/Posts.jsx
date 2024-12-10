@@ -5,6 +5,7 @@ import { useContext, useState, useEffect } from "react";
 
 const Posts = () => {
   const { posts } = useContext(PostsContext);
+  // console.log("diachianh",posts[0].image[0].url)
   //TEMPORARY
   // const posts = [
   //     {

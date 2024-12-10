@@ -15,7 +15,7 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useNavigate } from "react-router-dom";
 import { PostsContext } from "../../context/postContext";
 import { Search } from "lucide-react";
-import MyProfileComponent from "../../components/MyProfileComponent/MyProfileComponent";
+import FriendProfile from "../../components/FriendProfile/FiendProfile";
 import FriendComponent from "../../components/FriendComponent/FriendComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -203,7 +203,7 @@ const ProfileFriends = () => {
         </>
       )}
       {activeTab === "Friend" && <FriendComponent />}
-      {activeTab === "My Profile" && <MyProfileComponent />}
+      {activeTab === "My Profile" && <FriendProfile />}
     </div>
   );
 };

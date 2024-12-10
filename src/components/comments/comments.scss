@@ -1,84 +1,162 @@
 @import "../../style.scss";
 
-.comments{
-@include themify($themes){
+.comments {
+  @include themify($themes) {
     margin: 30px 0px;
     display: flex;
     flex-direction: column;
     gap: 30px;
-    img{
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        object-fit: cover;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
     }
 
     .iconButtonMenu {
-        color: themed("textColor") !important;
+      color: themed("textColor") !important;
     }
 
-    .write{
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 20px;
-        
-        input{
-           flex: 5;
-            padding: 10px;
-            border: 1px solid themed("border");
-            background-color: transparent;
-            color:  themed("textColor");
-        }
-        button{
-            border: none;
-            background-color: #5271ff;
-            color: white;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 3px;
-        }
-    }
-    hr 
-    {
-        margin: 20px 0;
+    .write {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+
+      input {
+        flex: 5;
+        padding: 10px;
+        border: 1px solid themed("border");
+        background-color: transparent;
+        color: themed("textColor");
+      }
+      button {
         border: none;
-        height: 0.5px;
-        background-color: themed("border");
-
+        background-color: #5271ff;
+        color: white;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+    }
+    hr {
+      margin: 20px 0;
+      border: none;
+      height: 0.5px;
+      background-color: themed("border");
     }
 
     .menu_date {
+      display: flex;
+      align-items: center;
+    }
+
+    .comment {
+      margin: 30px, 0px;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      .infoComment {
+        flex: 5;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 3px;
+        align-items: flex-start;
+
+        span {
+          font-weight: 500;
+        }
+        p {
+          color: themed("textColorSoft");
+        }
+      }
+      .date {
+        flex: 1;
+        align-self: center;
+        color: gray;
+        font-size: 12px;
+      }
+    }
+    .contentts {
+      display: flex;
+      img {
+        width: 40px;
+        height: 40px;
+      }
+      .contentts_decription {
+        margin-top: 10px;
+        margin-left: 10px;
+        width: 100%;
+        background: themed("bgs");
+        border-radius: 10px;
+        border: 0px !important;
+
+        p {
+          font-size: 12px;
+        }
+      }
+      .contentts_text {
+        background: themed("bgs");
+        width: 100%;
+        padding: 0px 10px;
+        border-radius: 10px;
+        margin-left: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        textarea:focus {
+          outline: none;
+          border: none; /* Nếu muốn bỏ viền mặc định */
+        }
+        .contentts_textarena {
+          background: themed("bgs");
+          color: themed("textColor");
+          margin-bottom: 5px;
+        }
+      }
+    }
+    .action_comments{
+        margin-left: 50px;
+        display: flex;
+        flex-direction: column;
+        button{
+          align-self: start;
+          color: themed("textColorSoft");
+        }
+        button:hover{
+          align-self: start;
+          color: themed("textColor");
+        }
+        .action_comments-button{
+          position: relative;
+          display: flex;
+          gap: 10px;
+          flex-direction: row-reverse;
+        }
+    }
+    .content_child {
+      position: relative;
     }
     
-    .comment{
-        margin: 30px, 0px;
-        display: flex;
-        justify-content: space-between;
-        gap: 20px;
-        .infoComment{
-            flex: 5;
-            display: flex;
-            flex-direction: column;
-            gap:3px;
-            align-items: flex-start;
-
-            span{
-                font-weight: 500;
-            }
-            p{
-                color: themed("textColorSoft")
-            }
-        }
-        .date{
-            flex: 1;
-            align-self: center;
-            color: gray;
-            font-size: 12px;
-        }
+    .content_child::before {
+      content: "";
+      position: absolute;
+      left: -15px; /* Canh bên trái */
+      top: -82px;
+      width: 1px; /* Độ dày đường viền */
+      height: 102px; /* Chiều cao 1 nửa */
+      background-color: themed("bgs") /* Màu viền */
     }
 
-}
+    .content_child::after {
+      content: "";
+      position: absolute;
+      left: -15px; /* Canh với viền dọc */
+      top: 20px;
+      bottom: -5px; /* Đặt viền ngang dưới chân */
+      width: 15px; /* Độ dài của viền ngang */
+      height: 1px; /* Độ dày của đường viền ngang */
+      background-color: themed("bgs"); /* Màu sắc của viền */
+    }
+  }
 }

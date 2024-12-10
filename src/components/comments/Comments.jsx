@@ -10,14 +10,15 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import IconButton from "@mui/material/IconButton";
 import { PostsContext } from "../../context/postContext";
 import Rating from "react-rating";
-import { CommentBox } from "../comment/Commentbox";
+import CommentBox from "../comment/Commentbox";
 
 const Comments = ({ postId }) => {
   const { currentUser } = useContext(AuthContext);
+  const currentUsers = JSON.parse(localStorage.getItem("user"));
 
   // State to manage comments
   const [comments, setComments] = useState([]);
-  const { setPosts, categoryIds } = useContext(PostsContext);
+  const { setPosts, categoryIds, setCommentsPost } = useContext(PostsContext);
   const [ratingValue, setRatingValue] = useState(0);
   const [newComment, setNewComment] = useState("");
   const [Reviewer, setReviewer] = useState([]);
@@ -38,17 +39,25 @@ const Comments = ({ postId }) => {
   const addComment = () => {
     setComments([
       ...comments,
-      { id: `${comments.length}`, value: "", children: [] },
+      {
+        value: "",
+        children: [],
+        user: {
+          name: currentUsers.data.name, // Lấy tên người dùng
+          profilePic: currentUsers.data.profilePic, // Lấy ảnh đại diện người dùng
+        },
+      },
     ]);
+    console.log(comments)
   };
 
-  const onChange = (comment) => {
-    setComments(
-      comments.map((comm) => {
-        return comm.id === comment.id ? comment : comm;
-      })
-    );
-  };
+  // const onChange = (comment) => {
+  //   setComments(
+  //     comments.map((comm) => {
+  //       return comm.id === comment.id ? comment : comm;
+  //     })
+  //   );
+  // };
 
   const openEditPopup = (commentId) => {
     setEditingCommentId(commentId);
@@ -226,6 +235,7 @@ const Comments = ({ postId }) => {
       const data = response.listData;
       // Update comments state with the fetched data
       setComments(data);
+      setCommentsPost(data);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
@@ -354,7 +364,7 @@ const Comments = ({ postId }) => {
       >
         Add Comment
       </button>
-      <CommentBox comments={comments} onChange={onChange} postIds={postId} />
+      <CommentBox comments={comments} postIds={postId} />
       {/* {comments.map((comment) => (
         <div className="comment" key={comment.id}>
           <img

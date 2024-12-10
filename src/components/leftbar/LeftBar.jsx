@@ -58,12 +58,12 @@ const LeftBar = () => {
           </div>
           <div className="item">
             <Link
-              to="/detailRegistation"
+              to="/advertise"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <img src={Registation} alt="" />
             </Link>
-            <span>Your registration for order post</span>
+            <span>Sign up for advertising</span>
           </div>
           <hr />
           <div className="item">

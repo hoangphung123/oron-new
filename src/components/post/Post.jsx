@@ -39,7 +39,8 @@ const Post = ({ post }) => {
   const [descriptionReport, setDescriptionRepost] = useState("");
   const [tittle, setTittles] = useState("");
   const [selectedPostUser, setSelectedPostUser] = useState(null);
-  const { setSavePost, setPosts, categoryIds } = useContext(PostsContext);
+  const { setSavePost, setPosts, categoryIds, setPostId } =
+    useContext(PostsContext);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [likeAnchorEl, setLikeAnchorEl] = useState(null);
   const [popoverId, setPopoverId] = useState(null);
@@ -59,13 +60,13 @@ const Post = ({ post }) => {
   const [reviewDescription, setReviewDescription] = useState("");
   const [reactionListOpen, setReactionListOpen] = useState(false);
   const [reactionUser, setReactionUser] = useState([]);
-  const [message, setMessage] = useState('');
-  const [type, setType] = useState('');
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("");
 
   const handleClosePopupEdit = () => {
-    resetEditPopup()
+    resetEditPopup();
     setIsEditPopupOpen(false);
-  }
+  };
 
   const resetEditPopup = () => {
     setSelectedStatus("");
@@ -75,28 +76,37 @@ const Post = ({ post }) => {
     setSelectedWard("");
     setDescription("");
     setSelectedImages(null);
-    setSelectedImage(null)
-  }
+    setSelectedImage(null);
+  };
+
+  const convertDriveUrl = (url) => {
+    if (!url) {
+      // Nếu URL không tồn tại, trả về đường dẫn mặc định
+      return "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg";
+    }
+    const match = url.match(/\/file\/d\/(.*?)\//);
+    return match
+      ? `https://drive.google.com/uc?export=view&id=${match[1]}`
+      : "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg";
+  };
 
   const handleEditClick = async () => {
-    
     // Initialize edit states with the data of the selected post
     setSelectedStatus(post.status);
     await setSelectedCategory(post.category.id);
     await setSelectedProvince(post.provinceId);
     await setSelectedDistrict(post.districtId);
-    
+
     setSelectedWard(post.wardId);
     setDescription(post.description);
     setSelectedImages(`http://localhost:3500/${post.imageURL}`);
-    setSelectedImage(post.imageURL)
-    
+    setSelectedImage(post.imageURL);
 
     setIsEditPopupOpen(true);
   };
 
   const clearNotification = () => {
-    setMessage('');
+    setMessage("");
   };
 
   const handleInputChange = (e, inputField) => {
@@ -168,10 +178,7 @@ const Post = ({ post }) => {
       };
 
       // Call the API to send the report
-      await Itemserver.createReportByPostId(
-        accessToken,
-        reportData
-      );
+      await Itemserver.createReportByPostId(accessToken, reportData);
 
       // Check if the report was sent successfully
 
@@ -233,14 +240,14 @@ const Post = ({ post }) => {
       // Update the save posts state with the new data
       setSavePost((prevSavePosts) => [newData, ...prevSavePosts]);
       setAnchorEl(null);
-      setMessage('Post saved successfully!');
-      setType('success');
+      setMessage("Post saved successfully!");
+      setType("success");
       // toast.success(`Post saved successfully`);
       // (Có thể thêm thông báo hoặc cập nhật UI ở đây nếu cần)
     } catch (error) {
       setAnchorEl(null);
-      setMessage('Post cannot saved');
-      setType('danger');
+      setMessage("Post cannot saved");
+      setType("danger");
       // toast.error(`Post saved successfully: ${error.message}`);
       // (Có thể thêm thông báo lỗi ở đây nếu cần)
     }
@@ -285,7 +292,11 @@ const Post = ({ post }) => {
       await Itemserver.createReaction(accessToken, reactionData);
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postData = response.listData;
       setPosts(postData);
       toast.success(`Reaction created successfully`);
@@ -305,7 +316,11 @@ const Post = ({ post }) => {
       await Itemserver.deletePost(accessToken, post.id);
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postData = response.listData;
       setPosts(postData);
 
@@ -431,11 +446,15 @@ const Post = ({ post }) => {
       await Itemserver.uploadPost(accessToken, selectedImage, registeredUserId);
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postDatas = response.listData;
       setPosts(postDatas);
 
-      resetEditPopup()
+      resetEditPopup();
 
       setIsPopupOpen(false);
       toast.success(`Success: ${registeredUser.message}`);
@@ -469,7 +488,11 @@ const Post = ({ post }) => {
       await Itemserver.CreateReview(accessToken, reviewData);
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postData = response.listData;
       setPosts(postData);
 
@@ -731,7 +754,13 @@ const Post = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.description}</p>
-          <img src={`http://localhost:3500/${post.imageURL}`} alt="" />
+          <img
+            src={
+              post.image?.[0]?.url ||
+              "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg"
+            }
+            alt=""
+          />
         </div>
         <div className="infos">
           <div className="info">
@@ -794,7 +823,13 @@ const Post = ({ post }) => {
                 ></ThumbUpAltIcon>
               </div>
             </Popover>
-            <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
+            <div
+              className="item"
+              onClick={() => {
+                setCommentOpen(!commentOpen);
+                setPostId(post.id);
+              }}
+            >
               <TextsmsOutlinedIcon />
               {post.totalComments} comments
             </div>
@@ -861,7 +896,11 @@ const Post = ({ post }) => {
           </div>
         </>
       )}
-      <Notification message={message} type={type} clearNotification={clearNotification} />
+      <Notification
+        message={message}
+        type={type}
+        clearNotification={clearNotification}
+      />
       <ToastContainer />
     </div>
   );
