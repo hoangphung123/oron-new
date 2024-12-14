@@ -147,10 +147,10 @@ const CaptionCarousel = () => {
                 textAlign="center"
                 color="white">
                 <Heading fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
-                  {card.title}
+                {card.title}
                 </Heading>
                 <Text fontSize={{ base: 'md', lg: 'lg' }}>{card.text}</Text>
-              </Box>
+            </Box>
             </Container>
           </Box>
         ))}
