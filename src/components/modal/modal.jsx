@@ -5,7 +5,7 @@ import * as Itemserver from "../../server/itemstore";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Modal = ({ open, onClose, postId }) => {
+const Modal = ({ open, onClose, postId, ownerId, post }) => {
   const { currentUser } = useContext(AuthContext);
   const { setPostRegistrations } = useContext(PostsContext);
 
@@ -19,6 +19,14 @@ const Modal = ({ open, onClose, postId }) => {
       postId: postId, // Use the postId passed as a prop
     };
 
+    const dataNofication = {
+      userRid: ownerId,
+      title: "register post",
+      itemRid: postId,
+      content: `${currentUser.data.username} đã đăng ký bài viết của bạn`, // Sửa lỗi ở đây
+      typeCd: "1"
+    };    
+
     try {
       await Itemserver.postRegistration(accessToken, registrationData);
       const result = await Itemserver.getPostRegistrationByUserId(
@@ -28,6 +36,7 @@ const Modal = ({ open, onClose, postId }) => {
         status
       );
       setPostRegistrations(result.listData)
+      await Itemserver.createNoficationRegisPost(accessToken, dataNofication);
       toast.success("Registration successful");
       onClose();
     } catch (error) {
@@ -46,7 +55,7 @@ const Modal = ({ open, onClose, postId }) => {
       >
         <img
           className="imgModal"
-          src={`http://localhost:3500/${currentUser.data.profilePic}`}
+          src={post.image[0]?.url}
           alt="/"
         />
         <div className="modalRight">
@@ -56,7 +65,7 @@ const Modal = ({ open, onClose, postId }) => {
           <div className="content">
             <p>Do you want a</p>
             <h1>THIS PRODUCT</h1>
-            <p>for your first tade?</p>
+            <p>This is a great choice</p>
           </div>
           <div className="btnContainer">
             <button className="btnPrimary" onClick={handleYesClick}>

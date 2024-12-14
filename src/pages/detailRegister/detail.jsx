@@ -50,7 +50,7 @@ const DetailRegister = () => {
   return (
     <div className={`theme-${darkMode ? "dark" : "light"}`}>
       <NavBar />
-      <div style={{ display: "flex" }}>
+      <div style={{ display: "flex" }} className="regis-main">
         <LeftBar />
         <div style={{ flex: 6 }}>
           <div className="posts">
@@ -62,7 +62,7 @@ const DetailRegister = () => {
           </div>
           <Outlet />
         </div>
-        <div style={{ flex: 3 }}>
+        <div style={{ flex: 3, height: '100%' }}>
           <div className="regis_right">Register for oder post</div>
           <RegisOder />
         </div>

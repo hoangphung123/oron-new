@@ -37,6 +37,7 @@ const DetailSavePost = () => {
       const results = await Userserver.getSavedPostsByUser(accessToken);
       setSavePostss(results.listData);
       setSavePost(results.listData);
+      // setSelectedPostIds(false);
       // Xử lý kết quả nếu cần
       console.log("Post unsaved successfully", result);
     } catch (error) {
@@ -77,7 +78,7 @@ const DetailSavePost = () => {
                   <div className="squares">
                     <img
                       className="square_imgs"
-                      src={`http://localhost:3500/${post.imageURL}`}
+                      src={post?.image[0].url || ""}
                       alt=""
                     />
                   </div>
@@ -86,7 +87,7 @@ const DetailSavePost = () => {
                     <div className="infor-containers">
                       <img
                         className="img-avatar"
-                        src={`http://localhost:3500/${post.user.profilePic}`}
+                        src={post?.user?.profilePic?.url || ""}
                         alt=""
                       />
                       <div className="Names">

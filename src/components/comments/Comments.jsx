@@ -8,6 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import IconButton from "@mui/material/IconButton";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { PostsContext } from "../../context/postContext";
 import Rating from "react-rating";
 import CommentBox from "../comment/Commentbox";
@@ -358,12 +359,12 @@ const Comments = ({ postId }) => {
         />
         <button onClick={() => handleAddComment(postId)}>Send</button>
       </div> */}
-      <button
+      {/* <button
         style={{ marginLeft: "0.5rem", marginTop: "1rem" }}
         onClick={addComment}
       >
         Add Comment
-      </button>
+      </button> */}
       <CommentBox comments={comments} postIds={postId} />
       {/* {comments.map((comment) => (
         <div className="comment" key={comment.id}>

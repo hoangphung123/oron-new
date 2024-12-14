@@ -751,3 +751,34 @@ export const getchildByParentId = async (parentId) => {
   }
 };
 
+export const createNoficationRegisPost = async (accessToken, NoficationData) => {
+  try {
+    const response = await axios.post(`${api_url}/notification`, NoficationData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // You can handle the response here if needed
+    return response.data;
+  } catch (error) {
+    // Handle error, show a notification, or perform other actions
+    throw new Error(`Error creating reaction: ${error.message}`);
+  }
+}
+
+export const getNofication = async (accessToken) => {
+  try {
+    const response = await axios.get(`${api_url}/notification/user`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const NoficationUser = response.data; // Cập nhật dòng này dựa trên cấu trúc dữ liệu trả về từ API của bạn
+    return NoficationUser;
+  } catch (error) {
+    console.error("Error while fetching saved posts:", error.message);
+    throw error;
+  }
+};

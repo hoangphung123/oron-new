@@ -6,10 +6,18 @@
   }
 }
 
-.regis_right{
- @include themify($themes) {
+.regis_right {
+  @include themify($themes) {
     background: themed("bgs");
     padding-left: 24px;
     color: themed("textColor");
-    }
+  }
+}
+
+.regis-main {
+  @include themify($themes) {
+    background: themed("bgs");
+    padding-left: 24px;
+    color: themed("textColor");
+  }
 }

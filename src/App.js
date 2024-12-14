@@ -12,6 +12,7 @@ import LoginAdmin from "./pages/admin/loginAdmin/LoginAdmin.jsx";
 import UsersPage from "./pages/admin/UsersPage.jsx";
 import RankingNew from "./pages/rankingNew/rankingNew.jsx";
 import AdvertisePage from "./pages/advertise/advertise.jsx";
+import Post from "./pages/reaction/reaction.jsx";
 import {
   createBrowserRouter,
   Navigate,
@@ -211,6 +212,10 @@ function App() {
         {
           path: "/profile/:id",
           element: <Profile />,
+        },
+        {
+          path: "/post",
+          element: <Post />,
         },
       ],
     },

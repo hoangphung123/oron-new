@@ -1,6 +1,5 @@
 @import "../../style.scss";
 :root {
-
   --default-bg: linear-gradient(322deg, #ba4aff, rgba(186, 74, 255, 0) 70%),
     linear-gradient(178deg, #008aff, rgba(0, 138, 255, 0) 70%),
     linear-gradient(24deg, #00ffc6, rgba(0, 255, 198, 0) 35%),
@@ -118,6 +117,129 @@
       flex-direction: row-reverse;
       padding-right: 20px;
 
+      .dropDown_Nofication {
+        background: white;
+        color: black;
+        position: absolute;
+        top: 60px;
+        right: 210px;
+      }
+
+      .dropdown_nofication-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 10px;
+
+        .close {
+          $size: 30px;
+          $borderSize: 2px;
+          $borderColor: rgba(white, 1);
+          $speed: 0.5s;
+          width: $size;
+          height: $size;
+          position: relative;
+          background: #455a64;
+          border-radius: 50%;
+          box-shadow: 0 0 20px -5px rgba(white, 0.5);
+          transition: 0.25s ease-in-out;
+          cursor: pointer;
+          animation: fade-in $speed ease-out 0.25s both;
+          @keyframes fade-in {
+            from {
+              opacity: 0;
+              transform: scale(1.1);
+            }
+          }
+          .circle {
+            path {
+              stroke: $borderColor;
+              fill: none;
+              stroke-width: $borderSize/2;
+              stroke-linecap: round;
+              animation: progress $speed ease-out 0.25s both;
+              @keyframes progress {
+                from {
+                  stroke-dasharray: 0 100;
+                }
+              }
+            }
+          }
+          span {
+            display: block;
+            width: ($size/4) - 2px;
+            height: $borderSize;
+            background: $borderColor;
+            box-shadow: 0 0 20px -5px rgba(white, 0.5);
+            border-radius: 20px;
+            position: absolute;
+            $padding: $size/3;
+            transition: 0.25s ease-in-out;
+            animation: slide-in $speed ease-in-out 0.25s both;
+            @keyframes slide-in {
+              from {
+                width: 0;
+              }
+            }
+            &:nth-child(1) {
+              top: ($padding - ($borderSize/2));
+              left: $padding;
+              transform: rotate(45deg);
+              transform-origin: top left;
+            }
+            &:nth-child(2) {
+              top: ($padding - ($borderSize/2));
+              right: $padding;
+              transform: rotate(-45deg);
+              transform-origin: top right;
+            }
+            &:nth-child(3) {
+              bottom: ($padding - ($borderSize/2));
+              left: $padding;
+              transform: rotate(-45deg);
+              transform-origin: bottom left;
+            }
+            &:nth-child(4) {
+              bottom: ($padding - ($borderSize/2));
+              right: $padding;
+              transform: rotate(45deg);
+              transform-origin: bottom right;
+            }
+          }
+          &:hover {
+            background: #37474f;
+            span {
+              width: ($size/4);
+            }
+          }
+        }
+      }
+
+      .Nofication_content {
+        display: flex;
+        cursor: pointer;
+        min-width: 40px;
+
+        img {
+          width: 35px;
+          height: 35px;
+        }
+      }
+
+      .nofication_now {
+        color: rgb(240, 85, 85);
+        margin-top: -5px;
+        margin-left: -10px;
+        font-weight: 600;
+        background: themed("bg");
+        height: fit-content;
+        min-width: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+      }
+
       .user {
         @include tablet {
           display: none;
@@ -135,10 +257,105 @@
         }
       }
 
+      .popupss {
+        position: fixed;
+        top: 54%;
+        left: 50%;
+        transform: translate(-50%, -49%);
+        padding: 20px;
+        border: 1px solid #000000;
+        z-index: 999;
+        // width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        background-color: themed("bg"); /* Màu nền mờ với độ mờ 45% */
+        // backdrop-filter: blur(30px); /* Tạo hiệu ứng mờ bằng backdrop-filter */
+        box-shadow: 0 4px 6px rgba(226, 223, 223, 0.704);
+        border-radius: 10px;
+        min-height: 83vh;
+        overflow: hidden;
+        z-index: 2;
+        height: 45%;
+        overflow-y: auto; /* Cho phép cuộn lên xuống khi nội dung dài hơn */
+        max-height: 80vh;
+
+        .close {
+          color: themed("textColor");
+          cursor: pointer;
+        }
+
+        .popup-content {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          // width: 100%;
+          // height: 60%;
+
+          .right {
+            width: 60%;
+            margin-right: 40px;
+            margin-top: -67px;
+          }
+
+          .left {
+            width: 40%;
+            margin-right: 40px;
+            margin-left: 40px;
+            // margin-top: -22%;
+          }
+
+          .left-container {
+            position: relative;
+            top: -144px;
+          }
+        }
+
+        .popup-title {
+          display: flex;
+          justify-content: space-between;
+          font-size: 20px;
+          border-bottom: 1px solid white;
+          width: 100%;
+          // padding-bottom: 10px;
+
+          h2 {
+            margin-top: 5px;
+          }
+
+          .shareTop-content {
+            display: flex;
+            flex-direction: column;
+          }
+        }
+
+        .popup-avatar {
+          padding-top: 10px;
+          position: relative;
+          width: 100%;
+          height: 20%;
+          top: 0;
+        }
+        .popup-action {
+          width: 100%;
+          display: flex;
+          height: 20%;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .acsess_button {
+          width: 92%;
+        }
+      }
+
       .css-6hp17o-MuiList-root-MuiMenu-list {
         background: themed("bg");
       }
     }
+
     .css-6hp17o-MuiList-root-MuiMenu-list {
       background: themed("bg");
     }
@@ -217,7 +434,7 @@
 
 .MEnu {
   top: 20px !important;
-//   left: 88% !important;
+  //   left: 88% !important;
 }
 
 // li.MuiButtonBase-root.MuiMenuItem-root.MuiMenuItem-gutters.MuiMenuItem-root.MuiMenuItem-gutters.custom-menu.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
@@ -227,8 +444,6 @@
 
 // .liquid {
 //   position: relative;
-
-
 
 //   text-decoration: none;
 //   color: var(--fg-color);
@@ -253,8 +468,6 @@
 
 //   background: var(--default-bg);
 
-
-
 //   transition: clip-path 5000ms ease-out;
 // }
 
@@ -273,3 +486,215 @@
 // .liquid:active::before {
 //   clip-path: ellipse(100% 0% at 50% 0%);
 // }
+
+/* From Uiverse.io by vinodjangid07 */
+.Btn {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: rgb(255, 65, 65);
+}
+
+/* plus sign */
+.sign {
+  width: 100%;
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign svg {
+  width: 17px;
+}
+
+.sign svg path {
+  fill: white;
+}
+/* text */
+.text {
+  position: absolute;
+  right: 0%;
+  width: 0%;
+  opacity: 0;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  transition-duration: 0.3s;
+}
+/* hover effect on button width */
+.Btn:hover {
+  width: 100%;
+  border-radius: 40px;
+  transition-duration: 0.3s;
+}
+
+.Btn:hover .sign {
+  width: 30%;
+  transition-duration: 0.3s;
+  padding-left: 20px;
+}
+/* hover effect button's text */
+.Btn:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: 0.3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btn:active {
+  transform: translate(2px, 2px);
+}
+
+.css-kk1bwy-MuiButtonBase-root-MuiMenuItem-root {
+  display: flex;
+  align-items: center !important;
+  align-content: center !important;
+  justify-content: center !important;
+}
+
+.css-6hp17o-MuiList-root-MuiMenu-list {
+  width: 140px;
+}
+
+//btn profile//
+
+/* From Uiverse.io by vinodjangid07 */
+.Btns {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: rgb(53, 53, 53);
+}
+
+/* plus sign */
+.svgWrapper {
+  width: 100%;
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svgIcon {
+  width: 17px;
+}
+
+/* text */
+// .text {
+//   position: absolute;
+//   right: 0%;
+//   width: 0%;
+//   opacity: 0;
+//   color: white;
+//   font-size: 1.2em;
+//   font-weight: 600;
+//   transition-duration: 0.3s;
+// }
+/* hover effect on button width */
+.Btns:hover {
+  width: 100%;
+  border-radius: 40px;
+  transition-duration: 0.3s;
+}
+
+.Btns:hover .svgWrapper {
+  width: 30%;
+  transition-duration: 0.3s;
+  padding-left: 20px;
+}
+/* hover effect button's text */
+.Btns:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: 0.3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btns:active {
+  transform: translate(2px, 2px);
+}
+
+//btn changepass//
+
+.Btnss {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
+  background-color: rgb(52, 110, 235);
+}
+
+/* plus sign */
+.svgWrapper {
+  width: 100%;
+  transition-duration: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svgIcon {
+  width: 17px;
+}
+
+/* text */
+// .text {
+//   position: absolute;
+//   right: 0%;
+//   width: 0%;
+//   opacity: 0;
+//   color: white;
+//   font-size: 1.2em;
+//   font-weight: 600;
+//   transition-duration: 0.3s;
+// }
+/* hover effect on button width */
+.Btnss:hover {
+  width: 100%;
+  border-radius: 40px;
+  transition-duration: 0.3s;
+}
+
+.Btnss:hover .svgWrapper {
+  width: 30%;
+  transition-duration: 0.3s;
+  padding-left: 20px;
+}
+/* hover effect button's text */
+.Btnss:hover .text {
+  opacity: 1;
+  width: 70%;
+  transition-duration: 0.3s;
+  padding-right: 10px;
+}
+/* button click effect*/
+.Btnss:active {
+  transform: translate(2px, 2px);
+}

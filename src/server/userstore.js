@@ -266,6 +266,25 @@ export const getUserByUsername = async (accessToken, username) => {
   }
 }
 
+export const getUserByUserId = async (accessToken, UserId) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/user/user-profile/${UserId}`, // Use URL parameters for username and limit
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const user = response.data;
+    return user;
+  } catch (error) {
+    console.error('Error while fetching user by username:', error.message);
+    throw error;
+  }
+}
+
 export const getFollowings = async (accessToken) => {
   try {
     const response = await axios.get(

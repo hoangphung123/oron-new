@@ -3,6 +3,7 @@ import * as postServer from "../../server/itemstore";
 import { Button } from "antd";
 import { PostsContext } from "../../context/postContext";
 import { SendOutlined } from "@ant-design/icons";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const CommentBox = ({ comments, level = 1, postIds }) => {
   const [editCommentId, setEditCommentId] = useState(null);
@@ -14,18 +15,21 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
   const { postId, commentsPost, setCommentsPost } = useContext(PostsContext);
   const currentUserId = JSON.parse(localStorage.getItem("user"));
   useEffect(() => {
-    getCommentsByPostId(postId)
+    getCommentsByPostId(postId);
   }, []);
 
   // Hàm render đệ quy để render comment và comment con
   const renderCommentTree = (commentList, level) => {
     return commentList.map((comment) => (
       <React.Fragment key={comment.id}>
-        <div className={`contentts ${comment.parentId && comment.parentId.trim() !== "" ? "content_child" : ""}`}>
-          <img
-            src={`http://localhost:3500/${comment.user.profilePic}`}
-            alt=""
-          />
+        <div
+          className={`contentts ${
+            comment.parentId && comment.parentId.trim() !== ""
+              ? "content_child"
+              : ""
+          }`}
+        >
+          <img src={comment?.user?.profilePic?.url || ""} alt="" />
           {comment.id === editCommentId || !comment.id ? (
             <div className="contentts_text">
               <textarea
@@ -60,9 +64,9 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         <div className="action_comments">
           {comment.totalChild > 0 && (
             <button
-            onClick={() => {
-              handleFetchReplies(comment.id); // Gọi hàm fetch replies
-            }}
+              onClick={() => {
+                handleFetchReplies(comment.id); // Gọi hàm fetch replies
+              }}
             >
               {`${comment.totalChild} : Phản hồi`}
             </button>
@@ -80,7 +84,12 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
                 <button onClick={() => deleteComment(comment.id, commentPost)}>
                   Delete
                 </button>
-                <button onClick={() => {setEditCommentId(comment.id); setIsNew(false)}}>
+                <button
+                  onClick={() => {
+                    setEditCommentId(comment.id);
+                    setIsNew(false);
+                  }}
+                >
                   Edit
                 </button>
               </>
@@ -89,7 +98,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         </div>
         {/* Render comment children nếu có */}
         {comment.children && comment.children.length > 0 && (
-          <div  style={{ marginLeft: "1rem" }}>
+          <div style={{ marginLeft: "1rem" }}>
             {renderCommentTree(comment.children, level + 1)}{" "}
             {/* Đệ quy render */}
           </div>
@@ -102,7 +111,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
     try {
       const response = await postServer.getCommentByPostId(postId);
       const data = response.listData;
-      console.log("sau khi add",data)
+      console.log("sau khi add", data);
       setCommetPost(data);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -113,7 +122,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
     try {
       const response = await postServer.getchildByParentId(commentId); // Gọi API với commentId
       const childrenData = response.listData;
-  
+
       // Hàm đệ quy để cập nhật children của comment có id trùng khớp
       const updateCommentTree = (comments) => {
         return comments.map((comment) => {
@@ -132,14 +141,13 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
           return comment;
         });
       };
-  
+
       // Cập nhật cấu trúc cây comment
       setCommetPost((prevComments) => updateCommentTree(prevComments));
     } catch (error) {
       console.error("Lỗi khi tải phản hồi:", error);
     }
   };
-  
 
   const handleSendClick = async () => {
     console.log(parenIds);
@@ -159,11 +167,14 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
       console.log(commentData);
       try {
         // Gọi API để thêm comment
-        const reponse = await postServer.uploadComment(accessToken, commentData);
+        const reponse = await postServer.uploadComment(
+          accessToken,
+          commentData
+        );
         if (reponse) {
-          getCommentsByPostId(postId)
-          setTextareaValue("")
-        } 
+          getCommentsByPostId(postId);
+          setTextareaValue("");
+        }
       } catch (error) {
         console.error("Lỗi khi thêm comment:", error);
       }
@@ -177,11 +188,10 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
       try {
         // Gọi API để thêm comment
         postServer.updateComment(accessToken, editCommentId, commentData);
-        getCommentsByPostId(postId)
+        getCommentsByPostId(postId);
       } catch (error) {
         console.error("Lỗi khi thêm comment:", error);
       }
-
     }
 
     // setNewCommentId(null);
@@ -189,9 +199,9 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
 
   const addReply = async (id) => {
     setIsNew(true);
-  
+
     let levels = 0; // Biến để lưu trữ cấp độ hiện tại
-  
+
     const findCommentById = (comments, id, currentLevel = 1) => {
       for (const comment of comments) {
         if (comment.id === id) {
@@ -222,18 +232,18 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
       }
       return null;
     };
-  
+
     const parentComment = findCommentById(commentPost, id);
-  
+
     if (parentComment) {
       if (!parentComment.children) {
         parentComment.children = [];
       }
-  
+
       console.log("Cấp độ của parentComment:", levels);
-  
+
       if (levels < 3) {
-        parentComment.totalChild +=1
+        parentComment.totalChild += 1;
         setParenIds(parentComment.id);
         parentComment.children.push({
           value: "",
@@ -246,8 +256,11 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
           },
         });
       } else {
-        const grandparentComment = findParentComment(commentPost, parentComment);
-        console.log("ddd",grandparentComment)
+        const grandparentComment = findParentComment(
+          commentPost,
+          parentComment
+        );
+        console.log("ddd", grandparentComment);
         if (grandparentComment) {
           if (!grandparentComment.children) {
             parentComment.children = [];
@@ -267,7 +280,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
           const siblingComment = siblings.find(
             (sibling) => sibling.id === parentComment.id
           );
-  
+
           if (siblingComment) {
             parentComment.children.push({
               value: "",
@@ -288,16 +301,15 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
     }
     console.log(commentPost);
   };
-  
 
   const deleteComment = async (id, parentComments) => {
     const accessToken = JSON.parse(localStorage.getItem("access_token"));
     try {
-      const reponse = await postServer.deleteComment(accessToken, id)
+      const reponse = await postServer.deleteComment(accessToken, id);
       if (reponse) {
-        getCommentsByPostId(postId)
+        getCommentsByPostId(postId);
       }
-    }catch (error) {
+    } catch (error) {
       console.error("Lỗi khi thêm comment:", error);
     }
   };
@@ -310,11 +322,11 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         children: [],
         user: {
           name: currentUserId.data.name, // Lấy tên người dùng
-          profilePic: currentUserId.data.profilePic, // Lấy ảnh đại diện người dùng
+          profilePic: { url: currentUserId.data.profilePic.url }, // Lấy ảnh đại diện người dùng
         },
       },
     ]);
-    console.log(comments)
+    console.log(comments);
   };
 
   // const setClickparentId = (id) => {
@@ -333,10 +345,12 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
   return (
     <div style={{ marginLeft: "0.5rem" }}>
       <button
+        className="button-89"
         style={{ marginLeft: "0.5rem", marginTop: "1rem" }}
         onClick={addComment}
       >
         Add Comment
+        {/* <AddCircleOutlineIcon color="primary"/> */}
       </button>
       {renderCommentTree(commentPost, level)} {/* Gọi hàm render đệ quy */}
     </div>

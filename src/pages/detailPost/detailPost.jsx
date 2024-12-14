@@ -506,7 +506,7 @@ const DetailPost = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={`http://localhost:3500/${post.user.profilePic}`} alt="" />
+            <img src={post?.user?.profilePic?.url || ""} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}
@@ -743,7 +743,7 @@ const DetailPost = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.description}</p>
-          <img src={`http://localhost:3500/${post.imageURL}`} alt="" />
+          <img src={post?.image[0].url || ""} alt="" />
         </div>
         <div className="infos">
           <div className="infoi">
