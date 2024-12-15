@@ -26,6 +26,9 @@ import "./post.scss";
 import Popover from "@mui/material/Popover";
 import Rating from "react-rating";
 import Notification from "../notification/Notification";
+import ImageCreate from "../../assets/choseImage.png";
+import IconAddress from "../../assets/icon.png";
+import IconTag from "../../assets/IconTag.png";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -39,7 +42,8 @@ const Post = ({ post }) => {
   const [descriptionReport, setDescriptionRepost] = useState("");
   const [tittle, setTittles] = useState("");
   const [selectedPostUser, setSelectedPostUser] = useState(null);
-  const { setSavePost, setPosts, categoryIds } = useContext(PostsContext);
+  const { setSavePost, setPosts, categoryIds, setPostId } =
+    useContext(PostsContext);
   const [selectedIcon, setSelectedIcon] = useState(null);
   const [likeAnchorEl, setLikeAnchorEl] = useState(null);
   const [popoverId, setPopoverId] = useState(null);
@@ -59,13 +63,52 @@ const Post = ({ post }) => {
   const [reviewDescription, setReviewDescription] = useState("");
   const [reactionListOpen, setReactionListOpen] = useState(false);
   const [reactionUser, setReactionUser] = useState([]);
-  const [message, setMessage] = useState('');
-  const [type, setType] = useState('');
+  const [message, setMessage] = useState("");
+  const [type, setType] = useState("");
+
+  const [selectedReaction, setSelectedReaction] = useState(""); // Chuỗi rỗng: trạng thái mặc định
+  const [showIcons, setShowIcons] = useState(false);
+  const [curentIcon, SetCurrentIcon] = useState(false);
+
+  useEffect(() => {
+    if (post.currentUserReaction?.type) {
+      setSelectedReaction(post.currentUserReaction.type);
+      SetCurrentIcon(true)
+    }
+  }, [post]);
+
+  const iconMapping = [
+    { id: 1, type: "like", emoji: "👍" },
+    { id: 2, type: "love", emoji: "❤️" },
+    { id: 3, type: "haha", emoji: "😂" },
+    { id: 4, type: "wow", emoji: "😮" },
+    { id: 5, type: "sad", emoji: "😢" },
+    { id: 6, type: "angry", emoji: "😡" },
+  ];
+
+  const updateReaction = async (reactionId, reactionID) => {
+    try {
+      if (reactionId === selectedReaction) {
+        // Nếu nhấn vào icon hiện tại, reset về default (xóa trạng thái)
+        // await axios.delete("/api/reactions");
+        setSelectedReaction(""); // Reset về default
+        console.log("reactionID", reactionId)
+        SetCurrentIcon(false)
+      } else {
+        // Nếu chọn icon khác, cập nhật trạng thái
+        // await axios.post("/api/reactions", { reactionId });
+        createReaction(post.id, reactionId);
+        setSelectedReaction(reactionId); // Cập nhật trạng thái
+      }
+    } catch (error) {
+      console.error("Lỗi khi cập nhật reaction:", error);
+    }
+  };
 
   const handleClosePopupEdit = () => {
-    resetEditPopup()
+    resetEditPopup();
     setIsEditPopupOpen(false);
-  }
+  };
 
   const resetEditPopup = () => {
     setSelectedStatus("");
@@ -75,28 +118,38 @@ const Post = ({ post }) => {
     setSelectedWard("");
     setDescription("");
     setSelectedImages(null);
-    setSelectedImage(null)
-  }
+    setSelectedImage(null);
+  };
+
+  const convertDriveUrl = (url) => {
+    if (!url) {
+      // Nếu URL không tồn tại, trả về đường dẫn mặc định
+      return "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg";
+    }
+    const match = url.match(/\/file\/d\/(.*?)\//);
+    return match
+      ? `https://drive.google.com/uc?export=view&id=${match[1]}`
+      : "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg";
+  };
 
   const handleEditClick = async () => {
-    
+    console.log("postimage", post);
     // Initialize edit states with the data of the selected post
     setSelectedStatus(post.status);
     await setSelectedCategory(post.category.id);
     await setSelectedProvince(post.provinceId);
     await setSelectedDistrict(post.districtId);
-    
+
     setSelectedWard(post.wardId);
     setDescription(post.description);
-    setSelectedImages(`http://localhost:3500/${post.imageURL}`);
-    setSelectedImage(post.imageURL)
-    
+    setSelectedImages(post.image[0].url);
+    setSelectedImage(post.imageURL);
 
     setIsEditPopupOpen(true);
   };
 
   const clearNotification = () => {
-    setMessage('');
+    setMessage("");
   };
 
   const handleInputChange = (e, inputField) => {
@@ -168,10 +221,7 @@ const Post = ({ post }) => {
       };
 
       // Call the API to send the report
-      await Itemserver.createReportByPostId(
-        accessToken,
-        reportData
-      );
+      await Itemserver.createReportByPostId(accessToken, reportData);
 
       // Check if the report was sent successfully
 
@@ -193,7 +243,19 @@ const Post = ({ post }) => {
     if (post.user.username === currentUser.data.username) {
       toast.error("This post belongs to you.");
     } else {
+      console.log(post)
       setOpenModal(true);
+    }
+  };
+
+  const fetchSavePost = async () => {
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("access_token"));
+      const result = await Itemserver.getSavedPostsByUser(accessToken);
+      setSavePost(result.listData);
+    } catch (error) {
+      // Xử lý lỗi nếu cần
+      console.error("Error while fetching List Friends:", error.message);
     }
   };
 
@@ -202,45 +264,55 @@ const Post = ({ post }) => {
       const accessToken = JSON.parse(localStorage.getItem("access_token"));
       const savedPost = await Itemserver.savePost(accessToken, post.id);
 
-      const newData = {
-        id: savedPost.id,
-        description: savedPost.data.post.description,
-        imageURL: savedPost.data.post.imageURL,
-        videoURL: savedPost.videoURL,
-        status: savedPost.status,
-        fullAddress: savedPost.fullAddress,
-        specificAddress: savedPost.specificAddress,
-        user: {
-          id: currentUser.data.id,
-          username: post.user.username,
-          name: currentUser.data.name,
-          fullAddress: currentUser.data.fullAddress,
-          specificAddress: currentUser.data.specificAddress,
-          phoneNumber: currentUser.data.phoneNumber,
-          email: currentUser.data.email,
-          profilePic: `${currentUser.data.profilePic}`,
-          backgroundPic: currentUser.data.backgroundPic,
-          isVerifyPhone: currentUser.data.isVerifyPhone,
-          isVerifyEmail: currentUser.data.isVerifyEmail,
-          status: currentUser.data.status,
-          updatedAt: currentUser.data.updatedAt,
-          createdAt: currentUser.data.createdAt,
-        },
-        createdAt: savedPost.createdAt,
-        updatedAt: savedPost.updatedAt,
-      };
+      // const newData = {
+      //   id: savedPost.id,
+      //   description: savedPost.data.post.description,
+      //   imageURL: savedPost.data.post.imageURL,
+      //   image: [
+      //     {
+      //       url: savedPost.data.image[0].url,
+      //       alternativeText: "Ảnh minh họa", // Thêm mô tả thay thế
+      //     },
+      //   ],
+      //   videoURL: savedPost.videoURL,
+      //   status: savedPost.status,
+      //   fullAddress: savedPost.fullAddress,
+      //   specificAddress: savedPost.specificAddress,
+      //   user: {
+      //     id: currentUser.data.id,
+      //     username: post.user.username,
+      //     name: currentUser.data.name,
+      //     fullAddress: currentUser.data.fullAddress,
+      //     specificAddress: currentUser.data.specificAddress,
+      //     phoneNumber: currentUser.data.phoneNumber,
+      //     email: currentUser.data.email,
+      //     profilePic: {
+      //       url: currentUser.data.profilePic?.url, // Use optional chaining to handle potential undefined profilePic
+      //       alternativeText: currentUser.data.profilePic?.alternativeText,
+      //     },
+      //     backgroundPic: currentUser.data.backgroundPic,
+      //     isVerifyPhone: currentUser.data.isVerifyPhone,
+      //     isVerifyEmail: currentUser.data.isVerifyEmail,
+      //     status: currentUser.data.status,
+      //     updatedAt: currentUser.data.updatedAt,
+      //     createdAt: currentUser.data.createdAt,
+      //   },
+      //   createdAt: savedPost.createdAt,
+      //   updatedAt: savedPost.updatedAt,
+      // };
 
       // Update the save posts state with the new data
-      setSavePost((prevSavePosts) => [newData, ...prevSavePosts]);
+      fetchSavePost();
+      // setSavePost((prevSavePosts) => [newData, ...prevSavePosts]);
       setAnchorEl(null);
-      setMessage('Post saved successfully!');
-      setType('success');
+      setMessage("Post saved successfully!");
+      setType("success");
       // toast.success(`Post saved successfully`);
       // (Có thể thêm thông báo hoặc cập nhật UI ở đây nếu cần)
     } catch (error) {
       setAnchorEl(null);
-      setMessage('Post cannot saved');
-      setType('danger');
+      setMessage("Post cannot saved");
+      setType("danger");
       // toast.error(`Post saved successfully: ${error.message}`);
       // (Có thể thêm thông báo lỗi ở đây nếu cần)
     }
@@ -285,7 +357,11 @@ const Post = ({ post }) => {
       await Itemserver.createReaction(accessToken, reactionData);
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postData = response.listData;
       setPosts(postData);
       toast.success(`Reaction created successfully`);
@@ -305,7 +381,11 @@ const Post = ({ post }) => {
       await Itemserver.deletePost(accessToken, post.id);
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postData = response.listData;
       setPosts(postData);
 
@@ -419,6 +499,8 @@ const Post = ({ post }) => {
         status: statusValue,
       };
 
+      console.log("postData", postData);
+
       const accessToken = JSON.parse(localStorage.getItem("access_token"));
 
       const registeredUser = await Itemserver.updatePost(
@@ -428,16 +510,26 @@ const Post = ({ post }) => {
       );
 
       const registeredUserId = registeredUser.data.id;
-      await Itemserver.uploadPost(accessToken, selectedImage, registeredUserId);
+      await Itemserver.uploadToGoogleDrive(
+        accessToken, // Token xác thực
+        selectedImage, // File ảnh cần upload
+        "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
+        "post-image", // relatedType (nếu là bài viết thì là "post")
+        registeredUserId // ID bài viết hoặc đối tượng liên quan
+      );
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postDatas = response.listData;
       setPosts(postDatas);
 
-      resetEditPopup()
+      resetEditPopup();
 
-      setIsPopupOpen(false);
+      setIsEditPopupOpen(false);
       toast.success(`Success: ${registeredUser.message}`);
       // setShowPopup(true);
     } catch (error) {
@@ -469,7 +561,11 @@ const Post = ({ post }) => {
       await Itemserver.CreateReview(accessToken, reviewData);
 
       const limit = 9;
-      const response = await Itemserver.getAllPost(accessToken, limit, categoryIds);
+      const response = await Itemserver.getAllPost(
+        accessToken,
+        limit,
+        categoryIds
+      );
       const postData = response.listData;
       setPosts(postData);
 
@@ -494,7 +590,7 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img src={`http://localhost:3500/${post.user.profilePic}`} alt="" />
+            <img src={post?.user?.profilePic?.url || ""} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}
@@ -517,29 +613,29 @@ const Post = ({ post }) => {
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
             >
-              {selectedPostUser &&
-                selectedPostUser.username === currentUser.data.username && (
-                  <>
+              {selectedPostUser && (
+                <>
+                  {selectedPostUser.username === currentUser.data.username ? (
                     <MenuItem onClick={handleEditClick}>Edit Post</MenuItem>
-                    <MenuItem onClick={handleDeletePost}>Delete Post</MenuItem>
-                  </>
-                )}
-              {selectedPostUser &&
-                selectedPostUser.username !== currentUser.data.username && (
-                  <>
+                  ) : (
                     <MenuItem onClick={handleSavePost}>Save Post</MenuItem>
-                    <MenuItem onClick={openPopup}>Report Post</MenuItem>
-                  </>
-                )}
+                  )}
+                  <MenuItem
+                    onClick={
+                      selectedPostUser.username === currentUser.data.username
+                        ? handleDeletePost
+                        : openPopup
+                    }
+                  >
+                    {selectedPostUser.username === currentUser.data.username
+                      ? "Delete Post"
+                      : "Report Post"}
+                  </MenuItem>
+                </>
+              )}
             </Menu>
             {isEditPopupOpen && (
               <>
@@ -547,12 +643,12 @@ const Post = ({ post }) => {
                   className="overlay"
                   onClick={() => handleClosePopupEdit()}
                 ></div>
-                <div className="popups">
+                <div className="popup">
                   <div className="popup-title">
                     <div className="shareTop">
                       <img
                         className="shareProfileImg"
-                        src={`http://localhost:3500/${currentUser.data.profilePic}`}
+                        src={currentUser?.data?.profilePic?.url || ""}
                         alt=""
                       />
                       <div className="shareTop-content">
@@ -570,7 +666,6 @@ const Post = ({ post }) => {
                         </select>
                       </div>
                     </div>
-                    <h2>Tạo Bài viết</h2>
                     <span
                       className="close"
                       onClick={() => handleClosePopupEdit()}
@@ -578,95 +673,117 @@ const Post = ({ post }) => {
                       x
                     </span>
                   </div>
-                  <div className="popup-avatar"></div>
+                  <div className="popup-avatar">
+                    <textarea
+                      className="input_description"
+                      type="text"
+                      placeholder="Bạn đang nghĩ gì đấy?"
+                      value={description}
+                      onChange={(e) => handleInputChange(e, "description")}
+                    />
+                  </div>
                   <div className="popup-content">
                     <div className="left">
                       <div className="left-container">
-                        <h1>Ảnh</h1>
                         <div className="imageContainer">
                           <div {...getRootProps()} className="dropzone">
-                            <input {...getInputProps()} />
-                            <p className="imageContainer_p">+</p>
+                            <img
+                              className="zone_image"
+                              src={selectedImages}
+                              alt=""
+                            />
+                            <input {...getInputProps()}></input>
+                            {selectedImages && (
+                              <img src={selectedImages} alt="Selected" />
+                            )}
                           </div>
-                          {selectedImages && (
-                            <img src={selectedImages} alt="Selected" />
-                          )}
                         </div>
                       </div>
                     </div>
                     <div className="right">
-                      <h1>Thông tin bài viết</h1>
-                      <form>
-                        <textarea
-                          className="input_description"
-                          type="text"
-                          placeholder="Description"
-                          value={description}
-                          onChange={(e) => handleInputChange(e, "description")}
-                        />
-                        <select
-                          value={selectedCategory}
-                          onChange={handSelectedCategory}
-                        >
-                          <option value="" disabled>
-                            Category
-                          </option>
-                          {category.map((category) => (
-                            <option key={category.id} value={category.id}>
-                              {category.name}
-                            </option>
-                          ))}
-                        </select>
-                        <select
-                          value={selectedProvince}
-                          onChange={handleSelectProvince}
-                        >
-                          <option value="" disabled>
-                            Province
-                          </option>
-                          {provinces.map((province) => (
-                            <option key={province.id} value={province.id}>
-                              {province.name}
-                            </option>
-                          ))}
-                        </select>
-                        <select
-                          value={selectedDistrict}
-                          onChange={handleSelectDistricts}
-                        >
-                          <option value="" disabled>
-                            District
-                          </option>
-                          {districts.map((district) => (
-                            <option key={district.id} value={district.id}>
-                              {district.name}
-                            </option>
-                          ))}
-                        </select>
-                        <select
-                          value={selectedWard}
-                          onChange={(e) => setSelectedWard(e.target.value)}
-                        >
-                          <option value="" disabled>
-                            Ward
-                          </option>
-                          {wards.map((ward, index) => (
-                            <option key={ward.id} value={ward.id}>
-                              {ward.name}
-                            </option>
-                          ))}
-                        </select>
-                      </form>
+                      <div className="right-icon">
+                        <img src={IconAddress} alt="" />
+                        <img src={IconTag} alt="" />
+                      </div>
+                      <Button
+                        onClick={handleUpdateClick}
+                        variant="contained"
+                        className="acsess_button"
+                      >
+                        Cập Nhật
+                      </Button>
                     </div>
                   </div>
                   <div className="popup-action">
-                    <Button
-                      onClick={handleUpdateClick}
-                      variant="contained"
-                      className="acsess_button"
-                    >
-                      Cập Nhật
-                    </Button>
+                    <form>
+                      <div className="form-group">
+                        {/* Address Section */}
+                        <div className="form-column">
+                          <h4>Address</h4>
+                          <select
+                            className="select_popup"
+                            value={selectedProvince}
+                            onChange={handleSelectProvince}
+                          >
+                            <option value="" disabled>
+                              Province
+                            </option>
+                            {provinces.map((province) => (
+                              <option key={province.id} value={province.id}>
+                                {province.name}
+                              </option>
+                            ))}
+                          </select>
+                          <select
+                            className="select_popup"
+                            value={selectedDistrict}
+                            onChange={handleSelectDistricts}
+                          >
+                            <option value="" disabled>
+                              District
+                            </option>
+                            {districts.map((district) => (
+                              <option key={district.id} value={district.id}>
+                                {district.name}
+                              </option>
+                            ))}
+                          </select>
+                          <select
+                            className="select_popup"
+                            value={selectedWard}
+                            onChange={(e) => setSelectedWard(e.target.value)}
+                          >
+                            <option value="" disabled>
+                              Ward
+                            </option>
+                            {wards.map((ward) => (
+                              <option key={ward.id} value={ward.id}>
+                                {ward.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+
+                        {/* Category Section */}
+                        <div className="form-column">
+                          <h4>Category</h4>
+                          <select
+                            className="select_popup"
+                            value={selectedCategory}
+                            onChange={handSelectedCategory}
+                          >
+                            <option value="" disabled>
+                              Category
+                            </option>
+                            {category.map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </>
@@ -727,15 +844,23 @@ const Post = ({ post }) => {
             open={openModal}
             onClose={() => setOpenModal(false)}
             postId={post.id}
+            ownerId={post.user.id}
+            post={post}
           />
         </div>
         <div className="content">
           <p>{post.description}</p>
-          <img src={`http://localhost:3500/${post.imageURL}`} alt="" />
+          <img
+            src={
+              post.image?.[0]?.url ||
+              "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg"
+            }
+            alt=""
+          />
         </div>
         <div className="infos">
           <div className="info">
-            <div
+            {/* <div
               className="item"
               id="likeButton"
               onMouseEnter={handleLikeHover}
@@ -755,6 +880,43 @@ const Post = ({ post }) => {
                 <SentimentVeryDissatisfiedIcon />
               ) : (
                 <ThumbUpOffAltIcon />
+              )}
+            </div> */}
+            <div
+              className="relative inline-block"
+              onMouseEnter={() => setShowIcons(true)}
+              onMouseLeave={() => setShowIcons(false)}
+            >
+              {/* Nút hiển thị icon hiện tại hoặc mặc định */}
+              <button
+                className="text-2xl p-2 rounded hover:bg-gray-200"
+                // onClick={() => updateReaction("")} // Reset về default khi bấm vào icon mặc định
+              >
+                {selectedReaction
+                  ? iconMapping.find((icon) => icon.id === selectedReaction)
+                      ?.emoji
+                  : "⭐"}{" "}
+                {/* Icon mặc định ban đầu */}
+              </button>
+
+              {/* Danh sách icon khi hover */}
+              {showIcons && (
+                <div className="absolute flex gap-2 p-2 bg-white border rounded shadow-lg top-10">
+                  {iconMapping.map((icon) => (
+                    <button
+                      key={icon.id}
+                      onClick={() => updateReaction(icon.id, post.currentUserReaction.id)}
+                      className={`text-2xl p-2 rounded ${
+                        selectedReaction === icon.id
+                          ? "bg-blue-200"
+                          : "hover:bg-gray-200"
+                      }`}
+                      title={`Thả ${icon.type}`}
+                    >
+                      {icon.emoji}
+                    </button>
+                  ))}
+                </div>
               )}
             </div>
             <div onClick={handleLikeClick}>
@@ -794,7 +956,13 @@ const Post = ({ post }) => {
                 ></ThumbUpAltIcon>
               </div>
             </Popover>
-            <div className="item" onClick={() => setCommentOpen(!commentOpen)}>
+            <div
+              className="item"
+              onClick={() => {
+                setCommentOpen(!commentOpen);
+                setPostId(post.id);
+              }}
+            >
               <TextsmsOutlinedIcon />
               {post.totalComments} comments
             </div>
@@ -861,7 +1029,11 @@ const Post = ({ post }) => {
           </div>
         </>
       )}
-      <Notification message={message} type={type} clearNotification={clearNotification} />
+      <Notification
+        message={message}
+        type={type}
+        clearNotification={clearNotification}
+      />
       <ToastContainer />
     </div>
   );

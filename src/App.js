@@ -11,6 +11,8 @@ import SettingsPage from "./pages/admin/SettingsPage.jsx";
 import LoginAdmin from "./pages/admin/loginAdmin/LoginAdmin.jsx";
 import UsersPage from "./pages/admin/UsersPage.jsx";
 import RankingNew from "./pages/rankingNew/rankingNew.jsx";
+import AdvertisePage from "./pages/advertise/advertise.jsx";
+import Post from "./pages/reaction/reaction.jsx";
 import {
   createBrowserRouter,
   Navigate,
@@ -30,10 +32,20 @@ import { useContext, useEffect } from "react";
 import { DarkModeContext } from "./context/darkModeContext.js";
 import { AuthContext } from "./context/authContext.js";
 import * as UserServices from "./server/userstore.js";
+import { getAndSendTokenToBackend , messaging } from "./pages/nofication/filebase.js";
+import { onMessage } from "firebase/messaging";
+import toast, {Toaster} from "react-hot-toast";
 
 
 
 function App() {
+  useEffect(() => {
+    getAndSendTokenToBackend()
+    onMessage(messaging, (payload) => {
+      console.log(payload)
+      toast.success(payload.notification.body);
+    })
+  },[])
   //common layout
 
   //not login
@@ -201,6 +213,10 @@ function App() {
           path: "/profile/:id",
           element: <Profile />,
         },
+        {
+          path: "/post",
+          element: <Post />,
+        },
       ],
     },
     {
@@ -215,6 +231,10 @@ function App() {
           path: "/ranking",
           element: <RankingNew />,
         },
+        {
+          path: "/advertise",
+          element: <AdvertisePage/>
+        }
       ],
     },
     {
@@ -248,6 +268,7 @@ function App() {
 
   return (
     <div>
+      <Toaster position="top-right"/>
       <RouterProvider router={router} />
     </div>
   );

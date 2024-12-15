@@ -15,7 +15,7 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useNavigate } from "react-router-dom";
 import { PostsContext } from "../../context/postContext";
 import { Search } from "lucide-react";
-import MyProfileComponent from "../../components/MyProfileComponent/MyProfileComponent";
+import FriendProfile from "../../components/FriendProfile/FiendProfile";
 import FriendComponent from "../../components/FriendComponent/FriendComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
@@ -43,16 +43,16 @@ const ProfileFriends = () => {
         // Retrieve the access token from localStorage
         const accessToken = JSON.parse(localStorage.getItem("access_token"));
 
-        const profileUser = await Userserver.getUserByUsername(
+        const profileUser = await Userserver.getUserByUserId(
           accessToken,
-          currentUserId.username
+          currentUserId.userId
         );
 
-        console.log("profileUser", profileUser.listData[0].profilePic);
+        console.log("profileUser", profileUser);
 
-        const pictureUser = profileUser.listData[0].profilePic;
-        const backtureUser = profileUser.listData[0].backgroundPic;
-        const profileUserName = profileUser.listData[0].username;
+        // const pictureUser = profileUser.listData[0].profilePic;
+        // const backtureUser = profileUser.data.backgroundPic;
+        // const profileUserName = profileUser.listData[0].username;
 
         // Check if the access token is available
         if (!accessToken) {
@@ -61,11 +61,11 @@ const ProfileFriends = () => {
           return;
         }
 
-        const userProfile = `http://localhost:3500/${pictureUser}`;
-        const userBackProfile = `http://localhost:3500/${backtureUser}`;
-        setProfileImage(userProfile);
-        setCoverImage(userBackProfile);
-        setprofileUserName(profileUserName);
+        // const userProfile = `http://localhost:3500/${pictureUser}`;
+        // const userBackProfile = `http://localhost:3500/${backtureUser}`;
+        setProfileImage(profileUser.data.profilePic.url);
+        setCoverImage(profileUser.data.backgroundPic.url);
+        setprofileUserName(profileUser.data.username);
       } catch (error) {
         console.error("Error fetching user profile picture:", error);
       }
@@ -203,7 +203,7 @@ const ProfileFriends = () => {
         </>
       )}
       {activeTab === "Friend" && <FriendComponent />}
-      {activeTab === "My Profile" && <MyProfileComponent />}
+      {activeTab === "My Profile" && <FriendProfile />}
     </div>
   );
 };

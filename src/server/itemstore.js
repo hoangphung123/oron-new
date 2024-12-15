@@ -59,6 +59,35 @@ export const uploadPost = async (accessToken, file, id) => {
   }
 };
 
+export const uploadToGoogleDrive = async (accessToken, file, alternativeText, relatedType, relatedId) => {
+  try {
+    // Tạo FormData để gửi multipart/form-data
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("alternativeText", alternativeText);
+    formData.append("relatedType", relatedType);
+    formData.append("relatedId", relatedId);
+
+    // Gửi yêu cầu API
+    const response = await axios.post(
+      `${api_url}/google-drive/specific`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    return response.data; // Trả về dữ liệu từ API
+  } catch (error) {
+    console.error("Error while uploading file to Google Drive:", error.message);
+    throw error;
+  }
+};
+
+
 export const getAllPost = async (accessToken, limit, categoryId) => {
   try {
     const response = await axios.get(`${api_url}/post/filter?limit=${limit}&status=1&categoryId=${categoryId}`, {
@@ -708,3 +737,48 @@ export const getPostByCategoryId = async (categoryId, accessToken, limit) => {
   }
 };
 
+export const getchildByParentId = async (parentId) => {
+  try {
+    const response = await axios.get(`${api_url}/comment/parent/${parentId}`);
+    const ParentId = response.data; // Cập nhật dòng này dựa trên cấu trúc dữ liệu trả về từ API của bạn
+    return ParentId;
+  } catch (error) {
+    console.error(
+      `Error while fetching comments for post with id ${parentId}:`,
+      error.message
+    );
+    throw error;
+  }
+};
+
+export const createNoficationRegisPost = async (accessToken, NoficationData) => {
+  try {
+    const response = await axios.post(`${api_url}/notification`, NoficationData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // You can handle the response here if needed
+    return response.data;
+  } catch (error) {
+    // Handle error, show a notification, or perform other actions
+    throw new Error(`Error creating reaction: ${error.message}`);
+  }
+}
+
+export const getNofication = async (accessToken) => {
+  try {
+    const response = await axios.get(`${api_url}/notification/user`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    const NoficationUser = response.data; // Cập nhật dòng này dựa trên cấu trúc dữ liệu trả về từ API của bạn
+    return NoficationUser;
+  } catch (error) {
+    console.error("Error while fetching saved posts:", error.message);
+    throw error;
+  }
+};

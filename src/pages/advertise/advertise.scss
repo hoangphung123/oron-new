@@ -1,0 +1,38 @@
+@import "../../style.scss";
+
+.advertise {
+  @include themify($themes) {
+    background: themed("bgs");
+    height: 100vh;
+    padding: 20px;
+    .advertise_container {
+      background: themed("bg");
+      height: 100%;
+      padding: 10px;
+    }
+    .ant-table-container {
+      background: themed("bgs");
+      color: themed("textColor");
+      border: 1px solid themed("textColor");
+    }
+    .ant-table-row:hover{
+        color: black;
+    }
+    
+  }
+}
+.upload_content-img{
+  display: flex;
+}
+.img-content{
+  // height: 55px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  img{
+    object-fit: cover;
+    height: 55px;
+  }
+  // text-align: center;
+}

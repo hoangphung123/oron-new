@@ -7,6 +7,7 @@ export const PostsContext = createContext();
 export const PostsProvider = ({ children }) => {
   const { currentUser } = useContext(AuthContext);
   const [posts, setPosts] = useState([]);
+  const [postId, setPostId] = useState("");
   const [postRegistrations, setPostRegistrations] = useState([]);
   const [postRegistrationsByOwner, setPostRegistrationsByowner] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
@@ -14,6 +15,7 @@ export const PostsProvider = ({ children }) => {
   const [followerList, setFollowerList] = useState([]);
   const [savePost, setSavePost] = useState([]);
   const [categoryIds, setCategoryIds] = useState("");
+  const [commentsPost, setCommentsPost] = useState([])
 
   const fetchPostsRegistation = async () => {
     try {
@@ -121,6 +123,8 @@ export const PostsProvider = ({ children }) => {
     <PostsContext.Provider
       value={{
         posts,
+        postId,
+        setPostId,
         setPosts,
         postRegistrations,
         setPostRegistrations,
@@ -136,6 +140,8 @@ export const PostsProvider = ({ children }) => {
         setPostRegistrationsByowner,
         categoryIds, 
         setCategoryIds,
+        commentsPost,
+        setCommentsPost
       }}
     >
       {children}

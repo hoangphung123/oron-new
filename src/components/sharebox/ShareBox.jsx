@@ -203,10 +203,24 @@ export default function Share() {
         registeredUserId
       );
 
+      const uploadPictureDriver = await UserServices.uploadToGoogleDrive(
+        accessToken, // Token xác thực
+        selectedImage, // File ảnh cần upload
+        "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
+        "post-image", // relatedType (nếu là bài viết thì là "post")
+        registeredUserId // ID bài viết hoặc đối tượng liên quan
+      );
+      console.log("testanhr", uploadPictureDriver.fileDetails.thumbnailLink);
+
       const newData = {
         id: registeredUser.data.id,
         description: description,
-        imageURL: `${uploadedPicturePost.data.imageURL}`,
+        image: [
+          {
+            url: uploadPictureDriver.fileDetails.thumbnailLink,
+            alternativeText: "Ảnh minh họa", // Thêm mô tả thay thế
+          },
+        ],
         videoURL: null, // Bạn có thể cung cấp giá trị videoURL nếu có
         status: 1, // Thay đổi giá trị này nếu cần
         fullAddress: currentUser.data.fullAddress, // Lấy từ user hoặc post, tùy vào yêu cầu
@@ -219,7 +233,10 @@ export default function Share() {
           specificAddress: currentUser.data.specificAddress,
           phoneNumber: currentUser.data.phoneNumber,
           email: currentUser.data.email,
-          profilePic: `${currentUser.data.profilePic}`,
+          profilePic: {
+            url: currentUser.data.profilePic?.url, // Use optional chaining to handle potential undefined profilePic
+            alternativeText: currentUser.data.profilePic?.alternativeText,
+          },
           backgroundPic: currentUser.data.backgroundPic,
           isVerifyPhone: currentUser.data.isVerifyPhone,
           isVerifyEmail: currentUser.data.isVerifyEmail,
@@ -253,7 +270,7 @@ export default function Share() {
           <div className="share-info">
             <img
               className="shareProfileImg"
-              src={`http://localhost:3500/${currentUser.data.profilePic}`}
+              src={currentUser?.data?.profilePic?.url || ""}
               alt=""
             />
             <span>What product do you want to share?</span>
@@ -275,7 +292,8 @@ export default function Share() {
                 <div className="shareTop">
                   <img
                     className="shareProfileImg"
-                    src={`http://localhost:3500/${currentUser.data.profilePic}`}
+                    src={currentUser?.data?.profilePic?.url || ""
+                    }
                     alt=""
                   />
                   <div className="shareTop-content">

@@ -1,0 +1,169 @@
+/* MyProfileComponent.scss */
+@import "../../style.scss";
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  // border: 1px solid #ccc;
+  border-radius: 10px;
+  // width: 500px;
+  margin: 0 20px 0 20px;
+  @include themify($themes) {
+    background: themed("bg");
+    h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: themed("textColor");
+    }
+
+    .profile-container-title{
+      display: flex;
+      justify-content:  space-between;
+      border-bottom: 1px solid themed("textColor");
+      margin-bottom: 10pxhh;
+      .profile-container_button{
+        display: flex;
+        gap: 20px;
+
+        img{
+          width: 30px;
+          height: 30px;
+          object-fit: cover;
+        }
+      }
+    }
+
+    .profile-content {
+      display: flex;
+
+      .profile-sidebar {
+        flex: 1;
+        border-right: 1px solid #ccc;
+        padding-right: 10px;
+        display: flex;
+        flex-direction: column;
+        color: themed("textColor");
+
+        button {
+          background: none;
+          border: none;
+          padding: 10px;
+          text-align: left;
+          cursor: pointer;
+          font-size: 16px;
+
+          &.active-tab {
+            border: 2px solid #f0f0f0;
+            border-radius: 5px;
+            font-weight: bold;
+          }
+        }
+      }
+
+      .profile-details {
+        flex: 3;
+        padding-left: 20px;
+        color: themed("textColor");
+
+        .profile_details-content {
+          margin-left: 40px;
+        }
+
+        .edit-buttons {
+          margin-top: 10px;
+
+          .edit-button,
+          .delete-button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 5px;
+            cursor: pointer;
+
+            &.edit-button {
+              background-color: #4caf50;
+              color: white;
+            }
+
+            &.delete-button {
+              background-color: #f44336;
+              color: white;
+            }
+          }
+        }
+      }
+
+      .details-section,
+      .other-section {
+        display: flex;
+        flex-direction: column;
+
+        .addres_title {
+          margin-top: 20px;
+        }
+      }
+
+      .details-form,
+      .address-form,
+      .other-form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .details_Personal {
+          display: flex;
+          gap: 20px;
+          input{
+            min-width: 285px;
+          }
+        }
+        .birthday-inputs {
+          gap: 20px;
+          display: flex;
+          select {
+            width: 120px;
+          }
+        }
+        .Date-picker{
+          background: transparent;
+          max-width: 600px;
+        }
+        .ant-picker-input{
+          input{
+            color: themed("textColor");
+            min-width: 80%;
+            border: 0px;
+            &::placeholder {
+              color: themed("textColor"); // Đổi màu của placeholder
+            }
+          }
+          
+        }
+        .ant-picker-suffix{
+          color: themed("textColor");
+        }
+      }
+
+      input {
+        padding: 5px;
+        border: 1px solid #ccc;
+        background: transparent;
+        color: themed("textColor");
+        border-radius: 4px;
+        min-width: 600px;
+        font-size: 15px;
+      }
+      select {
+        padding: 5px;
+        border: 1px solid #ccc;
+        background: transparent;
+        color: themed("textColor");
+        border-radius: 4px;
+        max-width: 600px;
+        option{
+          color: black;
+        }
+      }
+    }
+  }
+}

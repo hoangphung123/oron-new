@@ -52,19 +52,30 @@ const Post = ({ post }) => {
     }
   };
 
-  const handleAccept = async (regisId) => {
+  const handleAccept = async (regisId, userRegisId) => {
     try {
       const accessToken = JSON.parse(localStorage.getItem("access_token"));
       const data = {
         // message: "Lovely",
         status: 3,
       };
+
+      const dataNoficationAccept = {
+        userRid: userRegisId,
+        title: "accept register",
+        itemRid: post.id,
+        content: `${currentUser.data.username} đã duyệt yêu cầu của bạn`, // Sửa lỗi ở đây
+        typeCd: "2"
+      };
+
       const deletedRegis = await Itemserver.deleteRegisById(
         accessToken,
         regisId,
         data
       );
+
       setRegistrationUpdated((prev) => !prev); // Đảo ngược giá trị để kích thích việc render lại component
+      await Itemserver.createNoficationRegisPost(accessToken, dataNoficationAccept);
       // Cập nhật state hoặc thực hiện các công việc khác sau khi xóa thành công
       console.log("Registration deleted successfully:", deletedRegis);
     } catch (error) {
@@ -77,6 +88,7 @@ const Post = ({ post }) => {
   const RegisteredUsersComponent = ({ postId }) => {
     // Filter user data for the specific post
     const postUsers = userDataArray.filter((user) => user.post.id === postId);
+    console.log("postUsers", postUsers)
 
     return (
       <div className="registered-users">
@@ -85,7 +97,7 @@ const Post = ({ post }) => {
             <div className="user-detailss">
               <img
                 className="user-item_img"
-                src={`http://localhost:3500/${user.user.profilePic}`}
+                src={user.user.profilePic.url}
                 alt=""
               />
               <div className="user-details">
@@ -109,7 +121,7 @@ const Post = ({ post }) => {
                     variant="contained"
                     size="small"
                     endIcon={<SendIcon />}
-                    onClick={() => handleAccept(user.id)}
+                    onClick={() => handleAccept(user.id, user.user.id)}
                   >
                     Accept
                   </Button>
@@ -215,6 +227,7 @@ const Post = ({ post }) => {
   //   ];
 
   useEffect(() => {
+    console.log("postNavbar", post)
     const fetchRegistrations = async () => {
       try {
         const accessToken = JSON.parse(localStorage.getItem("access_token"));
@@ -237,7 +250,7 @@ const Post = ({ post }) => {
         <div className="user">
           <div className="userInfo">
             <img
-              src={`http://localhost:3500/${currentUser.data.profilePic}`}
+              src={currentUser.data.profilePic.url}
               alt=""
             />
             <div className="details">
@@ -253,7 +266,7 @@ const Post = ({ post }) => {
         </div>
         <div className="content">
           <p>{post.description}</p>
-          <img src={`http://localhost:3500/${post.imageURL}`} alt="" />
+          <img src={post?.image[0]?.url || ""} alt="" />
         </div>
         <div className="info">
           <div

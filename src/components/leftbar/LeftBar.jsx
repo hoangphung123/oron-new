@@ -21,7 +21,8 @@ const LeftBar = () => {
             {/* Link to navigate to the user's profile */}
             <Link to={`/profile/${currentUser.id}`}>
               <img
-                src={`http://localhost:3500/${currentUser.data.profilePic}`}
+                src={currentUser?.data?.profilePic?.url || ""
+                }
                 alt=""
               />
             </Link>
@@ -58,12 +59,12 @@ const LeftBar = () => {
           </div>
           <div className="item">
             <Link
-              to="/detailRegistation"
+              to="/advertise"
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <img src={Registation} alt="" />
             </Link>
-            <span>Your registration for order post</span>
+            <span>Sign up for advertising</span>
           </div>
           <hr />
           <div className="item">
@@ -81,7 +82,7 @@ const LeftBar = () => {
                 <div className="square">
                   <img
                     className="square_img"
-                    src={`http://localhost:3500/${post.imageURL}`}
+                    src={post?.image[0].url || ""}
                     alt=""
                   />
                 </div>

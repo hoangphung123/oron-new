@@ -54,6 +54,8 @@ $themes: (
   }
 }
 
+
+
 .field {
   @include themify($themes) {
     position: relative;
@@ -90,3 +92,9 @@ $themes: (
   }
 }
 
+html, body {
+  @include themify($themes) {
+    background-color: themed("bg");
+  }
+   /* Màu mặc định */
+}

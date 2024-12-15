@@ -5,6 +5,8 @@ import * as UserService from "../../server/userstore";
 import { RingLoader } from "react-spinners";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { DatePicker, Input } from "antd";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 const Register = () => {
   const [provinces, setProvinces] = useState([]);
@@ -26,6 +28,13 @@ const Register = () => {
   const [loadingAS, setLoadingAS] = useState(false);
   const [loadingOTP, setLoadingOTP] = useState(false);
   const [countdown, setCountdown] = useState(300);
+  const [gender, setGender] = useState("2");
+  const [birthDate, setBirthDate] = useState(null);
+
+  const handleDateChange = (date, dateString) => {
+    console.log("Selected date:", dateString);
+    // Handle date selection logic here
+  };
 
   const fetchProvinces = async () => {
     try {
@@ -112,17 +121,25 @@ const Register = () => {
   const handleRegisterClick = async () => {
     try {
       setLoading(true);
+      if (confirmPassword !== password) {
+        toast.error("Error: Confirm Password does not match Password.");
+        setLoading(false);
+        return;
+      }
       const userData = {
         username: username,
         password: password,
         name: name,
-        province: selectedProvince,
-        district: selectedDistrict,
-        ward: selectedWard,
-        specificAddress: specificAddress,
-        phoneNumber: phoneNumber,
+        // province: selectedProvince,
+        // district: selectedDistrict,
+        // ward: selectedWard,
+        birthDate: birthDate ? birthDate.format("YYYY-MM-DD") : null,
+        genderCD: gender,
+        // specificAddress: specificAddress,
+        // phoneNumber: phoneNumber,
         email: email,
       };
+      console.log("userRegis", userData);
 
       const registeredUser = await UserService.registerUser(userData);
 
@@ -223,9 +240,6 @@ const Register = () => {
       case "username":
         setUsername(value);
         break;
-      case "phoneNumber":
-        setPhoneNumber(value);
-        break;
       case "specificAddress":
         setSpecificAddress(value);
         break;
@@ -237,14 +251,14 @@ const Register = () => {
   return (
     <div className="register">
       <div className="card">
-        <h1>Register</h1>
-        <div className="right">
+        <h1>Create new account</h1>
+        <div className="form-section">
           <form className="form1">
             <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => handleInputChange(e, "email")}
+              type="text"
+              placeholder="User name"
+              value={username}
+              onChange={(e) => handleInputChange(e, "username")}
             />
             <input
               type="text"
@@ -253,78 +267,83 @@ const Register = () => {
               onChange={(e) => handleInputChange(e, "name")}
             />
             <input
-              type="text"
-              placeholder="UserName"
-              value={username}
-              onChange={(e) => handleInputChange(e, "username")}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => handleInputChange(e, "email")}
             />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => handleInputChange(e, "password")}
+            <div className="password-input">
+              <Input.Password
+                placeholder="Password"
+                iconRender={(visible) =>
+                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                }
+                value={password}
+                onChange={(e) => handleInputChange(e, "password")}
+              />
+            </div>
+            <div className="password-input">
+              <Input.Password
+                placeholder="Confirm Password"
+                iconRender={(visible) =>
+                  visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                }
+                value={confirmPassword}
+                onChange={(e) => handleInputChange(e, "confirmPassword")}
+              />
+            </div>
+            <DatePicker
+              className="input_date-ant"
+              onChange={(date) => {
+                setBirthDate(date); // Update the separate birthDate state
+              }}
+              value={birthDate}
             />
-            <input type="password" placeholder="Confirm Password" />
+            <div className="gender-selection">
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="0"
+                  checked={gender === "0"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                Male
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="1"
+                  checked={gender === "1"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                Female
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="gender"
+                  value="2"
+                  checked={gender === "2"}
+                  onChange={(e) => setGender(e.target.value)}
+                />
+                Unknown
+              </label>
+            </div>
           </form>
-          <form className="form2">
-            <select value={selectedProvince} onChange={handleSelectProvince}>
-              <option value="" disabled>
-                Province
-              </option>
-              {provinces.map((province) => (
-                <option key={province.id} value={province.id}>
-                  {province.name}
-                </option>
-              ))}
-            </select>
-            <select value={selectedDistrict} onChange={handleSelectDistricts}>
-              <option value="" disabled>
-                District
-              </option>
-              {districts.map((district) => (
-                <option key={district.id} value={district.id}>
-                  {district.name}
-                </option>
-              ))}
-            </select>
-            <select
-              value={selectedWard}
-              onChange={(e) => setSelectedWard(e.target.value)}
-            >
-              <option value="" disabled>
-                Ward
-              </option>
-              {wards.map((ward, index) => (
-                <option key={ward.id} value={ward.id}>
-                  {ward.name}
-                </option>
-              ))}
-            </select>
-            <input
-              type="text"
-              placeholder="Phone Number"
-              value={phoneNumber}
-              onChange={(e) => handleInputChange(e, "phoneNumber")}
-            />
-            <input
-              type="text"
-              placeholder="Specific Address"
-              value={specificAddress}
-              onChange={(e) => handleInputChange(e, "specificAddress")}
-            />
-          </form>
+          <button
+            className="button_register"
+            onClick={handleRegisterClick}
+            disabled={loading}
+          >
+            {loading ? (
+              <RingLoader size={20} color={"#1C1C1C"} loading={loading} />
+            ) : (
+              "Sign in"
+            )}
+          </button>
         </div>
-        <button
-          className="button_register"
-          onClick={handleRegisterClick}
-          disabled={loading}
-        >
-          {loading ? (
-            <RingLoader size={20} color={"#1C1C1C"} loading={loading} />
-          ) : (
-            "Register"
-          )}
-        </button>
       </div>
       <div className="card-left">
         <h1>ORON</h1>
@@ -363,7 +382,7 @@ const Register = () => {
                       loading={loadingAS}
                     />
                   ) : (
-                    "access"
+                    "Access"
                   )}
                 </button>
                 <button

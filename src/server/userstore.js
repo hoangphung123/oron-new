@@ -125,6 +125,34 @@ export const uploadPictureUser = async (accessToken, file) => {
   }
 };
 
+export const uploadToGoogleDrive = async (accessToken, file, alternativeText, relatedType, relatedId) => {
+  try {
+    // Tạo FormData để gửi multipart/form-data
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("alternativeText", alternativeText);
+    formData.append("relatedType", relatedType);
+    formData.append("relatedId", relatedId);
+
+    // Gửi yêu cầu API
+    const response = await axios.post(
+      `${api_url}/google-drive/specific`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    return response.data; // Trả về dữ liệu từ API
+  } catch (error) {
+    console.error("Error while uploading file to Google Drive:", error.message);
+    throw error;
+  }
+};
+
 export const uploadPictureUserCover = async (accessToken, file) => {
   try {
     // Create FormData object to send files as multipart/form-data
@@ -238,6 +266,25 @@ export const getUserByUsername = async (accessToken, username) => {
   }
 }
 
+export const getUserByUserId = async (accessToken, UserId) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/user/user-profile/${UserId}`, // Use URL parameters for username and limit
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const user = response.data;
+    return user;
+  } catch (error) {
+    console.error('Error while fetching user by username:', error.message);
+    throw error;
+  }
+}
+
 export const getFollowings = async (accessToken) => {
   try {
     const response = await axios.get(
@@ -332,6 +379,64 @@ export const UpdateProfile = async (accessToken, dataChange) => {
     return updateDataResult;
   } catch (error) {
     console.error('Error while changing password:', error.message);
+    throw error;
+  }
+}
+
+export const getPosition = async (accessToken) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/advertisement-position/`, // Use URL parameter for fileName
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const position = response.data;
+    return position;
+  } catch (error) {
+    console.error('Error while fetching user picture:', error.message);
+    throw error;
+  }
+}
+
+export const createDivertise = async (accessToken, dataAdvertise) => {
+  try {
+    const response = await axios.post(
+      `${api_url}/advertisement-banner`,
+      dataAdvertise,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const DataResultAdvertise = response.data;
+    return DataResultAdvertise;
+  } catch (error) {
+    console.error('Error while changing password:', error.message);
+    throw error;
+  }
+}
+
+export const getBanner = async (accessToken) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/advertisement-banner/contract/filter`, // Use URL parameter for fileName
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const banner = response.data;
+    return banner;
+  } catch (error) {
+    console.error('Error while fetching user picture:', error.message);
     throw error;
   }
 }

@@ -33,6 +33,8 @@ const Profile = () => {
 
   const api_url = "http://127.0.0.1:3500/api/v1";
 
+  const userStore = JSON.parse(localStorage.getItem("user"));
+
   const [coverImage, setCoverImage] = useState(
     "https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   );
@@ -106,6 +108,7 @@ const Profile = () => {
     try {
       if (selectedImages) {
         const accessToken = JSON.parse(localStorage.getItem("access_token"));
+        
 
         if (!accessToken) {
           console.error("Access token not found in localStorage");
@@ -116,10 +119,20 @@ const Profile = () => {
           accessToken,
           selectedImages
         );
+        const uploadPictureDriver = await Userserver.uploadToGoogleDrive(
+          accessToken, // Token xác thực
+          selectedImages, // File ảnh cần upload
+          "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
+          "user-profile", // relatedType (nếu là bài viết thì là "post")
+          userStore.data.id, // ID bài viết hoặc đối tượng liên quan
+        );
         setProfileImage(selectedImage);
         currentUser.data = {
           ...currentUser.data,
-          profilePic: uploadedPicture.data.profilePic,
+          profilePic: {
+            url: uploadPictureDriver.fileDetails.thumbnailLink,
+            alternativeText: "Ảnh minh họa", // Thêm mô tả thay thế
+          },
         };
         // console.log('curentUser',currentUser)
         // navigate(`/profile/${currentUser.data.id}`)
@@ -148,8 +161,15 @@ const Profile = () => {
           accessToken,
           selectedImages
         );
+        const uploadPictureDriver = await Userserver.uploadToGoogleDrive(
+          accessToken, // Token xác thực
+          selectedImages, // File ảnh cần upload
+          "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
+          "user-background", // relatedType (nếu là bài viết thì là "post")
+          userStore.data.id, // ID bài viết hoặc đối tượng liên quan
+        );
         setCoverImage(selectedImage);
-        console.log("Image saved successfully:", uploadedPicture);
+        console.log("Image saved successfully:", uploadPictureDriver);
         const profileUsers = await Userserver.getProfile(accessToken);
 
         setCurrentUser(profileUsers);
@@ -173,8 +193,8 @@ const Profile = () => {
 
         const user = JSON.parse(localStorage.getItem("user"));
         console.log(accessToken);
-        const pictureUser = user.data.profilePic;
-        const backtureUser = user.data.backgroundPic;
+        const pictureUser = user.data.profilePic.url;
+        const backtureUser = user.data.backgroundPic.url;
         console.log(user.data.profilePic);
 
         // Check if the access token is available
@@ -184,10 +204,10 @@ const Profile = () => {
           return;
         }
 
-        const userProfile = `http://localhost:3500/${pictureUser}`;
-        const userBackProfile = `http://localhost:3500/${backtureUser}`;
-        setProfileImage(userProfile);
-        setCoverImage(userBackProfile);
+        // const userProfile = `http://localhost:3500/${pictureUser}`;
+        // const userBackProfile = `http://localhost:3500/${backtureUser}`;
+        setProfileImage(pictureUser);
+        setCoverImage(backtureUser);
       } catch (error) {
         console.error("Error fetching user profile picture:", error);
       }
