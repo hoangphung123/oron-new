@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
 import { Edit, Trash2, Search } from "lucide-react";
 import { useState, useEffect } from "react";
-import * as AdminServe from "../../server/adminStore"; // Import hàm API
+import * as AdminServe from "../../server/adminStore";
 
 const ReportsTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredReports, setFilteredReports] = useState([]);
   const [reports, setReports] = useState([]);
+  const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [reportToDelete, setReportToDelete] = useState(null); // Lưu thông tin báo cáo cần xóa
 
-  // Hàm tìm kiếm
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -21,27 +22,50 @@ const ReportsTable = () => {
     setFilteredReports(filtered);
   };
 
-  // Gọi API GetReportByAdmin khi component được mount
-  useEffect(() => {
-    const fetchReports = async () => {
-      try {
+  const fetchReports = async () => {
+    try {
+      const accessToken = JSON.parse(
+        localStorage.getItem("access_token_admin")
+      );
+      if (accessToken) {
+        const fetchedReports = await AdminServe.getReportsByAdmin(
+          accessToken
+        );
+        setReports(fetchedReports.listData);
+        setFilteredReports(fetchedReports.listData);
+      }
+    } catch (error) {
+      console.error("Error fetching reports:", error);
+    }
+  };
+
+  const handleDeleteClick = (report) => {
+    setReportToDelete(report); // Gán báo cáo cần xóa
+    setShowConfirmPopup(true); // Hiển thị popup
+  };
+
+  const confirmDelete = async () => {
+    try {
+      if (reportToDelete) {
         const accessToken = JSON.parse(
           localStorage.getItem("access_token_admin")
         );
-        if (accessToken) {
-          const fetchedReports = await AdminServe.getReportsByAdmin(
-            accessToken
-          ); // Gọi API
-          setReports(fetchedReports.listData); // Lưu dữ liệu vào state reports
-          setFilteredReports(fetchedReports.listData); // Lưu dữ liệu vào state filteredReports
-        }
-      } catch (error) {
-        console.error("Error fetching reports:", error);
+        await AdminServe.deletePost(reportToDelete.id, accessToken); // Gọi API xóa
+        setReports((prev) => prev.filter((r) => r.id !== reportToDelete.id)); // Cập nhật state
+        setFilteredReports((prev) =>
+          prev.filter((r) => r.id !== reportToDelete.id)
+        );
+        setReportToDelete(null); // Reset state
+        setShowConfirmPopup(false); // Ẩn popup
       }
-    };
+    } catch (error) {
+      console.error("Error deleting report:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchReports();
-  }, []); // Dựng lại khi accessToken thay đổi
+  }, []);
 
   return (
     <motion.div
@@ -117,10 +141,15 @@ const ReportsTable = () => {
                   {report.user.username}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  <button className="text-indigo-400 hover:text-indigo-300 mr-2">
+                  {/* <button
+                    className="text-indigo-400 hover:text-indigo-300 mr-2"
+                  >
                     <Edit size={18} />
-                  </button>
-                  <button className="text-red-400 hover:text-red-300">
+                  </button> */}
+                  <button
+                    className="text-red-400 hover:text-red-300"
+                    onClick={() => handleDeleteClick(report)}
+                  >
                     <Trash2 size={18} />
                   </button>
                 </td>
@@ -129,6 +158,31 @@ const ReportsTable = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Popup xác nhận */}
+      {showConfirmPopup && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-gray-800 rounded-lg p-6 text-center shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">
+              Bạn có chắc chắn muốn xóa báo cáo này?
+            </h3>
+            <div className="flex justify-center">
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded-md mr-4 hover:bg-red-500"
+                onClick={confirmDelete}
+              >
+                Xác nhận
+              </button>
+              <button
+                className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-500"
+                onClick={() => setShowConfirmPopup(false)}
+              >
+                Hủy
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </motion.div>
   );
 };

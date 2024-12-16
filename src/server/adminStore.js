@@ -43,3 +43,19 @@ export const getReportsByAdmin = async (accessToken) => {
     throw error;
   }
 };
+
+export const deletePost = async (id, accessToken) => {
+  try {
+    const response = await axios.delete(`${api_url}/report/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log("Post deleted successfully");
+    return response.data;
+  } catch (error) {
+    console.error("Error while deleting the post:", error.message);
+    throw error;
+  }
+};
+
