@@ -1,9 +1,9 @@
 import "./navbar.scss";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+// import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
-import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
+// import GridViewOutlinedIcon from "@mui/icons-material/GridViewOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -29,7 +29,6 @@ import {
 import ImageNofication from "./IconNofication.png";
 import ImageMessage from "./IconMessage.png";
 import {
-  getAndSendTokenToBackend,
   messaging,
 } from "../../pages/nofication/filebase";
 import { onMessage } from "firebase/messaging";
