@@ -1,4 +1,4 @@
-import { BarChart2, DollarSign, Menu, Settings, ShoppingBag, ShoppingCart, TrendingUp, Users } from "lucide-react";
+import { BarChart2, DollarSign, Menu, Settings, ShoppingBag, ShoppingCart, TrendingUp, Users, Megaphone } from "lucide-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -7,6 +7,7 @@ import "../../pages/tailwind-styles.css"
 const SIDEBAR_ITEMS = [
 	{ name: "Users", icon: Users, color: "#EC4899", href: "/admin/users" },
 	{ name: "Report", icon: ShoppingBag, color: "#8B5CF6", href: "/admin" },
+	{ name: "Advertisement", icon: Megaphone, color: "#6EE7B7", href: "/admin/advertise" },
 	{ name: "Settings", icon: Settings, color: "#6EE7B7", href: "/admin/setting" },
 ];
 

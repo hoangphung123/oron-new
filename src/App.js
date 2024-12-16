@@ -26,6 +26,7 @@ import Home from "./pages/home/Home.jsx";
 import Profile from "./pages/profile/Profile.jsx";
 import ProfileFriends from "./pages/profileFriends/profileFriends.jsx";
 import ProductsPage from "./pages/admin/ProductsPage.jsx";
+import AdvertisesPage from "./pages/admin/AdvertisePage.jsx";
 // import Carousel from './components/carousel/Carousel.jsx';
 import "./style.scss";
 import { useContext, useEffect } from "react";
@@ -260,6 +261,10 @@ function App() {
         {
           path: "",
           element: <ProductsPage />,
+        },
+        {
+          path: "advertise",
+          element: <AdvertisesPage />,
         },
       ],
     },
