@@ -13,6 +13,8 @@ import UsersPage from "./pages/admin/UsersPage.jsx";
 import RankingNew from "./pages/rankingNew/rankingNew.jsx";
 import AdvertisePage from "./pages/advertise/advertise.jsx";
 import Post from "./pages/reaction/reaction.jsx";
+import ChatPage from "./pages/chat/chat.jsx";
+
 import {
   createBrowserRouter,
   Navigate,
@@ -35,6 +37,7 @@ import * as UserServices from "./server/userstore.js";
 import { getAndSendTokenToBackend , messaging } from "./pages/nofication/filebase.js";
 import { onMessage } from "firebase/messaging";
 import toast, {Toaster} from "react-hot-toast";
+import { Chat } from "@mui/icons-material";
 
 
 
@@ -197,6 +200,7 @@ function App() {
       path: "/detailRegistation",
       element: <DetailRegistation />,
     },
+
     {
       path: "/",
       element: (
@@ -216,6 +220,10 @@ function App() {
         {
           path: "/post",
           element: <Post />,
+        },
+        {
+          path: "/chat",
+          element: <ChatPage />,
         },
       ],
     },
