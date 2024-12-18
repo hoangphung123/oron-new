@@ -352,7 +352,7 @@ const NavBar = () => {
             <SearchOutlinedIcon />
             <input
               type="text"
-              placeholder="Tìm kiếm..."
+              placeholder="Searching..."
               value={searchQuery}
               onChange={handleSearchChange}
               onClick={handleSearchClick}
@@ -384,17 +384,17 @@ const NavBar = () => {
                   );
                 })
               ) : (
-                <div>Không có tìm kiếm gần đây</div>
+                <div>No recent searches</div>
               )}
             </div>
           )}
         </div>
       </div>
-      <div className="center">
+      {/* <div className="center">
         <PersonOutlinedIcon />
         <EmailOutlinedIcon />
         <NotificationsOutlinedIcon />
-      </div>
+      </div> */}
       <div className="right">
         <div className="user" onClick={handleUserClick}>
           <img src={currentUser?.data?.profilePic?.url || ""} alt="" />

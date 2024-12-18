@@ -2,7 +2,7 @@
 
 .rightBar {
   @include themify($themes) {
-    flex: 3;
+    flex: 2;
     position: sticky;
     top: 50px;
     // height: calc(100vh - 70px);
@@ -27,6 +27,7 @@
         padding: 20px;
         margin-bottom: 20px;
         background-color: themed("bg");
+        border-radius: 8px;
 
         span {
           color: gray;
@@ -97,7 +98,60 @@
             }
           }
         }
+        
       }
+      
+    }
+    .advertisement {
+      background-color: themed("bg");
+      color: white;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      margin-bottom: 20px;
+
+    }
+    span {
+      font-weight: 500;
+      color: gray;    }
+    .divider {
+      margin: 10px 0;
+
+    }
+    
+    .ad-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      color: themed("textColor");
+
+    }
+    
+    .ad-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+    }
+    
+    .ad-image {
+      width: 90px;
+      height: 90px;
+      border-radius: 8px;
+    }
+    
+    .ad-content h3 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: bold;
+      color: themed("textColor");
+    }
+    
+    .ad-content a {
+      color: #00aaff;
+      text-decoration: none;
+      font-size: 12px;
     }
   }
+  
 }

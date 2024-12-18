@@ -10,6 +10,7 @@
     background-color: themed("bgs");
     color: themed("textColor");
     height: 100vh;
+    
 
     @include mobile {
       display: none;
@@ -23,6 +24,8 @@
       margin-top: 20px;
       padding: 20px;
       background-color: themed("bg");
+      border-radius: 8px;
+
 
       hr {
         margin: 20px 0;
