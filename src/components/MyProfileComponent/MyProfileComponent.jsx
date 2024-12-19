@@ -51,7 +51,7 @@ const MyProfileComponent = () => {
         ward: selectedWard,
         genderCD: genderCD,
         phoneNumber: phoneNumber,
-        relatedUrl: relatedUrl
+        relatedUrl: relatedUrl,
       };
 
       const response = await UserSever.UpdateProfile(
@@ -140,7 +140,7 @@ const MyProfileComponent = () => {
         setGenderCD(profileResponse.data.genderCD);
         setMail(profileResponse.data.email);
         setPhoneNumber(profileResponse.data.phoneNumber);
-        setRelatedUrl(profileResponse.data.relatedUrl)
+        setRelatedUrl(profileResponse.data.relatedUrl);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -222,14 +222,14 @@ const MyProfileComponent = () => {
                 <div className="firstname">
                   {/* <label>First Name</label> */}
                   <label>Full Name</label>
-                    <input
-                      type="text"
-                      id="firstname"
-                      value={firstName}
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                      }}
-                    />
+                  <input
+                    type="text"
+                    id="firstname"
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                    }}
+                  />
                   {/* <label>Name</label> */}
                   {/* <div class="field">
                     <input type="text" id="name" placeholder="..." />
@@ -303,7 +303,7 @@ const MyProfileComponent = () => {
                   ))}
                 </select>
                 <label>Specific Address</label>
-                {/* <div class="field"> */}
+                <div class="field">
                   <input
                     type="text"
                     id="SpecificAddress"
@@ -315,7 +315,7 @@ const MyProfileComponent = () => {
                   {/* <label for="SpecificAddress">Specific Address</label> */}
                 </div>
               </div>
-            // </div>
+            </div>
           )}
           {activeTab === "Other" && (
             <div className="other-section">
