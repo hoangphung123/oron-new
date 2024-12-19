@@ -6,7 +6,7 @@ import Ranking from "./pages/ranking/Ranking.jsx";
 import Reportadmin from "./pages/reportadmin/Reportadmin.jsx";
 import DetailRegistation from "./pages/detailRegister/detail.jsx";
 import DetailSavePost from "./pages/detailSavePost/detailSavePosr.jsx";
-import Sidebar from "./components/common/Sidebar.jsx"
+import Sidebar from "./components/common/Sidebar.jsx";
 import SettingsPage from "./pages/admin/SettingsPage.jsx";
 import LoginAdmin from "./pages/admin/loginAdmin/LoginAdmin.jsx";
 import UsersPage from "./pages/admin/UsersPage.jsx";
@@ -35,20 +35,26 @@ import { useContext, useEffect } from "react";
 import { DarkModeContext } from "./context/darkModeContext.js";
 import { AuthContext } from "./context/authContext.js";
 import * as UserServices from "./server/userstore.js";
-import { getAndSendTokenToBackend , messaging } from "./pages/nofication/filebase.js";
+import {
+  getAndSendTokenToBackend,
+  messaging,
+} from "./pages/nofication/filebase.js";
 import { onMessage } from "firebase/messaging";
-import toast, {Toaster} from "react-hot-toast";
-
-
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
-  useEffect(() => {
-    getAndSendTokenToBackend()
-    onMessage(messaging, (payload) => {
-      console.log(payload)
-      toast.success(payload.notification.body);
-    })
-  },[])
+  // useEffect(() => {
+  //   console.log("useEffect has been triggered.");
+  //   onMessage(messaging, (payload) => {
+  //     console.log("Full Payload:", payload);
+  //     // if (payload) {
+  //     //   console.log("Notification body:", payload.notification.body);
+  //     // } else {
+  //     //   console.log("Notification data:", payload.data); // Kiểm tra dữ liệu trong trường hợp không có `notification`
+  //     // }
+  //     toast.success("No body found");
+  //   });
+  // }, []);
   //common layout
 
   //not login
@@ -111,21 +117,21 @@ function App() {
 
   const LayoutAdmin = () => {
     return (
-      <div className='flex h-screen bg-gray-900 text-gray-100 overflow-hidden'>
-			{/* BG */}
-			<div className='fixed inset-0 z-0'>
-				<div className='absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80' />
-				<div className='absolute inset-0 backdrop-blur-sm' />
-			</div>
-			<Sidebar />
-			<Outlet />
-		</div>
+      <div className="flex h-screen bg-gray-900 text-gray-100 overflow-hidden">
+        {/* BG */}
+        <div className="fixed inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 opacity-80" />
+          <div className="absolute inset-0 backdrop-blur-sm" />
+        </div>
+        <Sidebar />
+        <Outlet />
+      </div>
     );
   };
 
   //Protected Route (check login or not yet)
   const ProtectedRoute = ({ children }) => {
-    console.log("currentUser", currentUser)
+    console.log("currentUser", currentUser);
     if (!currentUser) {
       return <Navigate to="/login" />;
     }
@@ -222,8 +228,8 @@ function App() {
         },
         {
           path: "/loading",
-          element: <Loading/>,
-        }
+          element: <Loading />,
+        },
       ],
     },
     {
@@ -240,8 +246,8 @@ function App() {
         },
         {
           path: "/advertise",
-          element: <AdvertisePage/>
-        }
+          element: <AdvertisePage />,
+        },
       ],
     },
     {
@@ -279,7 +285,7 @@ function App() {
 
   return (
     <div>
-      <Toaster position="top-right"/>
+      <Toaster className="sssss" position="top-right" />
       <RouterProvider router={router} />
     </div>
   );

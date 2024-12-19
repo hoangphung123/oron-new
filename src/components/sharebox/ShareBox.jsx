@@ -58,6 +58,16 @@ export default function Share() {
     onDrop,
   });
 
+  const resetField = () => {
+    setDescription("");
+    setSelectedCategory("");
+    setSelectedDistrict("");
+    setSelectedProvince("");
+    setSelectedWard("");
+    setSelectedImages(null);
+
+  }
+
   const fetchCategory = async () => {
     try {
       const response = await UserServices.getCategory(1);
@@ -253,6 +263,7 @@ export default function Share() {
       };
 
       setPosts((prevPosts) => [newData, ...prevPosts]);
+      resetField()
       setOpenloading(false);
       setIsPopupOpen(false);  
       toast.success(`Success: ${registeredUser.message}`);

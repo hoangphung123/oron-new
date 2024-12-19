@@ -4,6 +4,8 @@ import { useContext, useState  } from "react"
 import { AuthContext } from "../../context/authContext"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Logo from "./Logo.png"
+import { getAndSendTokenToBackend} from "../nofication/filebase";
 
 // const Login = () => {
 //   const [inputs, setInputs] = useState({
@@ -75,6 +77,7 @@ const Login = () => {
   const handleLogin = async ()=>{
     try{
       await login(inputs);
+      getAndSendTokenToBackend()
       console.log("OK")
       toast.success('success')
       navigate("/")
@@ -86,28 +89,29 @@ const Login = () => {
     <div className="form-container">
       <div className="background-image"></div>
       <div className="form-box">
+        <img src={Logo} alt="logo" className="Login-logo" />
         <form className="Form-login">
           <h2 className="title-login">Login to continue</h2>
           <input className="input-login" type="email" placeholder="Email" name="username" onChange={handleChange} />
           <input className="input-login" type="password" placeholder="Password" name="password" onChange={handleChange} />
           <div className="remember-block">
             <label>
-              <input type="checkbox" />
-              Remember me
+              {/* <input type="checkbox" />
+              Remember me */}
             </label>
-            <a href="/">Forgot password?</a>
+            <a href="/forgotpassword">Forgot password?</a>
           </div>
           <button className="button-login" type="button" onClick={handleLogin}>
             Sign in
           </button>
-          <div className="social-login">
+          {/* <div className="social-login">
             <a href="/">
               <i class="fa-brands fa-facebook" style={{ color: "#3398e6" }}></i>
             </a>
             <a href="/">
               <i class="fa-brands fa-google" style={{color: '#e26e6e'}}></i>
             </a>
-          </div>
+          </div> */}
           <p className="acount">
             Don't have an account? <a href="/register">Sign up</a>
           </p>
