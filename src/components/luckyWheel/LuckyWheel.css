@@ -1,0 +1,66 @@
+.luckywheel-container {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.wheel-wrapper {
+  margin: 20px auto;
+  width: 400px;
+  position: relative;
+}
+
+.wheel-svg {
+  width: 100%;
+  height: auto;
+}
+
+.frame {
+    fill: #62a250;
+}
+
+.sector {
+  stroke: #fff;
+  stroke-width: 2px;
+}
+
+.sector:nth-child(even) {
+  fill: #14c187;
+}
+
+.sector:nth-child(odd) {
+  fill: #fc7800;
+}
+
+.pointer {
+  fill: #ff0000;
+}
+
+.prize-text {
+  font-size: 12px;
+  fill: #fff;
+  font-weight: bold;
+}
+
+.btn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+}

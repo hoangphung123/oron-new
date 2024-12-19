@@ -653,6 +653,23 @@ export const createReaction = async (accessToken, reactionData) => {
   }
 }
 
+export const deleteReaction = async (accessToken, reactionId) => {
+  try {
+    const response = await axios.delete(`${api_url}/reaction/${reactionId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // You can handle the response here if needed
+    return response.data;
+  } catch (error) {
+    // Handle error, show a notification, or perform other actions
+    throw new Error(`Error deleting reaction: ${error.message}`);
+  }
+};
+
+
 export const createReportByPostId = async (accessToken, reportData) => {
   try {
     const response = await axios.post(`${api_url}/report`, reportData, {

@@ -6,6 +6,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import Posts from "../../components/posts/Posts";
 import { AuthContext } from "../../context/authContext";
 import { useContext, useState, useEffect } from "react";
@@ -23,6 +24,7 @@ import { PostsContext } from "../../context/postContext";
 import ShareBox from "../../components/sharebox/ShareBox";
 import MyProfileComponent from "../../components/MyProfileComponent/MyProfileComponent";
 import FriendComponent from "../../components/FriendComponent/FriendComponent";
+import Loading from "../../components/loading/Loading";
 
 const Profile = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
@@ -45,6 +47,7 @@ const Profile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedImages, setSelectedImages] = useState(null);
   const [activeTab, setActiveTab] = useState("Post");
+  const [openloading, setOpenloading] = useState(false);
 
   const handleCoverImageUpload = async (e) => {
     try {
@@ -105,10 +108,10 @@ const Profile = () => {
   };
 
   const handleSaveImage = async () => {
+    setOpenloading(true);
     try {
       if (selectedImages) {
         const accessToken = JSON.parse(localStorage.getItem("access_token"));
-        
 
         if (!accessToken) {
           console.error("Access token not found in localStorage");
@@ -124,16 +127,16 @@ const Profile = () => {
           selectedImages, // File ảnh cần upload
           "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
           "user-profile", // relatedType (nếu là bài viết thì là "post")
-          userStore.data.id, // ID bài viết hoặc đối tượng liên quan
+          userStore.data.id // ID bài viết hoặc đối tượng liên quan
         );
-        setProfileImage(selectedImage);
-        currentUser.data = {
-          ...currentUser.data,
-          profilePic: {
-            url: uploadPictureDriver.fileDetails.thumbnailLink,
-            alternativeText: "Ảnh minh họa", // Thêm mô tả thay thế
-          },
-        };
+        setProfileImage(selectedImages);
+        // currentUser.data = {
+        //   ...currentUser.data,
+        //   profilePic: {
+        //     url: uploadPictureDriver.fileDetails.thumbnailLink,
+        //     alternativeText: "Ảnh minh họa", // Thêm mô tả thay thế
+        //   },
+        // };
         // console.log('curentUser',currentUser)
         // navigate(`/profile/${currentUser.data.id}`)
         const profileUsers = await Userserver.getProfile(accessToken);
@@ -141,6 +144,7 @@ const Profile = () => {
         setCurrentUser(profileUsers);
       }
 
+      setOpenloading(false);
       closePopup();
     } catch (error) {
       console.error("Error saving image:", error);
@@ -148,6 +152,7 @@ const Profile = () => {
   };
 
   const handleSaveImageCover = async () => {
+    setOpenloading(true);
     try {
       if (selectedImages) {
         const accessToken = JSON.parse(localStorage.getItem("access_token"));
@@ -166,7 +171,7 @@ const Profile = () => {
           selectedImages, // File ảnh cần upload
           "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
           "user-background", // relatedType (nếu là bài viết thì là "post")
-          userStore.data.id, // ID bài viết hoặc đối tượng liên quan
+          userStore.data.id // ID bài viết hoặc đối tượng liên quan
         );
         setCoverImage(selectedImage);
         console.log("Image saved successfully:", uploadPictureDriver);
@@ -174,6 +179,8 @@ const Profile = () => {
 
         setCurrentUser(profileUsers);
       }
+
+      setOpenloading(false);
 
       closePopupCover();
     } catch (error) {
@@ -254,19 +261,27 @@ const Profile = () => {
       {isPopupOpen && (
         <>
           <div className="overlay" onClick={closePopup}></div>
-          <div className="popups">
+          <div className="popupImage">
             <div className="popup-content">
               <span className="close" onClick={closePopup}>
                 &times;
               </span>
-              <h2>Enter OTP Code</h2>
+              <h2>Select Image</h2>
+
               <div className="imageContainer">
                 <div {...getRootProps()} className="dropzone">
                   <input {...getInputProps()} />
-                  <p>image here</p>
+                  <p className="dropzone-content"><AddCircleOutlineIcon className="icon-dropzone"></AddCircleOutlineIcon></p>
+                  {selectedImage && <img src={selectedImage} alt="Selected" />}
                 </div>
-                {selectedImage && <img src={selectedImage} alt="Selected" />}
+
+                {/* {selectedImage && (
+                  <div className="preview">
+                    <img src={selectedImage} alt="Selected" />
+                  </div>
+                )} */}
               </div>
+
               <div className="button_AS">
                 <button className="Access_button" onClick={handleSaveImage}>
                   Save Image
@@ -276,21 +291,23 @@ const Profile = () => {
           </div>
         </>
       )}
+
       {isPopupOpenCover && (
         <>
           <div className="overlay" onClick={closePopupCover}></div>
-          <div className="popups">
+          <div className="popupImage">
             <div className="popup-content">
               <span className="close" onClick={closePopupCover}>
                 &times;
               </span>
-              <h2>Set Image</h2>
+              <h2>Sellect image</h2>
               <div className="imageContainer">
                 <div {...getRootProps()} className="dropzone">
                   <input {...getInputProps()} />
-                  <p>image here</p>
+                  <p className="dropzone-content"><AddCircleOutlineIcon className="icon-dropzone"></AddCircleOutlineIcon></p>
+                  {selectedImage && <img src={selectedImage} alt="Selected" />}
                 </div>
-                {selectedImage && <img src={selectedImage} alt="Selected" />}
+                
               </div>
               <div className="button_AS">
                 <button
@@ -365,6 +382,7 @@ const Profile = () => {
       )}
       {activeTab === "Friend" && <FriendComponent />}
       {activeTab === "My Profile" && <MyProfileComponent />}
+      {openloading && <Loading></Loading>}
     </div>
   );
 };

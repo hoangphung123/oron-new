@@ -66,104 +66,129 @@
         height: 50px;
       }
     }
-    .popups {
+    .popupImage {
       position: fixed;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      padding: 20px;
-      border: 1px solid #ccc;
-      z-index: 999;
-      width: 20%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: rgba(255, 255, 255, 0.384); /* Màu nền mờ với độ mờ 45% */
-      backdrop-filter: blur(30px); /* Tạo hiệu ứng mờ bằng backdrop-filter */
-      box-shadow: 0 4px 6px rgba(226, 223, 223, 0.704);
+      background-color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
       border-radius: 10px;
-      min-height: 200px;
-      overflow: hidden;
-      z-index: 2;
-
-      input {
-        border: none;
-        padding: 20px;
-        width: 80%;
-        margin-bottom: 20px;
-      }
-
-      h2 {
-        color: #555;
-        font-size: 30px;
-        margin-bottom: 20px;
-        margin-top: -20px;
-      }
-
-      p {
-        display: flex;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        height: 50%;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .imageContainer {
-        width: 100%;
-        height: 227px;
-        border: 2px solid;
-        margin-bottom: 20px;
-      }
-
-      .imageContainer img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
+      width: 30%;
+      padding: 20px;
+      z-index: 1000;
 
       .popup-content {
+        text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        width: 100%;
 
-        .button_AS {
-          width: calc(80% + 40px);
+        h2 {
+          margin-bottom: 15px;
+          font-size: 24px;
+          color: #333;
+        }
+
+        .imageContainer {
+          width: 100%;
+          height: 300px;
           display: flex;
-          justify-content: space-between;
+          flex-direction: column;
+          align-items: center;
+          overflow: auto;
 
-          .Access_button {
-            width: 35%;
-            padding: 5px;
-            border: none;
-            background-color: rgb(174, 222, 228);
-            font-weight: bold;
-            color: rgb(242, 242, 242);
+          .dropzone {
+            width: 100%;
+            // height: 100%;
+            // padding: 20px;
+            border: 5px dashed #ddd;
+            border-radius: 10px;
+            text-align: center;
+            color: #999;
             cursor: pointer;
-            border-radius: 5px;
-            display: flex;
-            justify-content: center;
+            // position: absolute;
+
+            &:hover {
+              // background-color: #f7f7f7;
+              border-color: #449dd8;
+            }
+
+            &:hover .dropzone-content.icon-dropzone {
+              color: #4d95e2e0; // Thay đổi màu của icon-dropzone khi hover
+            }
+
+            .dropzone-content {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+
+              .icon-dropzone {
+                font-size: 100px;
+                color: #4d95e241;
+              }
+            }
           }
 
-          .SendOTP_button {
-            width: 60%;
-            padding: 5px;
-            border: none;
-            background-color: rgb(29, 67, 89);
-            font-weight: bold;
-            color: rgb(242, 242, 242);
-            cursor: pointer;
-            border-radius: 5px;
+          .preview {
+            margin-top: 15px;
+            width: 100%;
+            max-height: 100%; /* Giới hạn chiều cao ảnh trong dropzone */
+            overflow: auto;
             display: flex;
             justify-content: center;
+
+            img {
+              max-width: 100%; /* Giữ ảnh vừa khít với khung */
+              height: auto; /* Đảm bảo giữ đúng tỷ lệ ảnh */
+              border-radius: 5px;
+            }
+          }
+        }
+
+        .button_AS {
+          margin-top: 20px;
+
+          .Access_button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4caf50;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+              background-color: #45a049;
+            }
           }
         }
       }
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #555;
+
+        &:hover {
+          color: red;
+        }
+      }
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
     }
 
     .close {

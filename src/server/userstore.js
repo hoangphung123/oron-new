@@ -441,6 +441,30 @@ export const getBanner = async (accessToken) => {
   }
 }
 
+export const getPositionAvailable = async (accessToken, startDate, endDate) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/advertisement-position/user/filter`, // URL API
+      {
+        params: {
+          selectedStartDate: startDate, // Thêm selectedStartDate vào params
+          selectedEndDate: endDate,     // Thêm selectedEndDate vào params
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // Token xác thực
+        },
+      }
+    );
+
+    const positions = response.data;
+    return positions; // Trả về dữ liệu kết quả
+  } catch (error) {
+    console.error("Error while fetching available positions:", error.message);
+    throw error; // Ném lỗi để xử lý bên ngoài
+  }
+};
+
+
 
 
 

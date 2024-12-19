@@ -340,7 +340,7 @@ const Register = () => {
             {loading ? (
               <RingLoader size={20} color={"#1C1C1C"} loading={loading} />
             ) : (
-              "Sign in"
+              "Sign up"
             )}
           </button>
         </div>

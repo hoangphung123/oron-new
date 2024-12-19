@@ -9,12 +9,14 @@ import {
   Select,
   Input,
   Checkbox,
+  Tooltip,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import "./advertise.scss";
 import UseHomePage from "./UserHomePage.png";
 import * as UserServer from "../../server/userstore";
 import moment from "moment";
+import Loading from "../../components/loading/Loading";
 
 const AdvertisePage = () => {
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
@@ -30,9 +32,46 @@ const AdvertisePage = () => {
     images: [], // Chứa danh sách ảnh cùng vị trí
   });
   const [currentImage, setCurrentImage] = useState(null); // Ảnh hiện tại để gắn vị trí
+  const [errors, setErrors] = useState({
+    startDate: false,
+    endDate: false,
+  });
+  const [positionStatus, setPositionStatus] = useState({});
+  const [openloading, setOpenloading] = useState(false);
+
+  const handleDateChange = async (field, value) => {
+    // Cập nhật formData và kiểm tra lỗi
+    const updatedFormData = { ...formData, [field]: value };
+    setFormData(updatedFormData);
+    setErrors({ ...errors, [field]: !value });
+
+    // Kiểm tra nếu cả startDate và endDate đều đã được chọn
+    if (updatedFormData.startDate && updatedFormData.endDate) {
+      try {
+        const accessToken = JSON.parse(localStorage.getItem("access_token")); // Lấy token từ localStorage
+        const positions = await UserServer.getPositionAvailable(
+          accessToken,
+          updatedFormData.startDate,
+          updatedFormData.endDate
+        );
+        // Gắn trạng thái id và dateStatusCd vào state positionStatus
+        const statusMap = {};
+        positions.listData.forEach((pos) => {
+          statusMap[pos.id] = pos.dateStatusCd;
+        });
+        setPositionStatus(statusMap); // Ví dụ: Lưu vào state positions
+      } catch (error) {
+        console.error("Failed to fetch available positions:", error);
+      }
+    }
+  };
+
+  const isAnyPositionUnavailable = formData.images.some(
+    (img) => positionStatus[img.position.id] === "Unavailable"
+  );
 
   useEffect(() => {
-    const fetchPositions = async () => {     
+    const fetchPositions = async () => {
       try {
         const response = await UserServer.getPosition(accessToken);
         setPositions(response.listData || []); // Cập nhật danh sách vị trí
@@ -43,11 +82,11 @@ const AdvertisePage = () => {
     const fectchBanner = async () => {
       try {
         const response = await UserServer.getBanner(accessToken);
-        setBanner(response.listData || [])
-      }catch (error) {
+        setBanner(response.listData || []);
+      } catch (error) {
         console.error("Lỗi khi lấy danh sách vị trí:", error);
       }
-    }
+    };
     fectchBanner();
     fetchPositions();
   }, []);
@@ -97,53 +136,79 @@ const AdvertisePage = () => {
     },
   ];
 
-  // Status tags
   const statusTags = {
-    0: { text: "Đang chờ duyệt", color: "blue" },
-    1: { text: "Đã duyệt", color: "green" },
-    2: { text: "Đã thanh toán", color: "purple" },
+    1: { text: "Đang chờ duyệt", color: "green" },
+    2: { text: "Đang chờ thanh toán", color: "purple" },
     3: { text: "Bị từ chối", color: "red" },
+    4: { text: "Đã thanh toán", color: "blue" },
   };
 
-  // Columns definition
   const columns = [
     {
-      title: "Ảnh quảng cáo",
+      title: "Ảnh minh họa",
       dataIndex: "image",
       key: "image",
       render: (image) => (
-        <img src={image} alt="Quảng cáo" style={{ width: 100 }} />
+        <img
+          src={image.url}
+          alt={image.alternativeText}
+          style={{ width: 100 }}
+        />
       ),
     },
+    {
+      title: "Tên Banner",
+      dataIndex: "bannerName",
+      key: "bannerName",
+    },
+    {
+      title: "Vị trí hiển thị",
+      dataIndex: "positionName",
+      key: "positionName",
+    },
+    // {
+    //   title: "Kích thước",
+    //   dataIndex: "positionDimention",
+    //   key: "positionDimention",
+    // },
     {
       title: "Ngày bắt đầu",
       dataIndex: "startDate",
       key: "startDate",
+      render: (date) => new Date(date).toLocaleDateString("vi-VN"),
     },
     {
       title: "Ngày kết thúc",
       dataIndex: "endDate",
       key: "endDate",
+      render: (date) => new Date(date).toLocaleDateString("vi-VN"),
     },
     {
-      title: "Tổng tiền",
-      dataIndex: "totalAmount",
-      key: "totalAmount",
+      title: "Tổng chi phí",
+      dataIndex: "totalCost",
+      key: "totalCost",
+      render: (cost) => `${cost.toLocaleString()} VND`,
+    },
+    {
+      title: "Tên khách hàng",
+      dataIndex: "clientName",
+      key: "clientName",
     },
     {
       title: "Tình trạng",
-      dataIndex: "status",
-      key: "status",
-      render: (status) => (
-        <Tag color={statusTags[status].color}>{statusTags[status].text}</Tag>
-      ),
+      dataIndex: "contractStatus",
+      key: "contractStatus",
+      render: (status) => {
+        const { text, color } = statusTags[status] || {};
+        return <Tag color={color || "default"}>{text || "Không xác định"}</Tag>;
+      },
     },
     {
       title: "Hành động",
       key: "action",
       render: (_, record) => (
-        <Button danger onClick={() => handleDelete(record.key)}>
-          Delete
+        <Button danger onClick={() => handleDelete(record.contractId)}>
+          Xóa
         </Button>
       ),
     },
@@ -170,6 +235,7 @@ const AdvertisePage = () => {
   };
 
   const handleCreateOk = async () => {
+    setOpenloading(true);
     const accessToken = JSON.parse(localStorage.getItem("access_token"));
     try {
       // Lặp qua mỗi image trong formData.images và gọi API cho mỗi image
@@ -194,7 +260,26 @@ const AdvertisePage = () => {
         };
 
         // Gọi API createDivertise từ UserServer với requestData và accessToken
-        await UserServer.createDivertise(accessToken, requestData);
+        const bannerData = await UserServer.createDivertise(
+          accessToken,
+          requestData
+        );
+        const bannerId = bannerData.data.bannerId;
+        const selectedImage = image.originFileObj;
+
+        try {
+          await UserServer.uploadToGoogleDrive(
+            accessToken, // Token xác thực
+            selectedImage, // File ảnh cần upload
+            "Ảnh minh họa", // alternativeText
+            "advertisement-banner", // Thư mục hoặc định danh loại ảnh
+            bannerId // ID banner liên quan
+          );
+
+          console.log(`Image ${i + 1} uploaded successfully to Google Drive.`);
+        } catch (uploadError) {
+          console.error(`Error uploading image ${i + 1}:`, uploadError);
+        }
 
         console.log(`Advertisement created for image ${i + 1}`);
       }
@@ -211,6 +296,8 @@ const AdvertisePage = () => {
         endDate: "",
         images: [], // Reset danh sách ảnh
       });
+
+      setOpenloading(false);
 
       // Đóng modal sau khi tất cả các API được gọi
       setIsCreateModalVisible(false);
@@ -283,6 +370,7 @@ const AdvertisePage = () => {
       image: URL.createObjectURL(file), // URL của ảnh
       position: "", // Chưa có vị trí
       uid: file.uid, // Thêm `uid` của ảnh từ `file`
+      originFileObj: file, // Lưu file thực tế để upload
     };
 
     setFormData((prev) => ({
@@ -296,6 +384,17 @@ const AdvertisePage = () => {
     return false; // Ngừng hành động upload mặc định
   };
 
+  const handleUploadClick = (e) => {
+    if (!formData.startDate || !formData.endDate) {
+      // Ngăn chặn hành động mở cửa sổ upload
+      e.preventDefault();
+      setErrors({
+        startDate: !formData.startDate,
+        endDate: !formData.endDate,
+      });
+    }
+  };
+
   return (
     <div className="advertise">
       <div className="advertise_container">
@@ -306,7 +405,7 @@ const AdvertisePage = () => {
         >
           Create
         </Button>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={banner} />
       </div>
 
       {/* Create Advertise Modal */}
@@ -315,8 +414,10 @@ const AdvertisePage = () => {
         visible={isCreateModalVisible}
         onOk={handleCreateOk}
         onCancel={handleCreateCancel}
+        footer={null}
         okText="Submit"
         cancelText="Cancel"
+        okButtonProps={{ disabled: isAnyPositionUnavailable }}
       >
         <div>
           <label>Ngày bắt đầu:</label>
@@ -324,9 +425,14 @@ const AdvertisePage = () => {
             style={{ width: "100%", marginBottom: 16 }}
             value={formData.startDate ? moment(formData.startDate) : null}
             onChange={(date, dateString) =>
-              handleInputChange("startDate", dateString)
+              handleDateChange("startDate", dateString)
             }
           />
+          {errors.startDate && (
+            <div style={{ color: "red", fontSize: "12px" }}>
+              Bạn phải chọn ngày bắt đầu
+            </div>
+          )}
         </div>
 
         <div>
@@ -335,9 +441,14 @@ const AdvertisePage = () => {
             style={{ width: "100%", marginBottom: 16 }}
             value={formData.endDate ? moment(formData.endDate) : null}
             onChange={(date, dateString) =>
-              handleInputChange("endDate", dateString)
+              handleDateChange("endDate", dateString)
             }
           />
+          {errors.endDate && (
+            <div style={{ color: "red", fontSize: "12px" }}>
+              Bạn phải chọn ngày kết thúc
+            </div>
+          )}
         </div>
         {/* Banner Name */}
         <div>
@@ -397,14 +508,19 @@ const AdvertisePage = () => {
           <label>Hình ảnh quảng cáo:</label>
           <Upload
             listType="picture-card"
-            maxCount={5} // Giới hạn 5 ảnh
+            maxCount={3} // Giới hạn 5 ảnh
             fileList={fileList}
             onRemove={handleRemoveImage}
             beforeUpload={handleAddImage}
+            disabled={
+              !formData.startDate ||
+              !formData.endDate ||
+              formData.images.length === 3
+            }
             Upload
             onChange={({ fileList: newFileList }) => setFileList(newFileList)}
           >
-            <div>
+            <div onClick={handleUploadClick}>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>Upload</div>
             </div>
@@ -413,18 +529,58 @@ const AdvertisePage = () => {
           <div style={{ marginTop: 16 }}>
             <h4>Danh sách ảnh đã chọn:</h4>
             <div className="upload_content-img">
-              {formData.images.map((img, index) => (
-                <div className="img-content" key={index}>
-                  <img
-                    src={img.image}
-                    alt="Quảng cáo"
-                    style={{ width: 100, marginRight: 8 }}
-                  />
-                  <span>{img.position.name || "Chưa chọn"}</span>
-                </div>
-              ))}
+              {formData.images.map((img, index) => {
+                const isUnavailable =
+                  positionStatus[img.position.id] === "Unavailable";
+
+                return (
+                  <div className="img-content" key={index}>
+                    <img
+                      src={img.image}
+                      alt="Quảng cáo"
+                      style={{ width: 100, marginRight: 8 }}
+                    />
+                    <span style={{ color: isUnavailable ? "red" : "black" }}>
+                      {img.position.name || "Chưa chọn"}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            marginTop: 16,
+            flexDirection: "row-reverse",
+            gap: 10,
+          }}
+        >
+          <Button
+            type="primary"
+            danger
+            ghost
+            // disabled={isAnyPositionUnavailable}
+            onClick={handleCreateCancel}
+          >
+            Cancel
+          </Button>
+          <Tooltip
+            title={
+              isAnyPositionUnavailable
+                ? "Nút này bị vô hiệu hóa vì một số vị trí đã chọn không khả dụng."
+                : ""
+            }
+          >
+            <Button
+              type="primary"
+              disabled={isAnyPositionUnavailable}
+              onClick={handleCreateOk}
+            >
+              Submit
+            </Button>
+          </Tooltip>
         </div>
       </Modal>
 
@@ -456,6 +612,7 @@ const AdvertisePage = () => {
           ))}
         </div>
       </Modal>
+      {openloading && <Loading></Loading>}
     </div>
   );
 };

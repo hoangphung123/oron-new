@@ -113,7 +113,7 @@
       .input_description {
         display: flex;
         height: 100px;
-        width: 96%; /* hoặc giá trị mong muốn cho chiều cao */
+        width: 100%; /* hoặc giá trị mong muốn cho chiều cao */
         padding: 20px 0 20px 4%;
         resize: vertical;
         margin-bottom: 20px;
@@ -191,11 +191,13 @@
         border: none;
         margin-left: -2px;
         background: #e9e9e9;
+        overflow: auto;
       }
 
       .imageContainer img {
         width: 100%;
-        height: 100%;
+        height: auto;
+        // max-height: 100%;
         object-fit: cover;
         position: relative;
         top: 0;

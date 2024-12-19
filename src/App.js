@@ -13,6 +13,8 @@ import UsersPage from "./pages/admin/UsersPage.jsx";
 import RankingNew from "./pages/rankingNew/rankingNew.jsx";
 import AdvertisePage from "./pages/advertise/advertise.jsx";
 import Post from "./pages/reaction/reaction.jsx";
+import LuckyWheel from "./components/luckyWheel/LuckyWheel.jsx";
+import Loading from "./components/loading/Loading.jsx";
 import {
   createBrowserRouter,
   Navigate,
@@ -218,6 +220,10 @@ function App() {
           path: "/post",
           element: <Post />,
         },
+        {
+          path: "/loading",
+          element: <Loading/>,
+        }
       ],
     },
     {
