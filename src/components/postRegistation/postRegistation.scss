@@ -39,7 +39,6 @@
 
             .date {
               font-size: 12px;
-
             }
           }
         }
@@ -77,12 +76,12 @@
           object-fit: cover;
           border-top-left-radius: 8px;
           border-bottom-left-radius: 8px;
-          border: 2px solid #411B57;
+          border: 2px solid #411b57;
         }
 
         .modalRight {
           width: 100%;
-          border: 2px solid #411B57;
+          border: 2px solid #411b57;
         }
 
         .closeBtn {
@@ -103,7 +102,7 @@
           text-align: center;
           margin-top: 3rem;
           padding: 1rem 2rem;
-          color: #411B57;
+          color: #411b57;
         }
 
         .btnContainer {
@@ -113,7 +112,7 @@
 
         .btnContainer button {
           width: 100%;
-          margin: .5rem;
+          margin: 0.5rem;
           padding: 16px 0;
           /* border: none; */
           border: 1px solid #411b57;
@@ -203,6 +202,11 @@
         align-items: center;
         justify-content: space-between;
         margin-top: 10px;
+
+        .registered-button {
+          display: flex;
+          gap: 10px;
+        }
       }
 
       .user-details {
@@ -212,12 +216,11 @@
         margin-left: 10px;
       }
 
-      .user-detailss{
+      .user-detailss {
         display: flex;
         font-size: 10px;
         align-items: center;
       }
-
     }
 
     .popup {
@@ -243,7 +246,6 @@
       z-index: 2;
       height: 45%;
 
-
       input {
         border: none;
         width: 96%;
@@ -264,7 +266,6 @@
         background: #e9e9e9;
         /* Thêm các thuộc tính CSS khác nếu cần thiết */
       }
-
 
       select {
         border: none;
@@ -354,7 +355,6 @@
           width: 60%;
           margin-right: 40px;
           margin-top: -67px;
-
         }
 
         .left {
@@ -368,7 +368,6 @@
           position: relative;
           top: -144px;
         }
-
       }
 
       .popup-title {
@@ -396,8 +395,6 @@
         width: 100%;
         height: 20%;
         top: 0;
-
-
       }
 
       .popup-action {

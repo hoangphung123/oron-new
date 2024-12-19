@@ -21,7 +21,8 @@ import { useDropzone } from "react-dropzone";
 import Button from "@mui/material/Button";
 import * as Itemserver from "../../server/itemstore";
 import { PostsContext } from "../../context/postContext";
-
+import LuckyWheel from "../luckyWheel/LuckyWheel";
+import ModalLucky from "../modalLucky/ModalLucky";
 
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
@@ -65,7 +66,7 @@ const Post = ({ post }) => {
         title: "accept register",
         itemRid: post.id,
         content: `${currentUser.data.username} đã duyệt yêu cầu của bạn`, // Sửa lỗi ở đây
-        typeCd: "2"
+        typeCd: "2",
       };
 
       const deletedRegis = await Itemserver.deleteRegisById(
@@ -75,7 +76,10 @@ const Post = ({ post }) => {
       );
 
       setRegistrationUpdated((prev) => !prev); // Đảo ngược giá trị để kích thích việc render lại component
-      await Itemserver.createNoficationRegisPost(accessToken, dataNoficationAccept);
+      await Itemserver.createNoficationRegisPost(
+        accessToken,
+        dataNoficationAccept
+      );
       // Cập nhật state hoặc thực hiện các công việc khác sau khi xóa thành công
       console.log("Registration deleted successfully:", deletedRegis);
     } catch (error) {
@@ -88,10 +92,20 @@ const Post = ({ post }) => {
   const RegisteredUsersComponent = ({ postId }) => {
     // Filter user data for the specific post
     const postUsers = userDataArray.filter((user) => user.post.id === postId);
-    console.log("postUsers", postUsers)
+    const [showLuckyWheel, setShowLuckyWheel] = useState(false);
+    console.log("postUsers", postUsers);
 
     return (
       <div className="registered-users">
+        {postUsers.length >= 4 && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setShowLuckyWheel(true)}
+          >
+            Random
+          </Button>
+        )}
         {postUsers.map((user) => (
           <div key={user.id} className="user-item">
             <div className="user-detailss">
@@ -105,7 +119,7 @@ const Post = ({ post }) => {
                 <span className="message">{user.message}</span>
               </div>
             </div>
-            <div>
+            <div className="registered-button">
               {user.status === 1 && (
                 <>
                   <Button
@@ -150,6 +164,15 @@ const Post = ({ post }) => {
             </div>
           </div>
         ))}
+        {showLuckyWheel && (
+          <ModalLucky onClose={() => setShowLuckyWheel(false)}>
+            <LuckyWheel
+              postUsers={postUsers}
+              onAccept={handleAccept}
+              onClose={() => setShowLuckyWheel(false)}
+            />
+          </ModalLucky>
+        )}
       </div>
     );
   };
@@ -227,13 +250,13 @@ const Post = ({ post }) => {
   //   ];
 
   useEffect(() => {
-    console.log("postNavbar", post)
+    console.log("postNavbar", post);
     const fetchRegistrations = async () => {
       try {
         const accessToken = JSON.parse(localStorage.getItem("access_token"));
         const registrations = await Itemserver.getRegistrationsByPostId(
           accessToken,
-          post.id,
+          post.id
         );
         setUserDataArray(registrations.listData);
       } catch (error) {
@@ -249,10 +272,7 @@ const Post = ({ post }) => {
       <div className="container">
         <div className="user">
           <div className="userInfo">
-            <img
-              src={currentUser.data.profilePic.url}
-              alt=""
-            />
+            <img src={currentUser.data.profilePic.url} alt="" />
             <div className="details">
               <Link
                 to={`/profile/${post.userId}`}
@@ -279,9 +299,7 @@ const Post = ({ post }) => {
               : "Registation for this post"}
           </div>
         </div>
-        {showRegisteredUsers && (
-          <RegisteredUsersComponent postId={post.id} />
-        )}
+        {showRegisteredUsers && <RegisteredUsersComponent postId={post.id} />}
       </div>
       <ToastContainer />
     </div>

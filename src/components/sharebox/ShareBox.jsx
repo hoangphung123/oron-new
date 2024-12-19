@@ -14,6 +14,7 @@ import Button from "@mui/material/Button";
 import ImageCreate from "../../assets/choseImage.png";
 import IconAddress from "../../assets/icon.png";
 import IconTag from "../../assets/IconTag.png";
+import Loading from "../loading/Loading"
 // import Carousel from '../carousel/Carousel';
 
 export default function Share() {
@@ -33,6 +34,7 @@ export default function Share() {
   const { setPosts } = useContext(PostsContext);
   const Status = ["Công Khai", "Riêng tư", "Bạn bè"];
   const [selectedStatus, setSelectedStatus] = useState("Công Khai");
+  const [openloading, setOpenloading] = useState(false);
 
   const openPopup = () => {
     setIsPopupOpen(true);
@@ -160,6 +162,7 @@ export default function Share() {
   };
 
   const handleRegisterClick = async () => {
+    setOpenloading(true);
     try {
       let statusValue;
       switch (selectedStatus) {
@@ -250,7 +253,8 @@ export default function Share() {
       };
 
       setPosts((prevPosts) => [newData, ...prevPosts]);
-      setIsPopupOpen(false);
+      setOpenloading(false);
+      setIsPopupOpen(false);  
       toast.success(`Success: ${registeredUser.message}`);
       // setShowPopup(true);
     } catch (error) {
@@ -427,6 +431,7 @@ export default function Share() {
           </>
         )}
       </div>
+      {openloading && <Loading></Loading>}
       <ToastContainer />
     </div>
   );

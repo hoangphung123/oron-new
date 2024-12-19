@@ -596,7 +596,7 @@ const DetailPost = ({ post }) => {
                       <div className="left-container">
                         <h1>Ảnh</h1>
                         <div className="imageContainer">
-                          <div {...getRootProps()} className="dropzone">
+                          <div {...getRootProps()} className="dropzones">
                             <input {...getInputProps()} />
                             <p className="imageContainer_p">+</p>
                           </div>

@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import { useContext, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../components/modal/modal";
@@ -33,7 +33,7 @@ import IconTag from "../../assets/IconTag.png";
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const { currentUser } = useContext(AuthContext);
+  const { currentUser, setCurrentUserId } = useContext(AuthContext);
   const [anchorEl, setAnchorEl] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -69,34 +69,46 @@ const Post = ({ post }) => {
   const [selectedReaction, setSelectedReaction] = useState(""); // Chuỗi rỗng: trạng thái mặc định
   const [showIcons, setShowIcons] = useState(false);
   const [curentIcon, SetCurrentIcon] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (post.currentUserReaction?.type) {
       setSelectedReaction(post.currentUserReaction.type);
-      SetCurrentIcon(true)
+      SetCurrentIcon(true);
     }
   }, [post]);
 
   const iconMapping = [
-    { id: 1, type: "like", emoji: "👍" },
-    { id: 2, type: "love", emoji: "❤️" },
-    { id: 3, type: "haha", emoji: "😂" },
-    { id: 4, type: "wow", emoji: "😮" },
-    { id: 5, type: "sad", emoji: "😢" },
-    { id: 6, type: "angry", emoji: "😡" },
+    { id: 0, type: "like", emoji: "👍" },
+    { id: 1, type: "love", emoji: "❤️" },
+    { id: 2, type: "haha", emoji: "😂" },
+    // { id: 4, type: "wow", emoji: "😮" },
+    // { id: 5, type: "sad", emoji: "😢" },
+    { id: 3, type: "angry", emoji: "😡" },
   ];
 
   const updateReaction = async (reactionId, reactionID) => {
     try {
       if (reactionId === selectedReaction) {
+        const accessToken = JSON.parse(localStorage.getItem("access_token"));
+        const reactionIdPost = reactionID.currentUserReaction.id;
+        if (reactionIdPost) {
+          try {
+            await Itemserver.deleteReaction(accessToken, reactionIdPost);
+            toast.success(`Reaction delete successfully`);
+          } catch (error) {
+            toast.error(`Error when delete Reaction`);
+          }
+        }
         // Nếu nhấn vào icon hiện tại, reset về default (xóa trạng thái)
         // await axios.delete("/api/reactions");
         setSelectedReaction(""); // Reset về default
-        console.log("reactionID", reactionId)
-        SetCurrentIcon(false)
+        console.log("reactionID", reactionID);
+        SetCurrentIcon(false);
       } else {
         // Nếu chọn icon khác, cập nhật trạng thái
         // await axios.post("/api/reactions", { reactionId });
+        console.log("reactionID", reactionID);
         createReaction(post.id, reactionId);
         setSelectedReaction(reactionId); // Cập nhật trạng thái
       }
@@ -243,7 +255,7 @@ const Post = ({ post }) => {
     if (post.user.username === currentUser.data.username) {
       toast.error("This post belongs to you.");
     } else {
-      console.log(post)
+      console.log(post);
       setOpenModal(true);
     }
   };
@@ -577,12 +589,14 @@ const Post = ({ post }) => {
     }
   };
 
-  const handleLikeHover = (event) => {
-    setLikeAnchorEl(event.currentTarget);
-  };
+  const handleUserClicks = ({ userId, username }) => {
+    // Use the userId and username
+    const updatedUserId = { userId, username };
+    setCurrentUserId(updatedUserId);
 
-  const handleLikeLeave = () => {
-    setLikeAnchorEl(null);
+    // Store the updated user data in localStorage
+    localStorage.setItem("friends", JSON.stringify(updatedUserId));
+    navigate("/profileFriends");
   };
 
   return (
@@ -592,12 +606,17 @@ const Post = ({ post }) => {
           <div className="userInfo">
             <img src={post?.user?.profilePic?.url || ""} alt="" />
             <div className="details">
-              <Link
-                to={`/profile/${post.userId}`}
-                style={{ textDecoration: "none", color: "inherit" }}
+              <div
+                style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }}
+                onClick={() =>
+                  handleUserClicks({
+                    userId: post.user.id,
+                    username: post.user.username,
+                  })
+                }
               >
                 <span className="name">{post.user.username}</span>
-              </Link>
+              </div>
               <span className="date">1 min ago</span>
             </div>
           </div>
@@ -905,7 +924,7 @@ const Post = ({ post }) => {
                   {iconMapping.map((icon) => (
                     <button
                       key={icon.id}
-                      onClick={() => updateReaction(icon.id, post.currentUserReaction.id)}
+                      onClick={() => updateReaction(icon.id, post)}
                       className={`text-2xl p-2 rounded ${
                         selectedReaction === icon.id
                           ? "bg-blue-200"

@@ -8,7 +8,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import IconButton from "@mui/material/IconButton";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { PostsContext } from "../../context/postContext";
 import Rating from "react-rating";
 import CommentBox from "../comment/Commentbox";
@@ -49,7 +49,7 @@ const Comments = ({ postId }) => {
         },
       },
     ]);
-    console.log(comments)
+    console.log(comments);
   };
 
   // const onChange = (comment) => {
@@ -276,17 +276,19 @@ const Comments = ({ postId }) => {
     <div className="comments">
       {Reviewer.map((Reviewers) => (
         <div className="comment" key={Reviewers.id}>
-          <img
-            src={`http://localhost:3500/${Reviewers.user.profilePic}`}
-            alt=""
-          />
-          <div className="info">
-            <span>{Reviewers.user.username}</span>
-            <p>{Reviewers.description}</p>
+          <div className="comment-content">
+            <img
+              src={`http://localhost:3500/${Reviewers.user.profilePic}`}
+              alt=""
+            />
+            <div className="info">
+              <span>{Reviewers.user.username}</span>
+            </div>
           </div>
+          <p className="comment_content-description">{Reviewers.description}</p>
           <div>
             {currentUser.data.username === Reviewers.user.username && (
-              <div>
+              <div className="comment-button">
                 <Button
                   variant="outlined"
                   color="error"
