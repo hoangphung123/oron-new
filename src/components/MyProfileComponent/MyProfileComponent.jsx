@@ -219,9 +219,9 @@ const MyProfileComponent = () => {
                 <strong>Personal Information</strong>
               </h3>
               <div className="details-form">
-                <div className="details_Personal">
+                <div className="firstname">
                   {/* <label>First Name</label> */}
-                  <div class="field">
+                  <label>Full Name</label>
                     <input
                       type="text"
                       id="firstname"
@@ -230,13 +230,11 @@ const MyProfileComponent = () => {
                         setFirstName(e.target.value);
                       }}
                     />
-                    <label for="firstname">firstname</label>
-                  </div>
                   {/* <label>Name</label> */}
-                  <div class="field">
+                  {/* <div class="field">
                     <input type="text" id="name" placeholder="..." />
                     <label for="name">name</label>
-                  </div>
+                  </div> */}
                 </div>
                 <label>Birthday</label>
                 <DatePicker
@@ -304,8 +302,8 @@ const MyProfileComponent = () => {
                     </option>
                   ))}
                 </select>
-                {/* <label>Specific Address</label> */}
-                <div class="field">
+                <label>Specific Address</label>
+                {/* <div class="field"> */}
                   <input
                     type="text"
                     id="SpecificAddress"
@@ -314,10 +312,10 @@ const MyProfileComponent = () => {
                       setSpecificAddress(e.target.value);
                     }}
                   />
-                  <label for="SpecificAddress">Specific Address</label>
+                  {/* <label for="SpecificAddress">Specific Address</label> */}
                 </div>
               </div>
-            </div>
+            // </div>
           )}
           {activeTab === "Other" && (
             <div className="other-section">
