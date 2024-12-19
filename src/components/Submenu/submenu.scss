@@ -16,7 +16,7 @@
          box-shadow: 0px 0px 25px -10px rgba(0, 0, 0, 0.38);
         margin-bottom: 10px;
     /* Adjust padding as needed */
-    }
+    
 
     .button-category {
         display: flex;
@@ -30,9 +30,27 @@
             width: 60px;
             height: auto;
             object-fit: cover;
-        }
+            border-radius: 50%;
+            background-color: themed("bgl");        }
     }
-
+}
+    .image-wrapper {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%; 
+        background-color: white; 
+        display: flex; 
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+      }
+      
+      .image-wrapper img {
+        max-width: 80%; 
+        max-height: 80%;
+        object-fit: contain; 
+      }
+      
 
     .button {
         width: 50px;

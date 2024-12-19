@@ -156,8 +156,8 @@ const FriendProfileComponent = () => {
       <div className="profile-container-title">
         <h2>My Profile</h2>
         <div className="profile-container_button">
-          <img src={ButtonCanncel} alt="buttonCanncel" onClick={DeleteData} />
-          <img src={ButtonSave} alt="" onClick={handleSaveProfile} />
+          {/* <img src={ButtonCanncel} alt="buttonCanncel" onClick={DeleteData} />
+          <img src={ButtonSave} alt="" onClick={handleSaveProfile} /> */}
         </div>
       </div>
 
