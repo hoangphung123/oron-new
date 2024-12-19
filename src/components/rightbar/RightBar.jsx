@@ -121,6 +121,42 @@ const RightBar = () => {
           )}
         </div>
         {/* Third Item */}
+        <div className="advertisement">
+      <span>Sponsored</span>
+      <hr className="divider" />
+      <div className="ad-container">
+        {/* Ad Item 1 */}
+        <div className="ad-item">
+          <img
+            src="https://viettel-hanoi.vn/wp-content/uploads/2022/08/trung-tam-viettel-quan-ba-dinh-2.jpg" // Thay bằng link ảnh thực tế
+            alt="Ad 1"
+            className="ad-image"
+          />
+          <div className="ad-content">
+            <h3>Đăng ký truyền hình TV360 - tặng đến 4 tháng cước =&gt;</h3>
+            <a href="https://viettel.vn" target="_blank" rel="noopener noreferrer">
+              viettel.vn
+            </a>
+          </div>
+        </div>
+
+        {/* Ad Item 2 */}
+        <div className="ad-item">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZsaCQOFPrS53FPHn3WI6fhaz_71Vo5nPPw&s" // Thay bằng link ảnh thực tế
+            alt="Ad 2"
+            className="ad-image"
+          />
+          <div className="ad-content">
+            <h3>ƯU ĐÃI PIN XỊN</h3>
+            <a href="https://cellphones.com.vn" target="_blank" rel="noopener noreferrer">
+              cellphones.com.vn
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>        
+        {/* Third Item */}
         <div className="item">
           <span>Contact</span>
           <hr className="item_contact" />
