@@ -51,7 +51,7 @@ const MyProfileComponent = () => {
         ward: selectedWard,
         genderCD: genderCD,
         phoneNumber: phoneNumber,
-        relatedUrl: relatedUrl
+        relatedUrl: relatedUrl,
       };
 
       const response = await UserSever.UpdateProfile(
@@ -140,7 +140,7 @@ const MyProfileComponent = () => {
         setGenderCD(profileResponse.data.genderCD);
         setMail(profileResponse.data.email);
         setPhoneNumber(profileResponse.data.phoneNumber);
-        setRelatedUrl(profileResponse.data.relatedUrl)
+        setRelatedUrl(profileResponse.data.relatedUrl);
       } catch (error) {
         console.error("Error fetching user profile:", error);
       }
@@ -219,24 +219,22 @@ const MyProfileComponent = () => {
                 <strong>Personal Information</strong>
               </h3>
               <div className="details-form">
-                <div className="details_Personal">
+                <div className="firstname">
                   {/* <label>First Name</label> */}
-                  <div class="field">
-                    <input
-                      type="text"
-                      id="firstname"
-                      value={firstName}
-                      onChange={(e) => {
-                        setFirstName(e.target.value);
-                      }}
-                    />
-                    <label for="firstname">firstname</label>
-                  </div>
+                  <label>Full Name</label>
+                  <input
+                    type="text"
+                    id="firstname"
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                    }}
+                  />
                   {/* <label>Name</label> */}
-                  <div class="field">
+                  {/* <div class="field">
                     <input type="text" id="name" placeholder="..." />
                     <label for="name">name</label>
-                  </div>
+                  </div> */}
                 </div>
                 <label>Birthday</label>
                 <DatePicker
@@ -304,7 +302,7 @@ const MyProfileComponent = () => {
                     </option>
                   ))}
                 </select>
-                {/* <label>Specific Address</label> */}
+                <label>Specific Address</label>
                 <div class="field">
                   <input
                     type="text"
@@ -314,7 +312,7 @@ const MyProfileComponent = () => {
                       setSpecificAddress(e.target.value);
                     }}
                   />
-                  <label for="SpecificAddress">Specific Address</label>
+                  {/* <label for="SpecificAddress">Specific Address</label> */}
                 </div>
               </div>
             </div>
