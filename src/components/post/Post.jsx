@@ -156,7 +156,7 @@ const Post = ({ post }) => {
     setDescription(post.description);
     setSelectedImages(post.image[0].url);
     setSelectedImage(post.imageURL);
-
+    handleClose()
     setIsEditPopupOpen(true);
   };
 
@@ -706,11 +706,11 @@ const Post = ({ post }) => {
                       <div className="left-container">
                         <div className="imageContainer">
                           <div {...getRootProps()} className="dropzone">
-                            <img
+                            {/* <img
                               className="zone_image"
                               src={selectedImages}
                               alt=""
-                            />
+                            /> */}
                             <input {...getInputProps()}></input>
                             {selectedImages && (
                               <img src={selectedImages} alt="Selected" />
