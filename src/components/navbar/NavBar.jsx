@@ -148,12 +148,12 @@ const NavBar = () => {
   useEffect(() => {
     // Lắng nghe thông báo từ FCM
     onMessage(messaging, (payload) => {
-      console.log(payload);
-      // toast.success(payload.notification.body);
+      // console.log(payload);
+      toast.success(payload.notification.body);
 
       // Cập nhật số lượng thông báo
       setNotificationCount((prev) => prev + 1);
-      setNotifications((prev) => [...prev, payload.notification]);
+      // setNotifications((prev) => [...prev, payload.notification]);
     });
     fetchNofication();
   }, []);
@@ -231,6 +231,7 @@ const NavBar = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("access_token");
     localStorage.removeItem("user");
     // setCurrentUser(null)
     // Chuyển hướng đến trang đăng nhập (hoặc trang khác tùy thuộc vào yêu cầu của bạn)
