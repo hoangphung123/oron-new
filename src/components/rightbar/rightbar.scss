@@ -116,6 +116,10 @@
       color: gray;    }
     .divider {
       margin: 10px 0;
+      margin-bottom: 20px;
+      border: none;
+      height: 0.5px;
+      background-color: themed("border");
 
     }
     
