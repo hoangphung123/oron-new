@@ -59,3 +59,41 @@ export const deletePost = async (id, accessToken) => {
   }
 };
 
+export const updateReport = async (id, status, accessToken) => {
+  try {
+    const response = await axios.patch(
+      `${api_url}/report/${id}`,
+      { status: status.toString() },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log("Report updated successfully");
+    return response.data;
+  } catch (error) {
+    console.error("Error while updating the report:", error.message);
+    throw error;
+  }
+};
+
+export const getBanner = async (accessToken) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/advertisement-banner/contract/filter`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log("Banner data retrieved successfully");
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching banner data:", error.message);
+    throw error;
+  }
+};
+
+

@@ -3,13 +3,15 @@ import "./submenu.scss"; // Import your CSS file
 import { PostsContext } from "../../context/postContext";
 import * as Itemserver from "../../server/itemstore";
 
+
 // Import your local images
-import Cloud from './Cloud.png';
-import Github from './Github.png';
-import Keyboard from './keyboard.png';
-import Move from './Move.png';
-import Tv from './Tv.png';
-import User from './User.png';
+import MonitorSmartphone from './monitor-smartphone.png';
+import Sport from './trophy.png';
+import Fashion from './shirt.png';
+import Food from './concierge-bell.png';
+import Pet from './paw-print.png';
+import Technology from './cpu.png';
+import All from './expand.png';
 
 const ButtonCategory = ({ categoryId, image, label }) => {
   const { setPosts, setCategoryIds } = useContext(PostsContext);
@@ -38,13 +40,13 @@ const ButtonCategory = ({ categoryId, image, label }) => {
 const CombinedComponent = () => {
   return (
     <div className="button-frame-container">
-      <ButtonCategory categoryId="ed35da00-a982-4d4c-8bee-fbe029d232b1" image={Cloud} label="Cloud" />
-      <ButtonCategory categoryId="aa062f2a-14fa-4abb-a822-9cbac97e0a63" image={Github} label="Github" />
-      <ButtonCategory categoryId="a830190e-c8dc-4e55-96f7-14bd760e9a86" image={Keyboard} label="Keyboard" />
-      <ButtonCategory categoryId="24c46936-1329-46d6-aa1b-3e324f804793" image={Move} label="Move" />
-      <ButtonCategory categoryId="af18fd57-069e-4a61-88e1-6e7f035bff89" image={Tv} label="TV" />
-      <ButtonCategory categoryId="95d55557-2ede-4ba4-a964-db971686908b" image={User} label="User" />
-      <ButtonCategory categoryId="95d55557-2ede-4ba4-a964-db971686908b" image={User} label="User" />
+      <ButtonCategory categoryId="da56aeb0-2653-494b-96a1-4fe81e3f4d51" image={MonitorSmartphone} label="Household" />
+      <ButtonCategory categoryId="e2af9faa-67d7-4b68-af10-64d9e15ef91f" image={Sport} label="Sport" />
+      <ButtonCategory categoryId="5d0dca3f-bd6d-4a4f-8bc3-11be84b34557" image={Fashion} label="Fashion" />
+      <ButtonCategory categoryId="01a407d6-eaa3-413d-bbc5-fbf365653cc2" image={Food} label="Food" />
+      <ButtonCategory categoryId="80e175cd-0958-495f-8dd7-02921c306ccd" image={Pet} label="Pet" />
+      <ButtonCategory categoryId="93aeb35d-5fa9-425c-b393-457682e1716c" image={Technology} label="Technology" />
+      <ButtonCategory categoryId="" image={All} label="All" />
     </div>
   );
 };

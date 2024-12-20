@@ -1,14 +1,36 @@
 import { motion } from "framer-motion";
-import { Edit, Trash2, Search } from "lucide-react";
+import { Edit, Trash2, Search, CircleCheckBig } from "lucide-react";
 import { useState, useEffect } from "react";
 import * as AdminServe from "../../server/adminStore";
+import * as Itemserver from "../../server/itemstore";
 
 const ReportsTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredReports, setFilteredReports] = useState([]);
   const [reports, setReports] = useState([]);
   const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+  const [showConfirmPopupAccess, setShowConfirmPopupAccess] = useState(false);
   const [reportToDelete, setReportToDelete] = useState(null); // Lưu thông tin báo cáo cần xóa
+  const [postToDelete, setPostToDelete] = useState(null);
+
+  const REPORT_STATUS = {
+    PENDING: 1,
+    ACCEPTED: 2,
+    CANCELED: 3,
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case REPORT_STATUS.PENDING:
+        return "text-yellow-400";
+      case REPORT_STATUS.ACCEPTED:
+        return "text-green-400";
+      case REPORT_STATUS.CANCELED:
+        return "text-red-400";
+      default:
+        return "text-gray-400";
+    }
+  };
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
@@ -28,9 +50,8 @@ const ReportsTable = () => {
         localStorage.getItem("access_token_admin")
       );
       if (accessToken) {
-        const fetchedReports = await AdminServe.getReportsByAdmin(
-          accessToken
-        );
+        const fetchedReports = await AdminServe.getReportsByAdmin(accessToken);
+        console.log("fetchedReports", fetchedReports);
         setReports(fetchedReports.listData);
         setFilteredReports(fetchedReports.listData);
       }
@@ -44,19 +65,65 @@ const ReportsTable = () => {
     setShowConfirmPopup(true); // Hiển thị popup
   };
 
+  const handleHidePost = (report) => {
+    setPostToDelete(report); // Gán báo cáo cần xóa
+    setShowConfirmPopupAccess(true); // Hiển thị popup
+  };
+
   const confirmDelete = async () => {
+    // const dataNofication = {
+    //   userRid: reportToDelete.user.id,
+    //   title: "Report Post",
+    //   itemRid: reportToDelete.post.id,
+    //   content: `Your report is not identified`, // Sửa lỗi ở đây
+    //   typeCd: "0",
+    // };
     try {
-      if (reportToDelete) {
+      if (postToDelete) {
         const accessToken = JSON.parse(
           localStorage.getItem("access_token_admin")
         );
-        await AdminServe.deletePost(reportToDelete.id, accessToken); // Gọi API xóa
-        setReports((prev) => prev.filter((r) => r.id !== reportToDelete.id)); // Cập nhật state
-        setFilteredReports((prev) =>
-          prev.filter((r) => r.id !== reportToDelete.id)
-        );
+        await AdminServe.updateReport(reportToDelete.id, 3 , accessToken); // Gọi API xóa
+        // setReports((prev) => prev.filter((r) => r.id !== reportToDelete.id)); // Cập nhật state
+        // setFilteredReports((prev) =>
+        //   prev.filter((r) => r.id !== reportToDelete.id)
+        // );
+        // await Itemserver.createNoficationRegisPost(accessToken, dataNofication);
         setReportToDelete(null); // Reset state
+        fetchReports();
         setShowConfirmPopup(false); // Ẩn popup
+      }
+    } catch (error) {
+      console.error("Error deleting report:", error);
+    }
+  };
+
+  const confirmDeletePost = async () => {
+    // const dataNofication = {
+    //   userRid: reportToDelete.user.id,
+    //   title: "Report Post",
+    //   itemRid: reportToDelete.post.id,
+    //   content: `Your report has been approved`, // Sửa lỗi ở đây
+    //   typeCd: "0",
+    // };
+    const updatedata = {
+      status: 3
+    }
+    try {
+      if (postToDelete) {
+        const accessToken = JSON.parse(
+          localStorage.getItem("access_token_admin")
+        );
+        await AdminServe.updateReport(postToDelete.id, 2 , accessToken); // Gọi API xóa
+        // setReports((prev) => prev.filter((r) => r.id !== reportToDelete.id)); // Cập nhật state
+        // setFilteredReports((prev) =>
+        //   prev.filter((r) => r.id !== reportToDelete.id)
+        // );
+        await Itemserver.updatePost(accessToken, postToDelete.post.id, updatedata);
+        // await Itemserver.createNoficationRegisPost(accessToken, dataNofication);
+        setPostToDelete(null); // Reset state
+        fetchReports();
+        setShowConfirmPopupAccess(false); // Ẩn popup
       }
     } catch (error) {
       console.error("Error deleting report:", error);
@@ -99,7 +166,7 @@ const ReportsTable = () => {
                 Description
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Image
+                Status
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Created At
@@ -127,12 +194,14 @@ const ReportsTable = () => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   {report.description}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm">
-                  <img
-                    src={`http://localhost:3500/${report.post.imageURL}`}
-                    alt="Report Image"
-                    className="w-12 h-12 rounded-md"
-                  />
+                <td
+                  className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${getStatusColor(
+                    report.status
+                  )}`}
+                >
+                  {Object.keys(REPORT_STATUS).find(
+                    (key) => REPORT_STATUS[key] === report.status
+                  )}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   {new Date(report.createdAt).toLocaleString()}
@@ -141,17 +210,22 @@ const ReportsTable = () => {
                   {report.user.username}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                  {/* <button
-                    className="text-indigo-400 hover:text-indigo-300 mr-2"
-                  >
-                    <Edit size={18} />
-                  </button> */}
-                  <button
-                    className="text-red-400 hover:text-red-300"
-                    onClick={() => handleDeleteClick(report)}
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                  {report.status === REPORT_STATUS.PENDING && (
+                    <>
+                      <button
+                        className="text-indigo-400 hover:text-indigo-300 mr-2"
+                        onClick={() => handleHidePost(report)}
+                      >
+                        <CircleCheckBig color="#79c9ec" size={18} />
+                      </button>
+                      <button
+                        className="text-red-400 hover:text-red-300"
+                        onClick={() => handleDeleteClick(report)}
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </>
+                  )}
                 </td>
               </motion.tr>
             ))}
@@ -159,25 +233,47 @@ const ReportsTable = () => {
         </table>
       </div>
 
-      {/* Popup xác nhận */}
       {showConfirmPopup && (
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
           <div className="bg-gray-800 rounded-lg p-6 text-center shadow-lg">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">
-              Bạn có chắc chắn muốn xóa báo cáo này?
+              Are you sure you want to delete this report?
             </h3>
             <div className="flex justify-center">
               <button
                 className="bg-red-600 text-white px-4 py-2 rounded-md mr-4 hover:bg-red-500"
                 onClick={confirmDelete}
               >
-                Xác nhận
+                Confirm
               </button>
               <button
                 className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-500"
                 onClick={() => setShowConfirmPopup(false)}
               >
-                Hủy
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {showConfirmPopupAccess && (
+        <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+          <div className="bg-gray-800 rounded-lg p-6 text-center shadow-lg">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">
+              Are you sure you want to hide this post?
+            </h3>
+            <div className="flex justify-center">
+              <button
+                className="bg-red-600 text-white px-4 py-2 rounded-md mr-4 hover:bg-red-500"
+                onClick={confirmDeletePost}
+              >
+                Confirm
+              </button>
+              <button
+                className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-500"
+                onClick={() => setShowConfirmPopupAccess(false)}
+              >
+                Cancel
               </button>
             </div>
           </div>
