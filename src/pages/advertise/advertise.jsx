@@ -145,7 +145,7 @@ const AdvertisePage = () => {
 
   const columns = [
     {
-      title: "Ảnh minh họa",
+      title: "Image",
       dataIndex: "image",
       key: "image",
       render: (image) => (
@@ -157,12 +157,12 @@ const AdvertisePage = () => {
       ),
     },
     {
-      title: "Tên Banner",
+      title: "Banner Name",
       dataIndex: "bannerName",
       key: "bannerName",
     },
     {
-      title: "Vị trí hiển thị",
+      title: "Position",
       dataIndex: "positionName",
       key: "positionName",
     },
@@ -172,30 +172,30 @@ const AdvertisePage = () => {
     //   key: "positionDimention",
     // },
     {
-      title: "Ngày bắt đầu",
+      title: "Start Date",
       dataIndex: "startDate",
       key: "startDate",
       render: (date) => new Date(date).toLocaleDateString("vi-VN"),
     },
     {
-      title: "Ngày kết thúc",
+      title: "End Date",
       dataIndex: "endDate",
       key: "endDate",
       render: (date) => new Date(date).toLocaleDateString("vi-VN"),
     },
     {
-      title: "Tổng chi phí",
+      title: "Total Cost",
       dataIndex: "totalCost",
       key: "totalCost",
       render: (cost) => `${cost.toLocaleString()} VND`,
     },
     {
-      title: "Tên khách hàng",
+      title: "Customer name",
       dataIndex: "clientName",
       key: "clientName",
     },
     {
-      title: "Tình trạng",
+      title: "Status",
       dataIndex: "contractStatus",
       key: "contractStatus",
       render: (status) => {
@@ -204,7 +204,7 @@ const AdvertisePage = () => {
       },
     },
     {
-      title: "Hành động",
+      title: "Action",
       key: "action",
       render: (_, record) => (
         <Button danger onClick={() => handleDelete(record.contractId)}>
