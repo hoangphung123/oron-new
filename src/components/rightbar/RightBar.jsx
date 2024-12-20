@@ -41,6 +41,7 @@ const RightBar = () => {
   };
 
   useEffect(() => {
+    
     // Gọi hàm getPostRegistrationByUserId và cập nhật state khi có dữ liệu trả về
     const fetchData = async () => {
       try {
@@ -105,7 +106,7 @@ const RightBar = () => {
               <div className="user" key={index}>
                 <div className="userInfo">
                   <img
-                    src={registration.post.image.url}
+                    src={registration.post.image[0].url}
                     alt=""
                   />
                   <p>
