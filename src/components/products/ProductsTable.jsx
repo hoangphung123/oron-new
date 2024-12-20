@@ -79,7 +79,7 @@ const ReportsTable = () => {
     //   typeCd: "0",
     // };
     try {
-      if (postToDelete) {
+      if (reportToDelete) {
         const accessToken = JSON.parse(
           localStorage.getItem("access_token_admin")
         );
