@@ -56,7 +56,7 @@ const LuckyWheel = ({ postUsers, onAccept, onClose }) => {
 
   return (
     <div className="luckywheel-container">
-      <h2>Vòng Quay May Mắn</h2>
+      <h2 class="luckywheel-title" >Vòng Quay May Mắn</h2>
       <div className="wheel-wrapper">
         <svg
           xmlns="http://www.w3.org/2000/svg"
