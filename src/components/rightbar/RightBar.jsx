@@ -79,7 +79,7 @@ const RightBar = () => {
               <div className="user" key={index}>
                 <div className="userInfo">
                   <img
-                    src={`http://localhost:3500/${registration.user.profilePic}`}
+                    src={registration.user.profilePic.url}
                     alt=""
                   />
                   <p>
@@ -105,7 +105,7 @@ const RightBar = () => {
               <div className="user" key={index}>
                 <div className="userInfo">
                   <img
-                    src={`http://localhost:3500/${registration.post.imageURL}`}
+                    src={registration.post.image.url}
                     alt=""
                   />
                   <p>
@@ -165,7 +165,7 @@ const RightBar = () => {
             <div className="user" key={index}>
               <div className="userInfo">
                 <img
-                  src={`http://localhost:3500/${friendData.profilePic}`}
+                  src={friendData.profilePic.url}
                   alt=""
                 />
                 <div className="online" />
