@@ -116,7 +116,7 @@ const LeftBar1 = ({ setSelectedTab }) => {
             >
               <div className="userInfos">
                 <img
-                  src={userData.profilePic.url}
+                  src={userData.profilePic.url || ""}
                   alt=""
                 />
                 <div className="online" />
