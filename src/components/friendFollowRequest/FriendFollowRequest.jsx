@@ -47,7 +47,7 @@ const FriendPage = ({ type }) => {
       <div className="friend-request-container">
         {data.map((person, index) => (
           <div key={index} className="friend-request-card">
-            <img src={person.profilePic.url} alt={person.name} className="friend-request-image" />
+            <img src={person.profilePic.url || ""} alt={person.name} className="friend-request-image" />
             <h3 className="friend-request-name">{person.name}</h3>
             {showAcceptButton && <button className="accept-button">Accept</button>}
             <button className="delete-button">Delete</button>
