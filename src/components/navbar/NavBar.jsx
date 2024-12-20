@@ -574,7 +574,7 @@ const NavBar = () => {
                   ></rect>
                   <path stroke-width="5" stroke="#fff" d="M1 12L41 12"></path>
                 </svg>
-                <div class="text">Profile</div>
+                {/* <div class="text">Profile</div> */}
               </div>
             </button>
           </MenuItem>
@@ -596,7 +596,7 @@ const NavBar = () => {
                 <LockResetIcon />
               </div>
 
-              <div class="text">Logout</div>
+              {/* <div class="text">Logout</div> */}
             </button>
           </MenuItem>
           <MenuItem className="custom-menu" onClick={handleLogout}>
@@ -619,7 +619,7 @@ const NavBar = () => {
                 </svg>
               </div>
 
-              <div class="text">Logout</div>
+              {/* <div class="text">Logout</div> */}
             </button>
           </MenuItem>
           <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
