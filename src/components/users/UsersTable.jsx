@@ -79,9 +79,9 @@ const UsersTable = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+              {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Actions
-              </th>
+              </th> */}
             </tr>
           </thead>
 
@@ -128,14 +128,14 @@ const UsersTable = () => {
                   </span>
                 </td>
 
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   <button className="text-indigo-400 hover:text-indigo-300 mr-2">
                     Edit
                   </button>
                   <button className="text-red-400 hover:text-red-300">
                     Delete
                   </button>
-                </td>
+                </td> */}
               </motion.tr>
             ))}
           </tbody>
