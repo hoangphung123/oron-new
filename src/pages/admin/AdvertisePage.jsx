@@ -2,40 +2,58 @@ import Header from "../../components/common/Header";
 import AdsTable from "../../components/advertisement/AdsTable";
 import "../tailwind-styles.css";
 import { AlertTriangle, CheckCircle, Package, AlertCircle } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import StatCard from "../../components/common/StatCard";
+import * as AdminServe from "../../server/adminStore";
 
 
 const AdvertisePage = () => {
   const [ads, setAds] = useState([
-    {
-      id: 1,
-      bannerName: "Holiday Sale",
-      startDate: "2024-12-01",
-      endDate: "2024-12-31",
-      redirectURL: "https://example.com/sale",
-      userName: "Jane Smith",
-      phoneNumber: "123-456-7890",
-      email: "jane.smith@example.com",
-      imageURL: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/470217651_1151325849688225_2882028425228433680_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=833d8c&_nc_ohc=0BYX1ow5q2YQ7kNvgFqDugN&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=AU2g-Szaa9fGr_dh3RnFUkT&oh=00_AYDw0qeQJDisuWSxSttB_ird-6a0KP97oiwJqSzP-zbT-Q&oe=67643F02",
-      status: "Pending",
-    },
-    {
-      id: 2,
-      bannerName: "Black Friday Promo",
-      startDate: "2024-11-20",
-      endDate: "2024-11-27",
-      redirectURL: "https://example.com/blackfriday",
-      userName: "John Doe",
-      phoneNumber: "987-654-3210",
-      email: "john.doe@example.com",
-      imageURL: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/470217651_1151325849688225_2882028425228433680_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=833d8c&_nc_ohc=0BYX1ow5q2YQ7kNvgFqDugN&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=AU2g-Szaa9fGr_dh3RnFUkT&oh=00_AYDw0qeQJDisuWSxSttB_ird-6a0KP97oiwJqSzP-zbT-Q&oe=67643F02",
-      status: "Accepted",
-    },
+    // {
+    //   id: 1,
+    //   bannerName: "Holiday Sale",
+    //   startDate: "2024-12-01",
+    //   endDate: "2024-12-31",
+    //   redirectURL: "https://example.com/sale",
+    //   userName: "Jane Smith",
+    //   phoneNumber: "123-456-7890",
+    //   email: "jane.smith@example.com",
+    //   imageURL: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/470217651_1151325849688225_2882028425228433680_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=833d8c&_nc_ohc=0BYX1ow5q2YQ7kNvgFqDugN&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=AU2g-Szaa9fGr_dh3RnFUkT&oh=00_AYDw0qeQJDisuWSxSttB_ird-6a0KP97oiwJqSzP-zbT-Q&oe=67643F02",
+    //   status: "Pending",
+    // },
+    // {
+    //   id: 2,
+    //   bannerName: "Black Friday Promo",
+    //   startDate: "2024-11-20",
+    //   endDate: "2024-11-27",
+    //   redirectURL: "https://example.com/blackfriday",
+    //   userName: "John Doe",
+    //   phoneNumber: "987-654-3210",
+    //   email: "john.doe@example.com",
+    //   imageURL: "https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/470217651_1151325849688225_2882028425228433680_n.jpg?_nc_cat=1&ccb=1-7&_nc_sid=833d8c&_nc_ohc=0BYX1ow5q2YQ7kNvgFqDugN&_nc_zt=23&_nc_ht=scontent.fsgn2-11.fna&_nc_gid=AU2g-Szaa9fGr_dh3RnFUkT&oh=00_AYDw0qeQJDisuWSxSttB_ird-6a0KP97oiwJqSzP-zbT-Q&oe=67643F02",
+    //   status: "Accepted",
+    // },
   ]);
 
-  const [selectedImage, setSelectedImage] = useState(null); // Trạng thái để lưu ảnh được chọn
+  const [selectedImage, setSelectedImage] = useState(null); 
+  useEffect(() => {
+    const fetchBanner = async () => {
+      try {
+        const accessToken = JSON.parse(
+          localStorage.getItem("access_token_admin")
+        );
+        const data = await AdminServe.getBanner(accessToken);
+        console.log("banner", data)
+        setAds(data.listData);     
+      } catch (error) {
+        console.error("Error fetching banners:", error);
+      }
+    };
+
+    fetchBanner();
+  }, []);
+  // Trạng thái để lưu ảnh được chọn
 
   const toggleStatus = (id) => {
     setAds((prevAds) =>
