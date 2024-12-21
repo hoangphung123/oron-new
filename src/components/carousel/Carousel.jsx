@@ -8,7 +8,7 @@ const CustomCarousel = () => {
   const cards = [
     {
       image:
-        "https://i.pinimg.com/564x/1e/db/c2/1edbc2367a605156d052c8fb415063a8.jpg",
+        "https://res.cloudinary.com/dinvkxkt1/image/upload/v1734717635/tfjhlf10gm3kfp4y8stj.png",
       title: "First Slide",
       text: "Description for the first slide."
     },
