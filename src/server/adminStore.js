@@ -115,3 +115,19 @@ export const getInfomationUser = async (accessToken) => {
 };
 
 
+export const getInfomationUserv2 = async (accessToken) => {
+  try {
+    const year = 2024; // Năm cố định
+    const url = `${api_url}/user/monthly/${year}`; // Thay thế :year bằng năm 2024
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log("User growth data for 2024 retrieved successfully");
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching user growth data:", error.message);
+    throw error;
+  }
+};
