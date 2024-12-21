@@ -1,16 +1,41 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { motion } from "framer-motion";
+import * as AdminSever from "../../server/adminStore";
 
-const userGrowthData = [
-	{ month: "Jan", users: 1000 },
-	{ month: "Feb", users: 1500 },
-	{ month: "Mar", users: 2000 },
-	{ month: "Apr", users: 3000 },
-	{ month: "May", users: 4000 },
-	{ month: "Jun", users: 5000 },
-];
+import { useState, useEffect } from "react";
+
+
 
 const UserGrowthChart = () => {
+
+	useEffect(() => {
+		const fetchUsers = async () => {
+		  try {
+			const accessToken = JSON.parse(
+			  localStorage.getItem("access_token_admin")
+			);
+			if (accessToken) {
+			  const users = await AdminSever.getInfomationUser(accessToken);
+			//   console.log(users.listData);
+			setUserGrowthData(users.listData);
+			//   setFilteredUsers(users.listData);
+			}
+		  } catch (error) {
+			console.error("Failed to fetch users:", error);
+		  }
+		};
+		fetchUsers();
+	  }, []);
+
+	const [userGrowthData, setUserGrowthData] = ([
+		// { month: "Jan", users: 1000 },
+		// { month: "Feb", users: 1500 },
+		// { month: "Mar", users: 2000 },
+		// { month: "Apr", users: 3000 },
+		// { month: "May", users: 4000 },
+		// { month: "Jun", users: 5000 },
+	]);
+	
 	return (
 		<motion.div
 			className='bg-gray-800 bg-opacity-50 backdrop-blur-md shadow-lg rounded-xl p-6 border border-gray-700'

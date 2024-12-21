@@ -19,6 +19,7 @@ const userStats = {
 const UsersPage = () => {
   const [userData, setUserData] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [userTotal, setUserTotal] = useState({})
 
   const isToday = (dateString) => {
     const today = new Date();
@@ -34,8 +35,9 @@ const UsersPage = () => {
         );
         if (accessToken) {
           const users = await AdminSever.getAllUsers(accessToken);
-          console.log(users.listData);
+          console.log("checktotal",users.listData);
           setUserData(users.listData);
+          setUserTotal(users)
           setFilteredUsers(users.listData);
         }
       } catch (error) {
@@ -65,13 +67,13 @@ const UsersPage = () => {
           <StatCard
             name="Total Users"
             icon={UsersIcon}
-            value={totalUsers}
+            value={userTotal.total}
             color="#6366F1"
           />
           <StatCard
             name="New Users Today"
             icon={UserPlus}
-            value={newUsersToday}
+            value={userTotal.totalTodayUser}
             color="#10B981"
           />
           <StatCard

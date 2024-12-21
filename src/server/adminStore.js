@@ -96,4 +96,22 @@ export const getBanner = async (accessToken) => {
   }
 };
 
+export const getInfomationUser = async (accessToken) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/user/age-group`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log("Banner data retrieved successfully");
+    return response.data;
+  } catch (error) {
+    console.error("Error while fetching banner data:", error.message);
+    throw error;
+  }
+};
+
 
