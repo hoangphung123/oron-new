@@ -280,7 +280,7 @@ const MyProfileComponent = () => {
                   onChange={handleSelectDistricts}
                 >
                   <option value="" disabled>
-                    {userData.fullAddress.split(", ")[1]}
+                    {userData.fullAddress?.split(", ")[1] || ""}
                   </option>
                   {districts.map((district) => (
                     <option key={district.id} value={district.id}>
@@ -294,7 +294,7 @@ const MyProfileComponent = () => {
                   onChange={(e) => setSelectedWard(e.target.value)}
                 >
                   <option value="" disabled>
-                    {userData.fullAddress.split(", ")[0]}
+                    {userData.fullAddress?.split(", ")[0] || ""}
                   </option>
                   {wards.map((ward, index) => (
                     <option key={ward.id} value={ward.id}>
