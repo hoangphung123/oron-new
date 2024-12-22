@@ -151,6 +151,8 @@ const NavBar = () => {
       // console.log(payload);
       toast.success(payload.notification.body);
 
+      console.log("payload", payload)
+
       // Cập nhật số lượng thông báo
       setNotificationCount((prev) => prev + 1);
       // setNotifications((prev) => [...prev, payload.notification]);

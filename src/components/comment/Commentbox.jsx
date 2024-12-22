@@ -174,6 +174,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         if (reponse) {
           getCommentsByPostId(postId);
           setTextareaValue("");
+          setParenIds(null)
         }
       } catch (error) {
         console.error("Lỗi khi thêm comment:", error);
