@@ -9,6 +9,7 @@ import { PostsContext } from "../../context/postContext";
 import { AuthContext } from "../../context/authContext";
 import Carousel from "../../components/carousel/Carousel";
 import Submenu from '../../components/Submenu/Submenu';
+import { getAndSendTokenToBackend} from "../nofication/filebase";
 
 
 
@@ -52,6 +53,7 @@ const Home = () => {
   };
 
   useEffect(() => {
+    getAndSendTokenToBackend()
     // Đăng ký sự kiện scroll để theo dõi việc kéo đến cuối trang
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
