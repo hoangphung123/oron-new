@@ -40,7 +40,7 @@ const Profile = () => {
   const [coverImage, setCoverImage] = useState(
     "https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
   );
-  const [profileImage, setProfileImage] = useState(currentUser.data.profilePic);
+  const [profileImage, setProfileImage] = useState(currentUser.data.profilePic.url);
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isPopupOpenCover, setIsPopupOpenCover] = useState(false);
