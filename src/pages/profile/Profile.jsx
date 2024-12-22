@@ -349,7 +349,7 @@ const Profile = () => {
           <div className="profileContainer_user">
             <div className="Information_left">
               {/* Introduction Section */}
-              <div className="introduction">
+              {/* <div className="introduction">
                 <h3>Introduction</h3>
                 <div className="location">
                   <FontAwesomeIcon
@@ -369,7 +369,7 @@ const Profile = () => {
                   />
                   <a href="https://google.com">Google.com</a>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Posts Section */}

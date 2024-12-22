@@ -36,3 +36,7 @@
   }
   // text-align: center;
 }
+.ant-modal-body {
+  max-height: 90vh; /* Giới hạn chiều cao nội dung */
+  overflow-y: auto; /* Thêm thanh cuộn dọc */
+}

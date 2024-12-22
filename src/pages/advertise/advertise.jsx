@@ -418,6 +418,7 @@ const AdvertisePage = () => {
         okText="Submit"
         cancelText="Cancel"
         okButtonProps={{ disabled: isAnyPositionUnavailable }}
+        bodyStyle={{ maxHeight: '90vh', overflowY: 'auto' }}
       >
         <div>
           <label>Start Date:</label>
@@ -592,6 +593,7 @@ const AdvertisePage = () => {
         onCancel={handleRegisterCancel}
         okText="Register"
         cancelText="Cancel"
+        bodyStyle={{ maxHeight: '90vh', overflowY: 'auto' }}
       >
         <div>
           <p>Where do you want to register to place ads?</p>
