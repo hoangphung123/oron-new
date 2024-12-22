@@ -77,7 +77,7 @@ const Login = () => {
   const handleLogin = async ()=>{
     try{
       await login(inputs);
-      getAndSendTokenToBackend()
+      // getAndSendTokenToBackend()
       console.log("OK")
       toast.success('success')
       navigate("/")
