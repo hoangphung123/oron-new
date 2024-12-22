@@ -25,7 +25,7 @@ import ShareBox from "../../components/sharebox/ShareBox";
 import MyProfileComponent from "../../components/MyProfileComponent/MyProfileComponent";
 import FriendComponent from "../../components/FriendComponent/FriendComponent";
 import Loading from "../../components/loading/Loading";
-import DefaultPicture from "../../../public/defaultimage.png"
+import DefaultPicture from "../../assets/defaultimage.png"
 
 const Profile = () => {
   const { currentUser, setCurrentUser } = useContext(AuthContext);
