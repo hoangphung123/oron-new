@@ -169,7 +169,7 @@ const Profile = () => {
         const uploadPictureDriver = await Userserver.uploadToGoogleDrive(
           accessToken, // Token xác thực
           selectedImages, // File ảnh cần upload
-          "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
+          "Illustration", // alternativeText (có thể là null nếu không bắt buộc)
           "user-background", // relatedType (nếu là bài viết thì là "post")
           userStore.data.id // ID bài viết hoặc đối tượng liên quan
         );

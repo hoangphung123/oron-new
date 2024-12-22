@@ -417,7 +417,7 @@ const NavBar = () => {
         {isDropdownOpen && (
           <div className="dropDown_Nofication">
             <div className="dropdown_nofication-title">
-              <h3 className="text-lg font-semibold p-4 border-b">Thông báo</h3>
+              <h3 className="text-lg font-semibold p-4 border-b">Notification</h3>
               <div class="close" onClick={() => setIsDropdownOpen(false)}>
                 <span></span>
                 <span></span>
@@ -459,10 +459,10 @@ const NavBar = () => {
                     />
                     <div className="flex-1">
                       <h4 className="font-medium text-sm text-gray-800">
-                        {notification.creatorName || "Người dùng"}
+                        {notification.creatorName || "User"}
                       </h4>
                       <p className="text-gray-600 text-sm line-clamp-2">
-                        {notification.content || "Không có nội dung"}
+                        {notification.content || "Nothing"}
                       </p>
                       <small className="text-gray-400 text-xs">
                         {new Date(notification.createDate).toLocaleString(
@@ -474,7 +474,7 @@ const NavBar = () => {
                 ))
               ) : (
                 <li className="p-4 text-gray-500 text-center">
-                  Không có thông báo mới
+                  No new notifications
                 </li>
               )}
             </ul>
@@ -487,7 +487,7 @@ const NavBar = () => {
             <div className="popupss">
               <div className="popup-title">
                 <div></div>
-                <h2>Chi Tiết Bài viết</h2>
+                <h2>Post Details</h2>
                 <span className="close" onClick={() => handleClosePopup()}>
                   x
                 </span>
@@ -505,7 +505,7 @@ const NavBar = () => {
             <div className="popups">
               <div className="popup-title">
                 <div></div>
-                <h2>Chi Tiết Bài viết</h2>
+                <h2>Post Details</h2>
                 <span className="close" onClick={() => handleClosePopup()}>
                   x
                 </span>
