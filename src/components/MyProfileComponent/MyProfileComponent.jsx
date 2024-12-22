@@ -266,7 +266,7 @@ const MyProfileComponent = () => {
                   onChange={handleSelectProvince}
                 >
                   <option value="" disabled>
-                    {userData.fullAddress.split(", ")[2]}
+                    {userData.fullAddress?.split(", ")[2] || ""}
                   </option>
                   {provinces.map((province) => (
                     <option key={province.id} value={province.id}>
