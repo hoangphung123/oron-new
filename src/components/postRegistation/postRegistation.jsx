@@ -99,6 +99,7 @@ const Post = ({ post }) => {
       <div className="registered-users">
         {postUsers.length >= 4 && (
           <Button
+            className="button-lucky"
             variant="contained"
             color="primary"
             onClick={() => setShowLuckyWheel(true)}

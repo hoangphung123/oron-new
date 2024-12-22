@@ -118,10 +118,10 @@ const Profile = () => {
           return;
         }
 
-        const uploadedPicture = await Userserver.uploadPictureUser(
-          accessToken,
-          selectedImages
-        );
+        // const uploadedPicture = await Userserver.uploadPictureUser(
+        //   accessToken,
+        //   selectedImages
+        // );
         const uploadPictureDriver = await Userserver.uploadToGoogleDrive(
           accessToken, // Token xác thực
           selectedImages, // File ảnh cần upload
@@ -162,10 +162,10 @@ const Profile = () => {
           return;
         }
 
-        const uploadedPicture = await Userserver.uploadPictureUserCover(
-          accessToken,
-          selectedImages
-        );
+        // const uploadedPicture = await Userserver.uploadPictureUserCover(
+        //   accessToken,
+        //   selectedImages
+        // );
         const uploadPictureDriver = await Userserver.uploadToGoogleDrive(
           accessToken, // Token xác thực
           selectedImages, // File ảnh cần upload

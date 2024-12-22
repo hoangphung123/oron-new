@@ -3,6 +3,10 @@
   font-family: Arial, sans-serif;
 }
 
+.luckywheel-title{
+  color: black;
+}
+
 .wheel-wrapper {
   margin: 20px auto;
   width: 400px;

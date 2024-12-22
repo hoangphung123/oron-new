@@ -73,12 +73,16 @@ const UsersTable = () => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Email
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+              {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Role
+              </th> */}
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+              Number
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                Status
+                Specific Address
               </th>
+
               {/* <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Actions
               </th> */}
@@ -110,12 +114,18 @@ const UsersTable = () => {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-300">{user.email}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                {/* <td className="px-6 py-4 whitespace-nowrap">
                   <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-800 text-blue-100">
                     User
                   </span>
+                </td>                */}
+                <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-300">{user.phoneNumber}</div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
+                  <div className="text-sm text-gray-300">{user.fullAddress}</div>
+                </td>
+                {/* <td className="px-6 py-4 whitespace-nowrap">
                   <span
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       user.status === "1"
@@ -125,8 +135,8 @@ const UsersTable = () => {
                   >
                     {statusMapping[user.status]}{" "}
                     {/* Here, display the mapped status */}
-                  </span>
-                </td>
+                  {/* </span>
+                </td> */}
 
                 {/* <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   <button className="text-indigo-400 hover:text-indigo-300 mr-2">

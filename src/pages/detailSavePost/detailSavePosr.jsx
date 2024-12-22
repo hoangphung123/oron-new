@@ -91,7 +91,7 @@ const DetailSavePost = () => {
                         alt=""
                       />
                       <div className="Names">
-                        Đã lưu từ bài viết của {post.user.username}
+                      Saved from post by {post.user.username}
                       </div>
                     </div>
                   </div>
@@ -116,7 +116,7 @@ const DetailSavePost = () => {
             <div className="popups">
               <div className="popup-title">
                 <div></div>
-                <h2>Chi Tiết Bài viết</h2>
+                <h2>Post Details</h2>
                 <span className="close" onClick={() => handleClosePopup()}>
                   x
                 </span>

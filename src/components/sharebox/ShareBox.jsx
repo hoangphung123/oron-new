@@ -210,11 +210,11 @@ export default function Share() {
 
       console.log(selectedImage);
 
-      const uploadedPicturePost = await UserServices.uploadPost(
-        accessToken,
-        selectedImage,
-        registeredUserId
-      );
+      // const uploadedPicturePost = await UserServices.uploadPost(
+      //   accessToken,
+      //   selectedImage,
+      //   registeredUserId
+      // );
 
       const uploadPictureDriver = await UserServices.uploadToGoogleDrive(
         accessToken, // Token xác thực
