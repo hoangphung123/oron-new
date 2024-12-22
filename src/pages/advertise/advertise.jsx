@@ -420,7 +420,7 @@ const AdvertisePage = () => {
         okButtonProps={{ disabled: isAnyPositionUnavailable }}
       >
         <div>
-          <label>Ngày bắt đầu:</label>
+          <label>Start Date:</label>
           <DatePicker
             style={{ width: "100%", marginBottom: 16 }}
             value={formData.startDate ? moment(formData.startDate) : null}
@@ -430,13 +430,13 @@ const AdvertisePage = () => {
           />
           {errors.startDate && (
             <div style={{ color: "red", fontSize: "12px" }}>
-              Bạn phải chọn ngày bắt đầu
+              You must select an start date
             </div>
           )}
         </div>
 
         <div>
-          <label>Ngày kết thúc:</label>
+          <label>End Date:</label>
           <DatePicker
             style={{ width: "100%", marginBottom: 16 }}
             value={formData.endDate ? moment(formData.endDate) : null}
@@ -446,7 +446,7 @@ const AdvertisePage = () => {
           />
           {errors.endDate && (
             <div style={{ color: "red", fontSize: "12px" }}>
-              Bạn phải chọn ngày kết thúc
+              You must select an end date
             </div>
           )}
         </div>
@@ -505,7 +505,7 @@ const AdvertisePage = () => {
           />
         </div>
         <div>
-          <label>Hình ảnh quảng cáo:</label>
+          <label>Advertising image:</label>
           <Upload
             listType="picture-card"
             maxCount={3} // Giới hạn 5 ảnh
@@ -527,7 +527,7 @@ const AdvertisePage = () => {
           </Upload>
 
           <div style={{ marginTop: 16 }}>
-            <h4>Danh sách ảnh đã chọn:</h4>
+            <h4>List of selected photos:</h4>
             <div className="upload_content-img">
               {formData.images.map((img, index) => {
                 const isUnavailable =
@@ -537,11 +537,11 @@ const AdvertisePage = () => {
                   <div className="img-content" key={index}>
                     <img
                       src={img.image}
-                      alt="Quảng cáo"
+                      alt="Advertisement"
                       style={{ width: 100, marginRight: 8 }}
                     />
                     <span style={{ color: isUnavailable ? "red" : "black" }}>
-                      {img.position.name || "Chưa chọn"}
+                      {img.position.name || "Not selected"}
                     </span>
                   </div>
                 );
@@ -569,7 +569,7 @@ const AdvertisePage = () => {
           <Tooltip
             title={
               isAnyPositionUnavailable
-                ? "Nút này bị vô hiệu hóa vì một số vị trí đã chọn không khả dụng."
+                ? "This button is disabled because some of the selected locations are not available."
                 : ""
             }
           >
@@ -606,8 +606,8 @@ const AdvertisePage = () => {
                 )
               }
             >
-              {pos.positionName} (Kích thước: {pos.dimention}, Giá:{" "}
-              {pos.pricePerDay} VND/ngày)
+              {pos.positionName} (Size: {pos.dimention}, Prices:{" "}
+              {pos.pricePerDay} VND/Day)
             </Checkbox>
           ))}
         </div>

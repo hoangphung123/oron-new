@@ -1,14 +1,42 @@
+import ProductsTable from "../../components/products/ProductsTable";
 import { motion } from "framer-motion";
 
 import Header from "../../components/common/Header";
 import StatCard from "../../components/common/StatCard";
 
-import { AlertTriangle, CheckCircle, Package, AlertCircle } from "lucide-react";
-// import CategoryDistributionChart from "../../components/overview/CategoryDistributionChart";
-import SalesTrendChart from "../../components/products/SalesTrendChart";
-import ProductsTable from "../../components/products/ProductsTable";
+import { AlertTriangle, CheckCircle, Package,Ban } from "lucide-react";
+import * as AdminSever from "../../server/adminStore";
+import { useState, useEffect } from "react";
 
 const ProductsPage = () => {
+  const [stats, setStats] = useState({
+    total: 0,
+    pending: 0,
+    accepted: 0,
+  });
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const accessToken = JSON.parse(localStorage.getItem("access_token_admin"));
+        if (accessToken) {
+          const response = await AdminSever.getReportsByAdmin(accessToken);
+          const { total, pendingCount, acceptedCount, cancelledCount } = response;
+
+          setStats({
+            total: total || 0,
+            pending: pendingCount || 0,
+            accepted: acceptedCount || 0,
+            canceled: cancelledCount || 0,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to fetch statistics:", error);
+      }
+    };
+    fetchStats();
+  }, []);
+
   return (
     <div className="flex-1 overflow-auto relative z-10">
       <Header title="Reports" />
@@ -16,7 +44,7 @@ const ProductsPage = () => {
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {/* STATS */}
         <motion.div
-          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8"
+          className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
@@ -24,38 +52,33 @@ const ProductsPage = () => {
           <StatCard
             name="Total Reports"
             icon={Package}
-            value={1234}
+            value={stats.total}
             color="#6366F1"
           />
           <StatCard
             name="Pending Reports"
             icon={AlertTriangle}
-            value={50}
+            value={stats.pending}
             color="#F59E0B"
           />
           <StatCard
             name="Processed"
             icon={CheckCircle}
-            value={1024}
+            value={stats.accepted}
             color="#10B981"
           />
-          {/* <StatCard
-            name="High Priority Reports"
-            icon={AlertCircle}
-            value={100}
-            color="#EF4444"
-          /> */}
+          <StatCard
+            name="Canceled"
+            icon={Ban}
+            value={stats.canceled}
+            color="#ff0000"
+          />
         </motion.div>
 
         <ProductsTable />
-
-        {/* CHARTS
-        <div className="grid grid-col-1 lg:grid-cols-2 gap-8">
-          {/* <SalesTrendChart /> */}
-          {/* <CategoryDistributionChart /> */}
-        {/* </div> */}
       </main>
     </div>
   );
 };
+
 export default ProductsPage;
