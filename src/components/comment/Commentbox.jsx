@@ -4,6 +4,7 @@ import { Button } from "antd";
 import { PostsContext } from "../../context/postContext";
 import { SendOutlined } from "@ant-design/icons";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import DefaultImage from "../../assets/defaultimage.png";
 
 const CommentBox = ({ comments, level = 1, postIds }) => {
   const [editCommentId, setEditCommentId] = useState(null);
@@ -253,7 +254,9 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
           children: [],
           user: {
             name: currentUserId.data.name, // Lấy tên người dùng
-            profilePic: currentUserId.data.profilePic, // Lấy ảnh đại diện người dùng
+            profilePic: {
+              url: currentUserId?.data?.profilePic?.url || DefaultImage
+            }, // Lấy ảnh đại diện người dùng
           },
         });
       } else {
@@ -273,7 +276,9 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
             children: [],
             user: {
               name: currentUserId.data.name, // Lấy tên người dùng
-              profilePic: currentUserId.data.profilePic, // Lấy ảnh đại diện người dùng
+              profilePic: {
+                url: currentUserId?.data?.profilePic?.url || DefaultImage
+              },
             },
           });
         } else {
@@ -323,7 +328,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         children: [],
         user: {
           name: currentUserId.data.name, // Lấy tên người dùng
-          profilePic: { url: currentUserId.data.profilePic.url }, // Lấy ảnh đại diện người dùng
+          profilePic: { url: currentUserId?.data?.profilePic?.url || DefaultImage }, // Lấy ảnh đại diện người dùng
         },
       },
     ]);
