@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import * as AdminServe from "../../server/adminStore";
 import * as Itemserver from "../../server/itemstore";
 
-const ReportsTable = () => {
+const ReportsTable = ({ onImageClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredReports, setFilteredReports] = useState([]);
   const [reports, setReports] = useState([]);
@@ -159,11 +159,17 @@ const ReportsTable = () => {
         <table className="min-w-full divide-y divide-gray-700">
           <thead>
             <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Image
+              </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Title
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Description
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Post Content
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Status
@@ -188,11 +194,22 @@ const ReportsTable = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               >
+                <td className="w-89 px-6 py-4 whitespace-nowrap text-sm">
+                  <img
+                    src={report.post.image[0].url}
+                    alt={report.post.image[0].alternativeText}
+                    className="w-12 h-12 rounded-md cursor-pointer"
+                    onClick={() => onImageClick(report.post.image[0].url)}
+                  />
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   {report.title}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
                   {report.description}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                  {report.post.description}
                 </td>
                 <td
                   className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${getStatusColor(

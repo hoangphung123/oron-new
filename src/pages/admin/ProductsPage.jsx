@@ -9,11 +9,16 @@ import * as AdminSever from "../../server/adminStore";
 import { useState, useEffect } from "react";
 
 const ProductsPage = () => {
+  const [selectedImage, setSelectedImage] = useState(null); 
   const [stats, setStats] = useState({
     total: 0,
     pending: 0,
     accepted: 0,
   });
+
+  const closeModal = () => {
+    setSelectedImage(null); // Đóng modal
+  };
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -75,7 +80,25 @@ const ProductsPage = () => {
           />
         </motion.div>
 
-        <ProductsTable />
+        <ProductsTable onImageClick={setSelectedImage}/>
+
+        {selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-4 rounded-lg">
+            <img
+              src={selectedImage}
+              alt="Popup"
+              className="max-w-full max-h-[80vh] rounded-lg"
+            />
+            <button
+              onClick={closeModal}
+              className="mt-4 bg-red-500 text-white py-1 px-4 rounded-lg"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
       </main>
     </div>
   );

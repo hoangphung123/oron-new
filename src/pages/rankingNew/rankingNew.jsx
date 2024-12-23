@@ -49,7 +49,18 @@ const RankingNew = () => {
   const [data, setData] = useState([]);
   const [top1Data, setTop1Data] = useState(null);
 
+  function getCurrentWeek() {
+    const now = new Date(); // Ngày hiện tại
+    const startOfYear = new Date(now.getFullYear(), 0, 1); // Ngày đầu năm
+    const days = Math.floor((now - startOfYear) / (24 * 60 * 60 * 1000)); // Số ngày đã trôi qua từ đầu năm
+    const weekNumber = Math.ceil((days + startOfYear.getDay()) / 7); // Tính số tuần
+    return weekNumber;
+  }
+
   useEffect(() => {
+    const currentWeek = getCurrentWeek();
+    console.log("currentWeek", currentWeek)
+    setSelectedWeek(currentWeek);
     // Simulate fetching data from API
     const fetchData = async () => {
       try {
@@ -227,7 +238,7 @@ const RankingNew = () => {
           <div className="select-row-container">
             {/* Week Select */}
             <FormControl style={{ width: "100px" }}>
-              <InputLabel id="week-select-label">Select Week</InputLabel>
+              <InputLabel id="quantity-select-label">Select Week</InputLabel>
               <Select
                 labelId="week-select-label"
                 id="week-select"

@@ -880,7 +880,7 @@ const Post = ({ post }) => {
           <img
             src={
               post.image?.[0]?.url ||
-              "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg"
+              ""
             }
             alt=""
           />
