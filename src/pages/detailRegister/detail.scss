@@ -17,7 +17,7 @@
 .regis-main {
   @include themify($themes) {
     background: themed("bgs");
-    padding-left: 24px;
+    // padding-left: 24px;
     color: themed("textColor");
   }
 }

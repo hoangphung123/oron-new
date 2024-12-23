@@ -65,7 +65,7 @@ const Post = ({ post }) => {
         userRid: userRegisId,
         title: "accept register",
         itemRid: post.id,
-        content: `${currentUser.data.username} đã duyệt yêu cầu của bạn`, // Sửa lỗi ở đây
+        content: `${currentUser.data.username} request has been approved.`, // Sửa lỗi ở đây
         typeCd: "2",
       };
 

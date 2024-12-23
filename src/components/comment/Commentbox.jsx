@@ -58,7 +58,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
               }}
             >
               <p>{comment.user.name}</p>
-              {comment.description || "Nhấp đúp để chỉnh sửa..."}
+              {comment.description || "Double click to edit..."}
             </div>
           )}
         </div>

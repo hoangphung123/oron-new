@@ -170,7 +170,7 @@ const Profile = () => {
         const uploadPictureDriver = await Userserver.uploadToGoogleDrive(
           accessToken, // Token xác thực
           selectedImages, // File ảnh cần upload
-          "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
+          "Illustration", // alternativeText (có thể là null nếu không bắt buộc)
           "user-background", // relatedType (nếu là bài viết thì là "post")
           userStore.data.id // ID bài viết hoặc đối tượng liên quan
         );
@@ -350,7 +350,7 @@ const Profile = () => {
           <div className="profileContainer_user">
             <div className="Information_left">
               {/* Introduction Section */}
-              <div className="introduction">
+              {/* <div className="introduction">
                 <h3>Introduction</h3>
                 <div className="location">
                   <FontAwesomeIcon
@@ -370,7 +370,7 @@ const Profile = () => {
                   />
                   <a href="https://google.com">Google.com</a>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Posts Section */}

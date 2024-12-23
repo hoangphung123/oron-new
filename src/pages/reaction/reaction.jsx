@@ -49,8 +49,8 @@ const Post = () => {
 
   return (
     <div className="p-4 border rounded-md shadow-md w-1/2 mx-auto mt-4">
-      <h2 className="text-lg font-bold mb-4">Bài viết của bạn</h2>
-      <p className="mb-4">Đây là nội dung bài viết mẫu. Hãy thử thả một icon!</p>
+      <h2 className="text-lg font-bold mb-4">Your post</h2>
+      <p className="mb-4">Here is sample post content. Try dropping an icon!</p>
       <div
         className="relative inline-block"
         onMouseEnter={() => setShowIcons(true)}
