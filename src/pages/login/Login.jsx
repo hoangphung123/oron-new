@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Logo from "./Logo.png"
 import { getAndSendTokenToBackend} from "../nofication/filebase";
+import SimpleMusicPlayer from "../../components/musicplayer/MusicPlayer"
+import Snowfall from "../../components/Snowfall/Snowfall"
 
 // const Login = () => {
 //   const [inputs, setInputs] = useState({
@@ -87,7 +89,10 @@ const Login = () => {
   }
   return (
     <div className="form-container">
-      <div className="background-image"></div>
+      <div className="background-image">
+        <SimpleMusicPlayer />
+        <Snowfall />
+        </div>
       <div className="form-box">
         <img src={Logo} alt="logo" className="Login-logo" />
         <form className="Form-login">

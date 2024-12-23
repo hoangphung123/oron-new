@@ -64,6 +64,14 @@ const DetailPost = ({ post }) => {
     resetEditPopup()
     setIsEditPopupOpen(false);
   }
+  const iconMapping = [
+    { id: 0, type: "default", emoji: "🩶" },
+    { id: 1, type: "love", emoji: "❤️" },
+    { id: 2, type: "haha", emoji: "😂" },
+    // { id: 4, type: "wow", emoji: "😮" },
+    // { id: 5, type: "sad", emoji: "😢" },
+    { id: 3, type: "angry", emoji: "😡" },
+  ];
 
   const resetEditPopup = () => {
     setSelectedStatus("");
@@ -856,20 +864,20 @@ const DetailPost = ({ post }) => {
           <div className="overlay" onClick={closePopup}></div>
           <div className="reaction-popup">
             <p>REACTION</p>
-            {reactionUser.map((reaction, index) => (
-              <div key={index} className="reaction-item">
-                {reaction.type === 0 ? (
-                  <ThumbUpAltIcon />
-                ) : reaction.type === 1 ? (
-                  <FavoriteOutlinedIcon />
-                ) : reaction.type === 2 ? (
-                  <MoodIcon />
-                ) : reaction.type === 3 ? (
-                  <SentimentVeryDissatisfiedIcon />
-                ) : null}
-                <span className="username">{reaction.username}</span>
-              </div>
-            ))}
+            {reactionUser.map((reaction, index) => {
+              // Tìm emoji tương ứng từ iconMapping
+              const reactionIcon = iconMapping.find(icon => icon.id === reaction.type);
+
+              return (
+                <div key={index} className="reaction-item">
+                  {/* Hiển thị emoji nếu tìm thấy */}
+                  {reactionIcon ? (
+                    <span>{reactionIcon.emoji}</span>
+                  ) : null}
+                  <span className="username">{reaction.username}</span>
+                </div>
+              );
+            })}
           </div>
         </>
       )}

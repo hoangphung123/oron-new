@@ -8,7 +8,7 @@ import { AuthContext } from "../../context/authContext.js";
 import "./detailSavePost.scss";
 import Button from "@mui/material/Button";
 import { PostsContext } from "../../context/postContext";
-import DetailPost from "../detailPost/detailPost.jsx";
+import Detailspost from "../../components/detailspost/detailspost.jsx";
 
 const DetailSavePost = () => {
   const { darkMode } = useContext(DarkModeContext);
@@ -122,7 +122,7 @@ const DetailSavePost = () => {
                 </span>
               </div>
               <div className="popup-content">
-                <DetailPost post={selectedPost} />
+                <Detailspost post={selectedPost} />
               </div>
             </div>
           </>

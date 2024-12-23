@@ -7,6 +7,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DatePicker, Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import SimpleMusicPlayer from "../../components/musicplayer/MusicPlayer"
+import Snowfall from "../../components/Snowfall/Snowfall"
+
 
 const Register = () => {
   const [provinces, setProvinces] = useState([]);
@@ -250,6 +253,8 @@ const Register = () => {
 
   return (
     <div className="register">
+              <SimpleMusicPlayer />
+              <Snowfall />
       <div className="card">
         <h1>Create new account</h1>
         <div className="form-section">

@@ -3,11 +3,11 @@ import axios from "axios";
 
 // Mapping các icon với số
 const iconMapping = [
-  { id: 1, type: "like", emoji: "👍" },
+  { id: 1, type: "defautl", emoji: "🩶" },
   { id: 2, type: "love", emoji: "❤️" },
   { id: 3, type: "haha", emoji: "😂" },
-  { id: 4, type: "wow", emoji: "😮" },
-  { id: 5, type: "sad", emoji: "😢" },
+  // { id: 4, type: "wow", emoji: "😮" },
+  // { id: 5, type: "sad", emoji: "😢" },
   { id: 6, type: "angry", emoji: "😡" },
 ];
 
@@ -63,7 +63,7 @@ const Post = () => {
         >
           {selectedReaction
             ? iconMapping.find((icon) => icon.id === selectedReaction)?.emoji
-            : "⭐"} {/* Icon mặc định ban đầu */}
+            : "🩶"} {/* Icon mặc định ban đầu */}
         </button>
 
         {/* Danh sách icon khi hover */}

@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Tooltip from "@mui/material/Tooltip";
 import { useContext, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Modal from "../../components/modal/modal";
@@ -29,7 +29,7 @@ import Notification from "../notification/Notification";
 import ImageCreate from "../../assets/choseImage.png";
 import IconAddress from "../../assets/icon.png";
 import IconTag from "../../assets/IconTag.png";
-
+import Detailspost from "../../components/detailspost/detailspost.jsx";
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -79,11 +79,11 @@ const Post = ({ post }) => {
   }, [post]);
 
   const iconMapping = [
-    { id: 0, type: "like", emoji: "👍" },
+    // { id: 0, type: "default", emoji: "😂" },
     { id: 1, type: "love", emoji: "❤️" },
     { id: 2, type: "haha", emoji: "😂" },
-    // { id: 4, type: "wow", emoji: "😮" },
-    // { id: 5, type: "sad", emoji: "😢" },
+    { id: 4, type: "wow", emoji: "😮" },
+    { id: 5, type: "sad", emoji: "😢" },
     { id: 3, type: "angry", emoji: "😡" },
   ];
 
@@ -95,7 +95,7 @@ const Post = ({ post }) => {
         if (reactionIdPost) {
           try {
             await Itemserver.deleteReaction(accessToken, reactionIdPost);
-            toast.success(`Reaction delete successfully`);
+            // toast.success(`Reaction delete successfully`);
           } catch (error) {
             toast.error(`Error when delete Reaction`);
           }
@@ -376,7 +376,7 @@ const Post = ({ post }) => {
       );
       const postData = response.listData;
       setPosts(postData);
-      toast.success(`Reaction created successfully`);
+      // toast.success(`Reaction created successfully`);
     } catch (error) {
       toast.error(`Error creating reaction: ${error.message}`);
       // Handle error, show a notification, or perform other actions
@@ -483,6 +483,7 @@ const Post = ({ post }) => {
     fetchCategory();
     fetchProvinces();
   }, []);
+  const [isPostPopupOpen, setPostPopupOpen] = useState(false); // Đổi tên state và setter
 
   const handleUpdateClick = async () => {
     try {
@@ -598,7 +599,13 @@ const Post = ({ post }) => {
     localStorage.setItem("friends", JSON.stringify(updatedUserId));
     navigate("/profileFriends");
   };
+  const handleImageClick = () => {
+    setPostPopupOpen(true); // Mở popup khi click vào ảnh
+  };
 
+  const closePostPopup = () => {
+    setPostPopupOpen(false); // Đóng popup
+  };
   return (
     <div className="post">
       <div className="container">
@@ -870,12 +877,19 @@ const Post = ({ post }) => {
         <div className="content">
           <p>{post.description}</p>
           <img
-            src={
-              post.image?.[0]?.url ||
-              "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg"
-            }
-            alt=""
+            src={post.image?.[0]?.url || "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg"}
+            alt="Post Image"
+            onClick={handleImageClick}
+            style={{ cursor: 'pointer' }}
           />
+
+          {isPostPopupOpen && (
+            <div className="overlay1" onClick={closePostPopup}>
+              <div className="popup1" onClick={(e) => e.stopPropagation()}>
+                <Detailspost post={post} onClose={closePostPopup} />
+              </div>
+            </div>
+          )}
         </div>
         <div className="infos">
           <div className="info">
@@ -909,12 +923,12 @@ const Post = ({ post }) => {
               {/* Nút hiển thị icon hiện tại hoặc mặc định */}
               <button
                 className="text-2xl p-2 rounded hover:bg-gray-200"
-                // onClick={() => updateReaction("")} // Reset về default khi bấm vào icon mặc định
+              // onClick={() => updateReaction("")} // Reset về default khi bấm vào icon mặc định
               >
                 {selectedReaction
                   ? iconMapping.find((icon) => icon.id === selectedReaction)
-                      ?.emoji
-                  : "⭐"}{" "}
+                    ?.emoji
+                  : "🩶"}{""}
                 {/* Icon mặc định ban đầu */}
               </button>
 
@@ -925,11 +939,10 @@ const Post = ({ post }) => {
                     <button
                       key={icon.id}
                       onClick={() => updateReaction(icon.id, post)}
-                      className={`text-2xl p-2 rounded ${
-                        selectedReaction === icon.id
-                          ? "bg-blue-200"
-                          : "hover:bg-gray-200"
-                      }`}
+                      className={`text-2xl p-2 rounded ${selectedReaction === icon.id
+                        ? "bg-blue-200"
+                        : "hover:bg-gray-200"
+                        }`}
                       title={`Thả ${icon.type}`}
                     >
                       {icon.emoji}
@@ -1013,7 +1026,7 @@ const Post = ({ post }) => {
               className="wide-input" // Add a class for custom styling
               value={reviewDescription}
               onChange={(e) => setReviewDescription(e.target.value)}
-              // You can use onChange to handle input changes if needed
+            // You can use onChange to handle input changes if needed
             />
             <Button
               onClick={handleSendRating}
@@ -1031,20 +1044,20 @@ const Post = ({ post }) => {
           <div className="overlay" onClick={closePopup}></div>
           <div className="reaction-popup">
             <p>REACTION</p>
-            {reactionUser.map((reaction, index) => (
-              <div key={index} className="reaction-item">
-                {reaction.type === 0 ? (
-                  <ThumbUpAltIcon />
-                ) : reaction.type === 1 ? (
-                  <FavoriteOutlinedIcon />
-                ) : reaction.type === 2 ? (
-                  <MoodIcon />
-                ) : reaction.type === 3 ? (
-                  <SentimentVeryDissatisfiedIcon />
-                ) : null}
-                <span className="username">{reaction.username}</span>
-              </div>
-            ))}
+            {reactionUser.map((reaction, index) => {
+              // Tìm emoji tương ứng từ iconMapping
+              const reactionIcon = iconMapping.find(icon => icon.id === reaction.type);
+
+              return (
+                <div key={index} className="reaction-item">
+                  {/* Hiển thị emoji nếu tìm thấy */}
+                  {reactionIcon ? (
+                    <span>{reactionIcon.emoji}</span>
+                  ) : null}
+                  <span className="username">{reaction.username}</span>
+                </div>
+              );
+            })}
           </div>
         </>
       )}
