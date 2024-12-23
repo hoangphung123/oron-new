@@ -89,6 +89,7 @@ const NavBar = () => {
 
   const handleIconClick = () => {
     setIsDropdownOpen((prev) => !prev);
+    fetchNofication()
 
     // Xóa số thông báo khi mở dropdown
     if (!isDropdownOpen) {
