@@ -31,7 +31,7 @@ import ProductsPage from "./pages/admin/ProductsPage.jsx";
 import AdvertisesPage from "./pages/admin/AdvertisePage.jsx";
 // import Carousel from './components/carousel/Carousel.jsx';
 import "./style.scss";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "./context/darkModeContext.js";
 import { AuthContext } from "./context/authContext.js";
 import * as UserServices from "./server/userstore.js";
@@ -131,10 +131,27 @@ function App() {
 
   //Protected Route (check login or not yet)
   const ProtectedRoute = ({ children }) => {
-    console.log("currentUser", currentUser);
+    const { currentUser } = useContext(AuthContext);
+    const [isDelayed, setIsDelayed] = useState(true); // Trạng thái để trì hoãn kiểm tra
+  
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setIsDelayed(false); // Sau 1 giây, cho phép kiểm tra `currentUser`
+      }, 100); // 1000ms = 1 giây
+  
+      return () => clearTimeout(timer); // Dọn dẹp timer khi component bị unmount
+    }, []);
+  
+    // Trong thời gian trì hoãn, hiển thị trạng thái loading
+    if (isDelayed) {
+      return  // Bạn có thể thay bằng spinner
+    }
+  
+    // Sau khi hết thời gian trì hoãn, kiểm tra `currentUser`
     if (!currentUser) {
       return <Navigate to="/login" />;
     }
+  
     return children;
   };
 

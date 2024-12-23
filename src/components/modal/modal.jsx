@@ -23,7 +23,7 @@ const Modal = ({ open, onClose, postId, ownerId, post }) => {
       userRid: ownerId,
       title: "register post",
       itemRid: postId,
-      content: `${currentUser.data.username} đã đăng ký bài viết của bạn`, // Sửa lỗi ở đây
+      content: `${currentUser.data.username} registered to your post`, // Sửa lỗi ở đây
       typeCd: "1"
     };    
 

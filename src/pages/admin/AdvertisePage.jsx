@@ -38,22 +38,24 @@ const AdvertisePage = () => {
 
   const [selectedImage, setSelectedImage] = useState(null); 
   useEffect(() => {
-    const fetchBanner = async () => {
-      try {
-        const accessToken = JSON.parse(
-          localStorage.getItem("access_token_admin")
-        );
-        const data = await AdminServe.getBanner(accessToken);
-        console.log("banner", data)
-        setAds(data.listData);     
-      } catch (error) {
-        console.error("Error fetching banners:", error);
-      }
-    };
+    
 
     fetchBanner();
   }, []);
   // Trạng thái để lưu ảnh được chọn
+
+  const fetchBanner = async () => {
+    try {
+      const accessToken = JSON.parse(
+        localStorage.getItem("access_token_admin")
+      );
+      const data = await AdminServe.getBanner(accessToken);
+      console.log("banner", data)
+      setAds(data.listData);     
+    } catch (error) {
+      console.error("Error fetching banners:", error);
+    }
+  };
 
   const toggleStatus = (id) => {
     setAds((prevAds) =>
@@ -63,6 +65,11 @@ const AdvertisePage = () => {
           : ad
       )
     );
+  };
+
+  const handleUpdateSuccess = () => {
+    console.log("Status updated successfully, fetching new ads...");
+    fetchBanner(); // Gọi lại server để cập nhật dữ liệu
   };
 
   const closeModal = () => {
@@ -100,7 +107,7 @@ const AdvertisePage = () => {
           />
         </motion.div>
       {/* Import bảng */}
-      <AdsTable ads={ads} toggleStatus={toggleStatus} onImageClick={setSelectedImage} />
+      <AdsTable ads={ads} toggleStatus={toggleStatus} onImageClick={setSelectedImage} onUpdateSuccess={handleUpdateSuccess} />
 
       {/* Popup Modal */}
       {selectedImage && (

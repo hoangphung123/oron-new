@@ -30,6 +30,8 @@ import ImageCreate from "../../assets/choseImage.png";
 import IconAddress from "../../assets/icon.png";
 import IconTag from "../../assets/IconTag.png";
 import Detailspost from "../../components/detailspost/detailspost.jsx";
+import Loading from "../../components/loading/Loading";
+
 const Post = ({ post }) => {
   const [commentOpen, setCommentOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
@@ -56,8 +58,8 @@ const Post = ({ post }) => {
   const [category, setCategory] = useState([]);
   const [wards, setwards] = useState([]);
   const [districts, setDistricts] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState("Công Khai");
-  const Status = ["Công Khai", "Riêng tư", "Bạn bè"];
+  const [selectedStatus, setSelectedStatus] = useState("Public");
+  const Status = ["Public", "Private", "Friend"];
   const [isRatingPopupOpen, setIsRatingPopupOpen] = useState(false);
   const [ratingValue, setRatingValue] = useState(0);
   const [reviewDescription, setReviewDescription] = useState("");
@@ -65,6 +67,8 @@ const Post = ({ post }) => {
   const [reactionUser, setReactionUser] = useState([]);
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
+  const [openloading, setOpenloading] = useState(false);
+
 
   const [selectedReaction, setSelectedReaction] = useState(""); // Chuỗi rỗng: trạng thái mặc định
   const [showIcons, setShowIcons] = useState(false);
@@ -148,7 +152,7 @@ const Post = ({ post }) => {
     console.log("postimage", post);
     // Initialize edit states with the data of the selected post
     setSelectedStatus(post.status);
-    await setSelectedCategory(post.category.id);
+    await setSelectedCategory(post.category?.id || "");
     await setSelectedProvince(post.provinceId);
     await setSelectedDistrict(post.districtId);
 
@@ -486,23 +490,23 @@ const Post = ({ post }) => {
   const [isPostPopupOpen, setPostPopupOpen] = useState(false); // Đổi tên state và setter
 
   const handleUpdateClick = async () => {
+    setOpenloading(true);
     try {
       let statusValue;
       switch (selectedStatus) {
-        case "Công Khai":
+        case "Public":
           statusValue = 1;
           break;
-        case "Riêng tư":
+        case "Private":
           statusValue = 0;
           break;
-        case "Bạn bè":
+        case "Friend":
           statusValue = 2;
           break;
         default:
-          statusValue = 1; // Default to "Công Khai" if none selected
+          statusValue = 1; // Default to "Public" if none selected
           break;
       }
-      // setLoading(true);
       const postData = {
         description: description,
         categoryId: selectedCategory,
@@ -526,7 +530,7 @@ const Post = ({ post }) => {
       await Itemserver.uploadToGoogleDrive(
         accessToken, // Token xác thực
         selectedImage, // File ảnh cần upload
-        "Ảnh minh họa", // alternativeText (có thể là null nếu không bắt buộc)
+        "Illustration", // alternativeText (có thể là null nếu không bắt buộc)
         "post-image", // relatedType (nếu là bài viết thì là "post")
         registeredUserId // ID bài viết hoặc đối tượng liên quan
       );
@@ -548,6 +552,8 @@ const Post = ({ post }) => {
     } catch (error) {
       toast.error(`Error: ${error.response.message}`);
     }
+    setOpenloading(false);
+
   };
 
   const handleRatingChange = (value) => {
@@ -703,7 +709,8 @@ const Post = ({ post }) => {
                     <textarea
                       className="input_description"
                       type="text"
-                      placeholder="Bạn đang nghĩ gì đấy?"
+                      placeholder="What product do you want to share?
+"
                       value={description}
                       onChange={(e) => handleInputChange(e, "description")}
                     />
@@ -736,7 +743,7 @@ const Post = ({ post }) => {
                         variant="contained"
                         className="acsess_button"
                       >
-                        Cập Nhật
+                        Update
                       </Button>
                     </div>
                   </div>
@@ -812,14 +819,16 @@ const Post = ({ post }) => {
                     </form>
                   </div>
                 </div>
+                {openloading && <Loading></Loading>}
               </>
+              
             )}
             {isPopupOpen && (
               <>
                 <div className="overlay" onClick={closePopup}></div>
                 <div className="report-popup">
                   <div className="popup-title">
-                    <h2>Báo cáo bài viết</h2>
+                    <h2>Post Report</h2>
                   </div>
                   <div className="popup-content">
                     <div className="left">
@@ -839,7 +848,7 @@ const Post = ({ post }) => {
                       </div>
                     </div>
                     <div className="right">
-                      <h4>Thông tin bài viết</h4>
+                      <h4>Post Information</h4>
                       <form>
                         <textarea
                           className="input_Items"
@@ -877,7 +886,7 @@ const Post = ({ post }) => {
         <div className="content">
           <p>{post.description}</p>
           <img
-            src={post.image?.[0]?.url || "https://i.pinimg.com/736x/f9/f5/61/f9f561a14482d93d4e51a65431cfbcaa.jpg"}
+            src={post.image?.[0]?.url || ""}
             alt="Post Image"
             onClick={handleImageClick}
             style={{ cursor: 'pointer' }}

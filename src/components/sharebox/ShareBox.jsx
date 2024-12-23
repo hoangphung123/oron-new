@@ -32,8 +32,8 @@ export default function Share() {
   const [selectedWard, setSelectedWard] = useState("");
   const [description, setDescription] = useState("");
   const { setPosts } = useContext(PostsContext);
-  const Status = ["Công Khai", "Riêng tư", "Bạn bè"];
-  const [selectedStatus, setSelectedStatus] = useState("Công Khai");
+  const Status = ["Public", "Private", "Friend"];
+  const [selectedStatus, setSelectedStatus] = useState("Public");
   const [openloading, setOpenloading] = useState(false);
 
   const openPopup = () => {
@@ -176,17 +176,17 @@ export default function Share() {
     try {
       let statusValue;
       switch (selectedStatus) {
-        case "Công Khai":
+        case "Public":
           statusValue = 1;
           break;
-        case "Riêng tư":
+        case "Private":
           statusValue = 0;
           break;
-        case "Bạn bè":
+        case "Friend":
           statusValue = 2;
           break;
         default:
-          statusValue = 1; // Default to "Công Khai" if none selected
+          statusValue = 1; // Default to "Public" if none selected
           break;
       }
       // setLoading(true);
@@ -334,7 +334,8 @@ export default function Share() {
                 <textarea
                   className="input_description"
                   type="text"
-                  placeholder="Bạn đang nghĩ gì đấy?"
+                  placeholder="What product do you want to share?
+"
                   value={description}
                   onChange={(e) => handleInputChange(e, "description")}
                 />

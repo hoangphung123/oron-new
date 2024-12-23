@@ -131,3 +131,27 @@ export const getInfomationUserv2 = async (accessToken) => {
     throw error;
   }
 };
+
+
+export const updateBanner = async (accessToken, bannerId, updateData) => {
+  try {
+    const response = await axios.patch(
+      `${api_url}/rental-contract/${bannerId}`,
+      updateData,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const updatedBanner = response.data; // Update this line based on your API response structure
+    return updatedBanner;
+  } catch (error) {
+    console.error(
+      `Error while updating post with id ${bannerId}:`,
+      error.message
+    );
+    throw error;
+  }
+}

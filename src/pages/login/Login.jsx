@@ -1,13 +1,14 @@
-import { Link, useNavigate } from "react-router-dom"
-import "./login.scss"
-import { useContext, useState  } from "react"
-import { AuthContext } from "../../context/authContext"
+import { Link, useNavigate } from "react-router-dom";
+import "./login.scss";
+import { useContext, useState, useEffect } from "react";
+import { AuthContext } from "../../context/authContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Logo from "./Logo.png"
-import { getAndSendTokenToBackend} from "../nofication/filebase";
 import SimpleMusicPlayer from "../../components/musicplayer/MusicPlayer"
 import Snowfall from "../../components/Snowfall/Snowfall"
+import { getAndSendTokenToBackend } from "../nofication/filebase";
+import * as UserServices from "../../server/userstore";
 
 // const Login = () => {
 //   const [inputs, setInputs] = useState({
@@ -15,13 +16,11 @@ import Snowfall from "../../components/Snowfall/Snowfall"
 //     password:"",
 //   });
 
-//   const navigate = useNavigate();
-
 //   const handleChange = (e) =>{
 //     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value}));
 //   }
 //   const { login} = useContext(AuthContext);
-  
+
 //   const handleLogin = async ()=>{
 //     try{
 //       await login(inputs);
@@ -38,7 +37,7 @@ import Snowfall from "../../components/Snowfall/Snowfall"
 //             <div className="left">
 //                     <h1>ORON</h1>
 //                     <p>
-                     
+
 //                       Our redundances other necessaries.
 //                     </p>
 //                     <span>Don't you have an account?</span>
@@ -64,29 +63,76 @@ import Snowfall from "../../components/Snowfall/Snowfall"
 // }
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login, currentUser, setCurrentUser, setIsAuthenticating } = useContext(AuthContext);
   const [inputs, setInputs] = useState({
-    username:"",
-    password:"",
+    username: "",
+    password: "",
   });
 
-  const navigate = useNavigate();
+  // const handleLogin = async () => {
+  //   try {
+  //     const response = await UserServices.loginUser(inputs);
+  //     if (response) {
+  //       localStorage.setItem(
+  //         "access_token",
+  //         JSON.stringify(response.data.token)
+  //       );
 
-  const handleChange = (e) =>{
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value}));
-  }
-  const { login} = useContext(AuthContext);
-  
-  const handleLogin = async ()=>{
-    try{
-      await login(inputs);
-      // getAndSendTokenToBackend()
-      console.log("OK")
-      toast.success('success')
-      navigate("/")
-    }catch (err) {
-      toast.error(`error: ${err.response.data.message}`)
+  //       navigate("/")
+  //       const accessToken = response.data.token;
+  //       if (!accessToken) {
+  //         toast.error("Access token is missing. Login failed!");
+  //         return;
+  //       }
+  //       // Call the getProfile function passing the token
+  //       const profileUser = await UserServices.getProfile(accessToken);
+  //       setCurrentUser(profileUser);
+  //       localStorage.setItem("user", JSON.stringify(currentUser));
+
+  //       console.log(profileUser.data.username);
+  //     }
+  //   } catch (error) {
+  //     // Handle API error and show toast
+  //     const errorMessage =
+  //       error.response?.data?.message || "Login failed. Please try again!";
+  //     toast.error(errorMessage);
+  //     console.error("Login error:", error);
+  //   }
+  // };
+
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    console.log(e.target.value);
+  };
+
+  // const handleLogin = async () => {
+  //   try {
+  //     await login(inputs);
+  //     // getAndSendTokenToBackend()
+  //     console.log("OK");
+  //     toast.success("success");
+  //     navigate("/");
+  //   } catch (err) {
+  //     toast.error(`error when login`);
+  //   }
+  // };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Ngăn trình duyệt tự tải lại trang
+
+    const response = await login(inputs); // Thực hiện login
+    if (response) {
+      toast.success(response); 
+    } else {
+      setIsAuthenticating(true)
+      toast.success("Login successful"); // Thông báo thành công
+      console.log("OK");
+      navigate("/");
     }
-  }
+    // Chuyển hướng nếu login thành công
+  };
+
   return (
     <div className="form-container">
       <div className="background-image">
@@ -95,10 +141,22 @@ const Login = () => {
         </div>
       <div className="form-box">
         <img src={Logo} alt="logo" className="Login-logo" />
-        <form className="Form-login">
+        <form className="Form-login" onSubmit={handleSubmit}>
           <h2 className="title-login">Login to continue</h2>
-          <input className="input-login" type="email" placeholder="Email" name="username" onChange={handleChange} />
-          <input className="input-login" type="password" placeholder="Password" name="password" onChange={handleChange} />
+          <input
+            className="input-login"
+            type="email"
+            placeholder="Email"
+            name="username"
+            onChange={handleChange}
+          />
+          <input
+            className="input-login"
+            type="password"
+            placeholder="Password"
+            name="password"
+            onChange={handleChange}
+          />
           <div className="remember-block">
             <label>
               {/* <input type="checkbox" />
@@ -106,7 +164,7 @@ const Login = () => {
             </label>
             <a href="/forgotpassword">Forgot password?</a>
           </div>
-          <button className="button-login" type="button" onClick={handleLogin}>
+          <button className="button-login" type="submit">
             Sign in
           </button>
           {/* <div className="social-login">
@@ -122,9 +180,9 @@ const Login = () => {
           </p>
         </form>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
-}
+};
 
-export default Login
+export default Login;

@@ -137,10 +137,10 @@ const AdvertisePage = () => {
   ];
 
   const statusTags = {
-    1: { text: "Đang chờ duyệt", color: "green" },
-    2: { text: "Đang chờ thanh toán", color: "purple" },
-    3: { text: "Bị từ chối", color: "red" },
-    4: { text: "Đã thanh toán", color: "blue" },
+    1: { text: "Pending approval", color: "green" },
+    2: { text: "Pending payment", color: "purple" },
+    3: { text: "Rejected", color: "red" },
+    4: { text: "Paid", color: "blue" },
   };
 
   const columns = [
@@ -200,7 +200,7 @@ const AdvertisePage = () => {
       key: "contractStatus",
       render: (status) => {
         const { text, color } = statusTags[status] || {};
-        return <Tag color={color || "default"}>{text || "Không xác định"}</Tag>;
+        return <Tag color={color || "default"}>{text || "Unknown"}</Tag>;
       },
     },
     {
@@ -216,7 +216,7 @@ const AdvertisePage = () => {
 
   // Delete handler
   const handleDelete = (key) => {
-    console.log("Xóa mục:", key);
+    console.log("Delete item:", key);
   };
 
   const handleRemoveImage = (file) => {
@@ -418,6 +418,7 @@ const AdvertisePage = () => {
         okText="Submit"
         cancelText="Cancel"
         okButtonProps={{ disabled: isAnyPositionUnavailable }}
+        bodyStyle={{ maxHeight: '90vh', overflowY: 'auto' }}
       >
         <div>
           <label>Start Date:</label>
@@ -592,6 +593,7 @@ const AdvertisePage = () => {
         onCancel={handleRegisterCancel}
         okText="Register"
         cancelText="Cancel"
+        bodyStyle={{ maxHeight: '90vh', overflowY: 'auto' }}
       >
         <div>
           <p>Where do you want to register to place ads?</p>

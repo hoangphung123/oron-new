@@ -6,7 +6,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import LanguageIcon from "@mui/icons-material/Language";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Posts from "../../components/posts/Posts";
+import Posts from "../../components/postprofileFriend/Posts";
 import { AuthContext } from "../../context/authContext";
 import { useContext, useState, useEffect } from "react";
 import * as Userserver from "../../server/userstore";
@@ -27,7 +27,8 @@ const ProfileFriends = () => {
     useContext(AuthContext);
   const { darkMode, toggle } = useContext(DarkModeContext);
   const navigate = useNavigate();
-  const { setPosts } = useContext(PostsContext);
+  const { setPosts, postsFriends, setPostsFriends } = useContext(PostsContext);
+  const [postFriend, setPostFriend] = useState([])
   const [activeTab, setActiveTab] = useState("Post");
   const [coverImage, setCoverImage] = useState(
     "https://images.pexels.com/photos/13440765/pexels-photo-13440765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
@@ -80,7 +81,7 @@ const ProfileFriends = () => {
         9
       );
 
-      setPosts(response.listData);
+      setPostsFriends(response.listData);
     };
 
     const fetchFollowing = async () => {
@@ -110,7 +111,7 @@ const ProfileFriends = () => {
     fetchFollowing();
     fetchUserProfilePicture();
     GetPostByUserId();
-  }, [currentUser.data.profilePic]);
+  }, []);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -197,7 +198,7 @@ const ProfileFriends = () => {
 
             {/* Posts Section */}
             <div className="posts_content">
-              <Posts />
+              <Posts/>
             </div>
           </div>
         </>
