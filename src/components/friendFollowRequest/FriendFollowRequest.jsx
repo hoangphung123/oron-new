@@ -1,56 +1,89 @@
-import React, { useContext } from 'react';
-import './FriendPage.scss';
+import React, { useContext, useState } from "react";
+import "./FriendPage.scss";
 import { PostsContext } from "../../context/postContext";
-
+import { AuthContext } from "../../context/authContext";
+import * as Userserver from "../../server/userstore";
+import { Link, useNavigate} from "react-router-dom";
 
 const FriendPage = ({ type }) => {
   const { friendsList, followingList, followerList } = useContext(PostsContext);
-  const followData = [
-    { name: 'Kaito Kid', imageUrl: 'path/to/image1.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'path/to/image2.jpg' },
-    // Add more entries as needed for 'Follow'
-  ];
+  const { currentUser, setCurrentUserId } = useContext(AuthContext);
+  const [followStates, setFollowStates] = useState({});
+  const navigate = useNavigate();
 
-  const followerData = [
-    { name: 'Kaito Kid', imageUrl: 'path/to/image3.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'path/to/image4.jpg' },
-    // Add more entries as needed for 'Follower'
-  ];
+  const handleFollowButtonClick = async (friendId) => {
+    try {
+      const accessToken = JSON.parse(localStorage.getItem("access_token"));
+      const isCurrentlyFollowing = followStates[friendId];
 
-  const friendRequestData = [
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    { name: 'Kaito Kid', imageUrl: 'https://i.pinimg.com/736x/72/97/27/72972758f5bda534b5aeda6c58eaf6a8.jpg' },
-    // Add more entries as needed for 'FriendRequest'
-  ];
+      // Call the follow/unfollow API based on the current state
+      if (isCurrentlyFollowing) {
+        await Userserver.createFollow(accessToken, friendId);
+      } else {
+        await Userserver.UnFollow(accessToken, friendId);
+      }
+
+      // Update the follow state for the specific user
+      setFollowStates((prevStates) => ({
+        ...prevStates,
+        [friendId]: !isCurrentlyFollowing,
+      }));
+    } catch (error) {
+      console.error("Error handling follow button click:", error);
+    }
+  };
 
   let data;
-  let showAcceptButton = false;
 
-  if (type === 'follow') {
+  if (type === "follow") {
     data = followingList;
-  } else if (type === 'follower') {
+  } else if (type === "follower") {
     data = followerList;
-  } else if (type === 'friendRequest') {
+  } else if (type === "friendRequest") {
     data = friendsList;
-    showAcceptButton = false;
   }
+
+  const handleUserClicks = ({ userId, username }) => {
+    // Use the userId and username
+    const updatedUserId = { userId, username };
+    setCurrentUserId(updatedUserId);
+
+    // Store the updated user data in localStorage
+    localStorage.setItem("friends", JSON.stringify(updatedUserId));
+    navigate("/profileFriends");
+  };
 
   return (
     <div className="friend-container">
-      <h2>{type === 'follow' ? 'Follow' : type === 'follower' ? 'Follower' : 'Friend Request'}</h2>
-      <div className="friend-request-container">
+      <h2>
+        {type === "follow"
+          ? "Follow"
+          : type === "follower"
+          ? "Follower"
+          : "Friend Request"}
+      </h2>
+      <div className="friend-request-container" >
         {data.map((person, index) => (
-          <div key={index} className="friend-request-card">
-            <img src={person.profilePic.url || ""} alt={person.name} className="friend-request-image" />
-            <h3 className="friend-request-name">{person.name}</h3>
-            {showAcceptButton && <button className="accept-button">Accept</button>}
-            <button className="delete-button">Delete</button>
+          <div key={index} className="friend-request-card" onClick={() =>
+            handleUserClicks({
+              userId: person.id,
+              username: person.username,
+            })
+          }>
+            <img
+              src={person.profilePic.url || ""}
+              alt={person.name}
+              className="friend-request-image"
+            />
+            <h3 className="friend-request-name">{person.username}</h3>
+            {type !== "follower" && (
+              <button
+                className="delete-button"
+                onClick={() => handleFollowButtonClick(person.id)}
+              >
+                {followStates[person.id] ?  "Follow" : "Unfollow" }
+              </button>
+            )}
           </div>
         ))}
       </div>

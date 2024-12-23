@@ -28,101 +28,101 @@ const FriendProfileComponent = () => {
   //   console.log(date, dateString);
   // };
 
-  const DeleteData = () => {
-    setBirthDate(null);
-    setGenderCD(2);
-    setFirstName("");
-    setSpecificAddress("");
-    setSelectedProvince("");
-    setSelectedDistrict("");
-    setSelectedWard("");
-    userData.fullAddress = "";
-  };
+  // const DeleteData = () => {
+  //   setBirthDate(null);
+  //   setGenderCD(2);
+  //   setFirstName("");
+  //   setSpecificAddress("");
+  //   setSelectedProvince("");
+  //   setSelectedDistrict("");
+  //   setSelectedWard("");
+  //   userData.fullAddress = "";
+  // };
 
-  const handleSaveProfile = async () => {
-    try {
-      const accessToken = JSON.parse(localStorage.getItem("access_token"));
-      const updatedProfile = {
-        name: firstName,
-        birthDate: birthDate ? birthDate.format("YYYY-MM-DD") : null,
-        specificAddress: specificAddress,
-        province: selectedProvince,
-        district: selectedDistrict,
-        ward: selectedWard,
-        genderCD: genderCD,
-        phoneNumber: phoneNumber,
-        relatedUrl: relatedUrl
-      };
+  // const handleSaveProfile = async () => {
+  //   try {
+  //     const accessToken = JSON.parse(localStorage.getItem("access_token"));
+  //     const updatedProfile = {
+  //       name: firstName,
+  //       birthDate: birthDate ? birthDate.format("YYYY-MM-DD") : null,
+  //       specificAddress: specificAddress,
+  //       province: selectedProvince,
+  //       district: selectedDistrict,
+  //       ward: selectedWard,
+  //       genderCD: genderCD,
+  //       phoneNumber: phoneNumber,
+  //       relatedUrl: relatedUrl
+  //     };
 
-      const response = await UserSever.UpdateProfile(
-        accessToken,
-        updatedProfile
-      );
-      if (response.success) {
-        console.log("Profile updated successfully!");
-        // Optionally refresh user data or show a success message
-      } else {
-        console.log("Error updating profile:", response.error);
-      }
-    } catch (error) {
-      console.error("Error calling UpdateProfile API:", error.message);
-    }
-  };
+  //     const response = await UserSever.UpdateProfile(
+  //       accessToken,
+  //       updatedProfile
+  //     );
+  //     if (response.success) {
+  //       console.log("Profile updated successfully!");
+  //       // Optionally refresh user data or show a success message
+  //     } else {
+  //       console.log("Error updating profile:", response.error);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error calling UpdateProfile API:", error.message);
+  //   }
+  // };
 
-  const fetchProvinces = async () => {
-    try {
-      const response = await UserSever.getAllProvinces();
+  // const fetchProvinces = async () => {
+  //   try {
+  //     const response = await UserSever.getAllProvinces();
 
-      if (!response.error) {
-        const fetchedProvinces = response.data.listData;
-        setProvinces(fetchedProvinces);
-      } else {
-        console.log("error");
-      }
-    } catch (error) {
-      console.log("error", error.message);
-    }
-  };
+  //     if (!response.error) {
+  //       const fetchedProvinces = response.data.listData;
+  //       setProvinces(fetchedProvinces);
+  //     } else {
+  //       console.log("error");
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error.message);
+  //   }
+  // };
 
-  const fetchDistrictsByProvinceId = async (provinceId) => {
-    try {
-      const responses = await UserSever.getDistrictsByProvinceId(provinceId);
-      if (!responses.error) {
-        const fetchedDistricts = responses.data.listData;
-        setDistricts(fetchedDistricts);
-      } else {
-        console.log("error");
-      }
-    } catch (error) {
-      console.log("error", error.message);
-    }
-  };
+  // const fetchDistrictsByProvinceId = async (provinceId) => {
+  //   try {
+  //     const responses = await UserSever.getDistrictsByProvinceId(provinceId);
+  //     if (!responses.error) {
+  //       const fetchedDistricts = responses.data.listData;
+  //       setDistricts(fetchedDistricts);
+  //     } else {
+  //       console.log("error");
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error.message);
+  //   }
+  // };
 
-  const fetchWardsByDistrictId = async (districtId) => {
-    try {
-      const responses = await UserSever.getWardsByDistrictId(districtId);
-      if (!responses.error) {
-        const fetchedWards = responses.data.listData;
-        setwards(fetchedWards);
-      } else {
-        console.log("error");
-      }
-    } catch (error) {
-      console.log("error", error.message);
-    }
-  };
+  // const fetchWardsByDistrictId = async (districtId) => {
+  //   try {
+  //     const responses = await UserSever.getWardsByDistrictId(districtId);
+  //     if (!responses.error) {
+  //       const fetchedWards = responses.data.listData;
+  //       setwards(fetchedWards);
+  //     } else {
+  //       console.log("error");
+  //     }
+  //   } catch (error) {
+  //     console.log("error", error.message);
+  //   }
+  // };
 
-  const handleSelectDistricts = (e) => {
-    const selectedDistrictId = e.target.value;
-    setSelectedDistrict(selectedDistrictId);
-    fetchWardsByDistrictId(selectedDistrictId);
-  };
+  // const handleSelectDistricts = (e) => {
+  //   const selectedDistrictId = e.target.value;
+  //   setSelectedDistrict(selectedDistrictId);
+  //   fetchWardsByDistrictId(selectedDistrictId);
+  // };
 
-  const handleSelectProvince = (e) => {
-    const selectedProvinceId = e.target.value;
-    setSelectedProvince(selectedProvinceId);
-    fetchDistrictsByProvinceId(selectedProvinceId);
-  };
+  // const handleSelectProvince = (e) => {
+  //   const selectedProvinceId = e.target.value;
+  //   setSelectedProvince(selectedProvinceId);
+  //   fetchDistrictsByProvinceId(selectedProvinceId);
+  // };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -145,7 +145,7 @@ const FriendProfileComponent = () => {
         console.error("Error fetching user profile:", error);
       }
     };
-    fetchProvinces();
+    // fetchProvinces();
     fetchUserProfile();
   }, []);
 
