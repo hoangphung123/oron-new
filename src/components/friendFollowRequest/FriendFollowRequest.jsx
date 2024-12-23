@@ -64,16 +64,17 @@ const FriendPage = ({ type }) => {
       </h2>
       <div className="friend-request-container" >
         {data.map((person, index) => (
-          <div key={index} className="friend-request-card" onClick={() =>
-            handleUserClicks({
-              userId: person.id,
-              username: person.username,
-            })
-          }>
+          <div key={index} className="friend-request-card" >
             <img
               src={person.profilePic.url || ""}
               alt={person.name}
               className="friend-request-image"
+              onClick={() =>
+                handleUserClicks({
+                  userId: person.id,
+                  username: person.username,
+                })
+              }
             />
             <h3 className="friend-request-name">{person.username}</h3>
             {type !== "follower" && (
