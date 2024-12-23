@@ -11,7 +11,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import * as Adminservice from "../../server/userstore"
 const SIDEBAR_ITEMS = [
 	{ name: "Users", icon: Users, color: "#EC4899", href: "/admin/users" },
 	{ name: "Report", icon: ShoppingBag, color: "#8B5CF6", href: "/admin" },
@@ -19,22 +19,22 @@ const SIDEBAR_ITEMS = [
 	// { name: "Settings", icon: Settings, color: "#6EE7B7", href: "/admin/setting" },
 ];
 
-const changePassWord = async (accessToken, dataChange) => {
-	try {
-		const response = await axios.patch(
-			`${process.env.REACT_APP_API_URL}/user/change-password`,
-			dataChange,
-			{
-				headers: {
-					Authorization: `Bearer ${accessToken}`,
-				},
-			}
-		);
-		return response.data;
-	} catch (error) {
-		throw error.response?.data?.message || "An error occurred";
-	}
-};
+// const changePassWord = async (accessToken, dataChange) => {
+// 	try {
+// 		const response = await axios.patch(
+// 			`${process.env.REACT_APP_API_URL}/user/change-password`,
+// 			dataChange,
+// 			{
+// 				headers: {
+// 					Authorization: `Bearer ${accessToken}`,
+// 				},
+// 			}
+// 		);
+// 		return response.data;
+// 	} catch (error) {
+// 		throw error.response?.data?.message || "An error occurred";
+// 	}
+// };
 
 const Sidebar = () => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -46,13 +46,15 @@ const Sidebar = () => {
 	const navigate = useNavigate();
 
 	const handleChangePassword = async () => {
-		const token = localStorage.getItem("authToken");
+		const accessToken = JSON.parse(
+			localStorage.getItem("access_token_admin")
+		  );
 		try {
 			if (!oldPassword || !newPassword) {
 				setErrorMessage("Please fill in both fields.");
 				return;
 			}
-			await changePassWord(token, { oldPassword, newPassword });
+			await Adminservice.changePassWord(accessToken, { oldPassword, newPassword });
 			setSuccessMessage("Password changed successfully!");
 			setErrorMessage("");
 			setTimeout(() => {
