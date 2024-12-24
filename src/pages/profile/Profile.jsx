@@ -34,7 +34,7 @@ const Profile = () => {
 
   const cameraIconColor = darkMode ? "#fff" : "#000";
 
-  const api_url = "http://51.79.164.74:3500/api/v1";
+  const api_url = "https://orontech.duckdns.org/api/v1";
 
   const userStore = JSON.parse(localStorage.getItem("user"));
 

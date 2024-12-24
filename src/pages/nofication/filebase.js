@@ -40,7 +40,7 @@ export const getAndSendTokenToBackend = async () => {
         // No token in localStorage, send POST
         console.log("No FCM token in localStorage, sending POST...");
 
-        const postUrl = "http://51.79.164.74:3500/api/v1/fcm-token";
+        const postUrl = "https://orontech.duckdns.org/api/v1/fcm-token";
         const postData = {
           deviceToken: currentToken,
         };
@@ -67,7 +67,7 @@ export const getAndSendTokenToBackend = async () => {
         // Token in localStorage differs, send PATCH
         console.log("Stored token differs, sending PATCH...");
 
-        const patchUrl = "http://51.79.164.74:3500/api/v1/fcm-token";
+        const patchUrl = "https://orontech.duckdns.org/api/v1/fcm-token";
         const patchData = {
           deviceToken: currentToken,
         };
