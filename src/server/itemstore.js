@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api_url = "http://127.0.0.1:3500/api/v1";
+const api_url = "http://51.79.164.74:3500/api/v1";
 
 export const getCategory = async (status) => {
   try {
