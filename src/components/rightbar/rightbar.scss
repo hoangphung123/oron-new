@@ -5,10 +5,12 @@
     flex: 2;
     position: sticky;
     top: 50px;
+    // overflow-y: auto;
     // height: calc(100vh - 70px);
     overflow: scroll;
     background-color: themed("bgs");
     height: 100vh;
+    padding-bottom: 50px;
     @include mobile {
       display: none;
     }
@@ -20,6 +22,7 @@
     }
     .container {
       padding-top: 20px;
+      overflow-y: auto;
       .item {
         -webkit-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);
         -moz-box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.09);

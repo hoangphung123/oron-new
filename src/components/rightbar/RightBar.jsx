@@ -1,16 +1,19 @@
 import "./rightbar.scss";
 // import ProfileImg from "../../assets/profile/boyChild.jpg";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/authContext";
 import { PostsContext } from "../../context/postContext";
 import * as UserServices from "../../server/itemstore";
 import { formatDistanceToNow } from "date-fns";
 import Button from "@mui/material/Button";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+import { getPosition, getBannerActive } from "../../server/userstore";
 
 const RightBar = () => {
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [ads, setAds] = useState([]);
   const {
     postRegistrations,
     setPostRegistrations,
@@ -37,11 +40,30 @@ const RightBar = () => {
   };
 
   const redirectToDetail = () => {
-    navigate('/detailRegistation');
+    navigate("/detailRegistation");
   };
 
   useEffect(() => {
-    
+    const fetchDataBanner = async () => {
+      try {
+        const accessToken = JSON.parse(localStorage.getItem("access_token")); // Replace with actual access token
+        const positions = await getPosition(accessToken);
+        const rightBarPosition = positions.listData.find(
+          (position) => position.positionName === "Right-Bar"
+        );
+
+        if (rightBarPosition) {
+          const banners = await getBannerActive(
+            accessToken,
+            rightBarPosition.id
+          );
+          setAds(banners.listData);
+        }
+      } catch (error) {
+        console.error("Error while fetching banners:", error.message);
+      }
+    };
+
     // Gọi hàm getPostRegistrationByUserId và cập nhật state khi có dữ liệu trả về
     const fetchData = async () => {
       try {
@@ -63,8 +85,30 @@ const RightBar = () => {
       }
     };
 
+    fetchDataBanner();
     fetchData();
   }, []);
+
+  const defaultAds = [
+    {
+      image: {
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZsaCQOFPrS53FPHn3WI6fhaz_71Vo5nPPw&s",
+        alternativeText: "Ad 1",
+      },
+      bannerName: "Ad is empty, place your ad now",
+      redirectUrl: "https://oron-social.vercel.app/",
+    },
+    {
+      image: {
+        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZsaCQOFPrS53FPHn3WI6fhaz_71Vo5nPPw&s",
+        alternativeText: "Ad 2",
+      },
+      bannerName: "Ad is empty, place your ad now",
+      redirectUrl: "https://oron-social.vercel.app/",
+    },
+  ];
+
+  const adsToDisplay = ads.length > 0 ? ads : defaultAds;
 
   return (
     <div className="rightBar">
@@ -73,16 +117,13 @@ const RightBar = () => {
           <div className="item_title">
             <span>Registration for your posts</span>
           </div>
-          <hr className="item_contact"/>
+          <hr className="item_contact" />
           {Array.isArray(postRegistrationsByOwner) &&
           postRegistrationsByOwner.length > 0 ? (
             postRegistrationsByOwner.map((registration, index) => (
               <div className="user" key={index}>
                 <div className="userInfo">
-                  <img
-                    src={registration.user.profilePic.url}
-                    alt=""
-                  />
+                  <img src={registration.user.profilePic.url} alt="" />
                   <p>
                     <span>{registration.message} </span>
                     {registration.action}
@@ -99,16 +140,13 @@ const RightBar = () => {
           <div className="item_title">
             <span>Your registrations for other post</span>
           </div>
-          <hr className="item_contact"/>
+          <hr className="item_contact" />
           {/* Check if postRegistrations is an array before mapping */}
           {Array.isArray(postRegistrations) && postRegistrations.length > 0 ? (
             postRegistrations.map((registration, index) => (
               <div className="user" key={index}>
                 <div className="userInfo">
-                  <img
-                    src={registration.post.image[0].url}
-                    alt=""
-                  />
+                  <img src={registration.post.image[0].url} alt="" />
                   <p>
                     <span>{registration.post.description} </span>
                     {registration.action}
@@ -123,40 +161,30 @@ const RightBar = () => {
         </div>
         {/* Third Item */}
         <div className="advertisement">
-      <span>Sponsored</span>
-      <hr className="divider" />
-      <div className="ad-container">
-        {/* Ad Item 1 */}
-        <div className="ad-item">
-          <img
-            src="https://viettel-hanoi.vn/wp-content/uploads/2022/08/trung-tam-viettel-quan-ba-dinh-2.jpg" // Thay bằng link ảnh thực tế
-            alt="Ad 1"
-            className="ad-image"
-          />
-          <div className="ad-content">
-            <h3>Đăng ký truyền hình TV360 - tặng đến 4 tháng cước =&gt;</h3>
-            <a href="https://viettel.vn" target="_blank" rel="noopener noreferrer">
-              viettel.vn
-            </a>
+          <span>Sponsored</span>
+          <hr className="divider" />
+          <div className="ad-container">
+            {adsToDisplay.map((ad, index) => (
+              <div className="ad-item" key={index}>
+                <img
+                  src={ad.image.url}
+                  alt={ad.image.alternativeText}
+                  className="ad-image"
+                />
+                <div className="ad-content">
+                  <h3>{ad.bannerName}</h3>
+                  <a
+                    href={ad.redirectUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {ad.redirectUrl}
+                  </a>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
-        {/* Ad Item 2 */}
-        <div className="ad-item">
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZsaCQOFPrS53FPHn3WI6fhaz_71Vo5nPPw&s" // Thay bằng link ảnh thực tế
-            alt="Ad 2"
-            className="ad-image"
-          />
-          <div className="ad-content">
-            <h3>ƯU ĐÃI PIN XỊN</h3>
-            <a href="https://cellphones.com.vn" target="_blank" rel="noopener noreferrer">
-              cellphones.com.vn
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>        
         {/* Third Item */}
         <div className="item">
           <span>Contact</span>
@@ -165,10 +193,7 @@ const RightBar = () => {
           {friendsList.map((friendData, index) => (
             <div className="user" key={index}>
               <div className="userInfo">
-                <img
-                  src={friendData.profilePic.url}
-                  alt=""
-                />
+                <img src={friendData.profilePic.url} alt="" />
                 <div className="online" />
                 <span>{friendData.username}</span>
               </div>

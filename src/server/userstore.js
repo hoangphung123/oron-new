@@ -464,6 +464,32 @@ export const getPositionAvailable = async (accessToken, startDate, endDate) => {
   }
 };
 
+// ...existing code...
+
+export const getBannerActive = async (accessToken, positionId) => {
+  try {
+    const response = await axios.get(
+      `${api_url}/advertisement-banner/active`,
+      {
+        params: {
+          positionId: positionId,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const activeBanners = response.data;
+    return activeBanners;
+  } catch (error) {
+    console.error('Error while fetching active banners:', error.message);
+    throw error;
+  }
+};
+
+// ...existing code...
+
 
 
 

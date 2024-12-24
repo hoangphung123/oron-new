@@ -364,7 +364,7 @@ export default function Share() {
                     variant="contained"
                     className="acsess_button"
                   >
-                    Đăng
+                    Share
                   </Button>
                 </div>
               </div>
