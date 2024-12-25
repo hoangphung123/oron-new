@@ -106,6 +106,14 @@ const RightBar = () => {
       bannerName: "Ad is empty, place your ad now",
       redirectUrl: "https://oron-social.vercel.app/",
     },
+    {
+      image: {
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735139039/Banner/qy77j95bnkytw6iljkxl.png",
+        alternativeText: "Ad 2",
+      },
+      bannerName: "Ad is empty, place your ad now",
+      redirectUrl: "https://oron-social.vercel.app/",
+    },
   ];
 
   const adsToDisplay = ads.length > 0 ? ads : defaultAds;
