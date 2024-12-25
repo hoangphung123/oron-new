@@ -488,7 +488,25 @@ export const getBannerActive = async (accessToken, positionId) => {
   }
 };
 
-// ...existing code...
+export const UpdateBanner = async (accessToken, bannerId, data) => {
+  try {
+    const response = await axios.patch(
+      `${api_url}/rental-contract/user/${bannerId}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+
+    const updatedBanner = response.data;
+    return updatedBanner;
+  } catch (error) {
+    console.error('Error while updating banner:', error.message);
+    throw error;
+  }
+};
 
 
 

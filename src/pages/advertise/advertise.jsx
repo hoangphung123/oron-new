@@ -38,6 +38,28 @@ const AdvertisePage = () => {
   });
   const [positionStatus, setPositionStatus] = useState({});
   const [openloading, setOpenloading] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [isCancelConfirmVisible, setIsCancelConfirmVisible] = useState(false);
+  const [cancelId, setCancelId] = useState(null);
+  
+  const handleCancelConfirmOk = async () => {
+    const CancelData = {
+      statusCd: "5"
+    }
+    try {
+      await UserServer.UpdateBanner(accessToken, cancelId, CancelData);
+      fectchBanner();
+      setIsCreateModalVisible(false);
+      setIsCancelConfirmVisible(false);
+    } catch (error) {
+      console.error("Failed to update banner:", error);
+    }
+  };
+
+  const handleCancelConfirmCancel = () => {
+    setIsCancelConfirmVisible(false);
+  };
 
   const handleDateChange = async (field, value) => {
     // Cập nhật formData và kiểm tra lỗi
@@ -79,17 +101,26 @@ const AdvertisePage = () => {
         console.error("Lỗi khi lấy danh sách vị trí:", error);
       }
     };
-    const fectchBanner = async () => {
-      try {
-        const response = await UserServer.getBanner(accessToken);
-        setBanner(response.listData || []);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách vị trí:", error);
-      }
-    };
+    // const fectchBanner = async () => {
+    //   try {
+    //     const response = await UserServer.getBanner(accessToken);
+    //     setBanner(response.listData || []);
+    //   } catch (error) {
+    //     console.error("Lỗi khi lấy danh sách vị trí:", error);
+    //   }
+    // };
     fectchBanner();
     fetchPositions();
   }, []);
+
+  const fectchBanner = async () => {
+    try {
+      const response = await UserServer.getBanner(accessToken);
+      setBanner(response.listData || []);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách vị trí:", error);
+    }
+  };
 
   useEffect(() => {
     if (isCreateModalVisible) {
@@ -104,6 +135,16 @@ const AdvertisePage = () => {
       }
     }
   }, [isCreateModalVisible]);
+
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setIsModalVisible(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalVisible(false);
+    setSelectedImage(null);
+  };
 
   // Fake data
   const data = [
@@ -141,6 +182,7 @@ const AdvertisePage = () => {
     2: { text: "Pending payment", color: "purple" },
     3: { text: "Rejected", color: "red" },
     4: { text: "Paid", color: "blue" },
+    5: { text: "Cancelled", color: "red" },
   };
 
   const columns = [
@@ -152,7 +194,8 @@ const AdvertisePage = () => {
         <img
           src={image.url}
           alt={image.alternativeText}
-          style={{ width: 100 }}
+          style={{ width: 100, height: 100, objectFit: "cover", cursor:"pointer" }}
+          onClick={() => handleImageClick(image)}
         />
       ),
     },
@@ -207,16 +250,17 @@ const AdvertisePage = () => {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Button danger onClick={() => handleDelete(record.contractId)}>
-          Xóa
+        <Button danger onClick={() => handleCreateCancelBanner(record.contractId)}>
+          Cancel
         </Button>
       ),
     },
   ];
 
   // Delete handler
-  const handleDelete = (key) => {
-    console.log("Delete item:", key);
+  const handleCreateCancelBanner = (conntractId) => {
+    setCancelId(conntractId);
+    setIsCancelConfirmVisible(true);
   };
 
   const handleRemoveImage = (file) => {
@@ -301,6 +345,8 @@ const AdvertisePage = () => {
 
       // Đóng modal sau khi tất cả các API được gọi
       setIsCreateModalVisible(false);
+
+      fectchBanner();
 
       // Hiển thị thông báo thành công
       console.log("Advertisements created successfully!");
@@ -395,6 +441,10 @@ const AdvertisePage = () => {
     }
   };
 
+  const disabledDate = (current) => {
+    return current && current < moment().endOf('day');
+  };
+
   return (
     <div className="advertise">
       <div className="advertise_container">
@@ -418,7 +468,7 @@ const AdvertisePage = () => {
         okText="Submit"
         cancelText="Cancel"
         okButtonProps={{ disabled: isAnyPositionUnavailable }}
-        bodyStyle={{ maxHeight: '90vh', overflowY: 'auto' }}
+        bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }}
       >
         <div>
           <label>Start Date:</label>
@@ -428,6 +478,7 @@ const AdvertisePage = () => {
             onChange={(date, dateString) =>
               handleDateChange("startDate", dateString)
             }
+            disabledDate={disabledDate}
           />
           {errors.startDate && (
             <div style={{ color: "red", fontSize: "12px" }}>
@@ -444,6 +495,7 @@ const AdvertisePage = () => {
             onChange={(date, dateString) =>
               handleDateChange("endDate", dateString)
             }
+            disabledDate={disabledDate}
           />
           {errors.endDate && (
             <div style={{ color: "red", fontSize: "12px" }}>
@@ -593,7 +645,7 @@ const AdvertisePage = () => {
         onCancel={handleRegisterCancel}
         okText="Register"
         cancelText="Cancel"
-        bodyStyle={{ maxHeight: '90vh', overflowY: 'auto' }}
+        bodyStyle={{ maxHeight: "90vh", overflowY: "auto" }}
       >
         <div>
           <p>Where do you want to register to place ads?</p>
@@ -613,6 +665,32 @@ const AdvertisePage = () => {
             </Checkbox>
           ))}
         </div>
+      </Modal>
+
+      <Modal
+        visible={isModalVisible}
+        footer={null}
+        onCancel={handleModalClose}
+        centered
+      >
+        {selectedImage && (
+          <img
+            src={selectedImage.url}
+            alt={selectedImage.alternativeText}
+            style={{ width: "100%", height: "auto" }}
+          />
+        )}
+      </Modal>
+
+      <Modal
+        title="Confirm Cancel"
+        visible={isCancelConfirmVisible}
+        onOk={handleCancelConfirmOk}
+        onCancel={handleCancelConfirmCancel}
+        okText="Yes"
+        cancelText="No"
+      >
+        <p>Are you sure you want to cancel?</p>
       </Modal>
       {openloading && <Loading></Loading>}
     </div>

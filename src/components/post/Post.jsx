@@ -630,7 +630,7 @@ const Post = ({ post }) => {
               >
                 <span className="name">{post.user.username}</span>
               </div>
-              <span className="date">1 min ago</span>
+              <span className="date">{post.createdFrom}</span>
             </div>
           </div>
           <div>
