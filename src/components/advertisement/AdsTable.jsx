@@ -139,14 +139,21 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   {formatDate(ad.endDate)}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
+                <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   <a
-                    href={ad.redirectURL}
+                    href={ad.redirectUrl}
                     target="_blank"
-                    className="text-blue-400 hover:underline"
+                    className="text-blue-400 hover:underline truncate"
                     rel="noreferrer"
+                    style={{
+                      maxWidth: "150px",
+                      display: "inline-block",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
                   >
-                    {ad.redirectURL}
+                    {ad.redirectUrl}
                   </a>
                 </td>
                 <td className="px-4 py-2">

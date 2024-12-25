@@ -28,9 +28,7 @@ import {
 } from "@mui/material";
 import ImageNofication from "./IconNofication.png";
 import ImageMessage from "./IconMessage.png";
-import {
-  messaging,
-} from "../../pages/nofication/filebase";
+import { messaging } from "../../pages/nofication/filebase";
 import { onMessage } from "firebase/messaging";
 import PostRegistation from "../postRegistation/postRegistation";
 import DetailPost from "../../pages/detailPost/detailPost";
@@ -89,7 +87,7 @@ const NavBar = () => {
 
   const handleIconClick = () => {
     setIsDropdownOpen((prev) => !prev);
-    fetchNofication()
+    fetchNofication();
 
     // Xóa số thông báo khi mở dropdown
     if (!isDropdownOpen) {
@@ -152,7 +150,7 @@ const NavBar = () => {
       // console.log(payload);
       toast.success(payload.notification.body);
 
-      console.log("payload", payload)
+      console.log("payload", payload);
 
       // Cập nhật số lượng thông báo
       setNotificationCount((prev) => prev + 1);
@@ -420,7 +418,9 @@ const NavBar = () => {
         {isDropdownOpen && (
           <div className="dropDown_Nofication">
             <div className="dropdown_nofication-title">
-              <h3 className="text-lg font-semibold p-4 border-b">Notification</h3>
+              <h3 className="text-lg font-semibold p-4 border-b">
+                Notification
+              </h3>
               <div class="close" onClick={() => setIsDropdownOpen(false)}>
                 <span></span>
                 <span></span>
@@ -577,7 +577,7 @@ const NavBar = () => {
                   ></rect>
                   <path stroke-width="5" stroke="#fff" d="M1 12L41 12"></path>
                 </svg>
-                {/* <div class="text">Profile</div> */}
+                <div class="text">Profile</div>
               </div>
             </button>
           </MenuItem>
@@ -596,10 +596,16 @@ const NavBar = () => {
             </a> */}
             <button class="Btnss">
               <div class="sign">
-                <LockResetIcon />
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M12 2C8.68629 2 6 4.68629 6 8V10H5C3.89543 10 3 10.8954 3 12V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V12C21 10.8954 20.1046 10 19 10H18V8C18 4.68629 15.3137 2 12 2ZM8 8C8 5.79086 9.79086 4 12 4C14.2091 4 16 5.79086 16 8V10H8V8ZM5 12H19V20H5V12ZM12 14C11.4477 14 11 14.4477 11 15V17C11 17.5523 11.4477 18 12 18C12.5523 18 13 17.5523 13 17V15C13 14.4477 12.5523 14 12 14Z" />
+                </svg>
               </div>
 
-              {/* <div class="text">Logout</div> */}
+              <div class="text">PassWord</div>
             </button>
           </MenuItem>
           <MenuItem className="custom-menu" onClick={handleLogout}>
@@ -622,7 +628,7 @@ const NavBar = () => {
                 </svg>
               </div>
 
-              {/* <div class="text">Logout</div> */}
+              <div class="text">Logout</div>
             </button>
           </MenuItem>
           <Dialog open={isDialogOpen} onClose={handleCloseDialog}>

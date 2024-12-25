@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import StatCard from "../../components/common/StatCard";
 import * as AdminServe from "../../server/adminStore";
 
-
 const AdvertisePage = () => {
   const [ads, setAds] = useState([
     // {
@@ -35,11 +34,10 @@ const AdvertisePage = () => {
     //   status: "Accepted",
     // },
   ]);
+  const [adIfomation, setAdIfomation] = useState([]);
 
-  const [selectedImage, setSelectedImage] = useState(null); 
+  const [selectedImage, setSelectedImage] = useState(null);
   useEffect(() => {
-    
-
     fetchBanner();
   }, []);
   // Trạng thái để lưu ảnh được chọn
@@ -50,8 +48,9 @@ const AdvertisePage = () => {
         localStorage.getItem("access_token_admin")
       );
       const data = await AdminServe.getBanner(accessToken);
-      console.log("banner", data)
-      setAds(data.listData);     
+      console.log("banner", data);
+      setAds(data.listData);
+      setAdIfomation(data);
     } catch (error) {
       console.error("Error fetching banners:", error);
     }
@@ -76,12 +75,19 @@ const AdvertisePage = () => {
     setSelectedImage(null); // Đóng modal
   };
 
+  const formatCurrency = (value) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(value);
+  };
+
   return (
     <div className="flex-1 overflow-auto relative z-10">
       {/* Header */}
       <Header title="Advertisement Management" />
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
-      <motion.div
+        <motion.div
           className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -90,44 +96,67 @@ const AdvertisePage = () => {
           <StatCard
             name="Total Ad Requests"
             icon={Package}
-            value={1234}
+            value={
+              <>
+                {adIfomation.total}
+                {/* <br />
+                {formatCurrency(adIfomation.totalCost)} */}
+              </>
+            }
             color="#6366F1"
           />
           <StatCard
             name="Pending Payment"
             icon={AlertTriangle}
-            value={50}
+            value={
+              <>
+                {adIfomation.pendingForPayment.totalCount}
+                <br />
+                {formatCurrency(adIfomation.pendingForPayment.totalCost)}
+              </>
+            }
             color="#F59E0B"
           />
           <StatCard
             name="Showing"
             icon={CheckCircle}
-            value={1024}
+            value={
+              <>
+                {adIfomation.approved.totalCount}
+                <br />
+                {formatCurrency(adIfomation.approved.totalCost)}
+              </>
+            }
             color="#10B981"
           />
         </motion.div>
-      {/* Import bảng */}
-      <AdsTable ads={ads} toggleStatus={toggleStatus} onImageClick={setSelectedImage} onUpdateSuccess={handleUpdateSuccess} />
+        {/* Import bảng */}
+        <AdsTable
+          ads={ads}
+          toggleStatus={toggleStatus}
+          onImageClick={setSelectedImage}
+          onUpdateSuccess={handleUpdateSuccess}
+        />
 
-      {/* Popup Modal */}
-      {selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-4 rounded-lg">
-            <img
-              src={selectedImage}
-              alt="Popup"
-              className="max-w-full max-h-[80vh] rounded-lg"
-            />
-            <button
-              onClick={closeModal}
-              className="mt-4 bg-red-500 text-white py-1 px-4 rounded-lg"
-            >
-              Close
-            </button>
+        {/* Popup Modal */}
+        {selectedImage && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <div className="bg-white p-4 rounded-lg">
+              <img
+                src={selectedImage}
+                alt="Popup"
+                className="max-w-full max-h-[80vh] rounded-lg"
+              />
+              <button
+                onClick={closeModal}
+                className="mt-4 bg-red-500 text-white py-1 px-4 rounded-lg"
+              >
+                Close
+              </button>
+            </div>
           </div>
-        </div>
-      )}
-            </main>
+        )}
+      </main>
     </div>
   );
 };

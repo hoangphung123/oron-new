@@ -5,6 +5,7 @@ import ButtonSave from "./Icon Button1.png";
 import { DatePicker } from "antd";
 import * as UserSever from "../../server/userstore";
 import moment from "moment";
+import Notification from "../notification/Notification";
 
 const MyProfileComponent = () => {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -23,10 +24,14 @@ const MyProfileComponent = () => {
   const [mail, setMail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [relatedUrl, setRelatedUrl] = useState("");
-
+  const [notification, setNotification] = useState({ message: "", type: "" });
   // const onChange: DatePickerProps['onChange'] = (date, dateString) => {
   //   console.log(date, dateString);
   // };
+
+  const clearNotification = () => {
+    setNotification({ message: '', type: '' });
+  };
 
   const DeleteData = () => {
     setBirthDate(null);
@@ -58,14 +63,9 @@ const MyProfileComponent = () => {
         accessToken,
         updatedProfile
       );
-      if (response.success) {
-        console.log("Profile updated successfully!");
-        // Optionally refresh user data or show a success message
-      } else {
-        console.log("Error updating profile:", response.error);
-      }
+      setNotification({ message: 'Profile saved successfully!', type: 'success' });
     } catch (error) {
-      console.error("Error calling UpdateProfile API:", error.message);
+      setNotification({ message: 'Failed to save profile.', type: 'danger' });
     }
   };
 
@@ -350,6 +350,11 @@ const MyProfileComponent = () => {
               />
             </div>
           )}
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            clearNotification={clearNotification}
+          />
         </div>
       </div>
     </div>
