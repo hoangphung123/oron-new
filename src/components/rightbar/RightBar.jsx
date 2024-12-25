@@ -57,7 +57,14 @@ const RightBar = () => {
             accessToken,
             rightBarPosition.id
           );
-          setAds(banners.listData);
+          let fetchedCards = banners.listData;
+
+          if (fetchedCards.length < 3) {
+            fetchedCards = [...fetchedCards, ...defaultAds.slice(0, 3 - fetchedCards.length)];
+          }
+
+          // setCardss(fetchedCards);
+          setAds(fetchedCards);
         }
       } catch (error) {
         console.error("Error while fetching banners:", error.message);
