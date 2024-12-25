@@ -523,12 +523,6 @@ const NavBar = () => {
         {/* Material-UI Menu component */}
         <Menu
           className="MEnu"
-          style={{
-            width: '160px',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
@@ -545,6 +539,12 @@ const NavBar = () => {
             component={Link}
             to={`/profile/${currentUser.data.id}`}
             onClick={handleClose}
+            style={{
+              width: "160px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
             className="custom-menu"
           >
             {/* <a href="#" class="wave-link">
@@ -587,7 +587,16 @@ const NavBar = () => {
               </div>
             </button>
           </MenuItem>
-          <MenuItem className="custom-menu" onClick={handleOpenDialog}>
+          <MenuItem
+            className="custom-menu"
+            onClick={handleOpenDialog}
+            style={{
+              width: "160px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             {/* <a href="#" class="wave-link">
               <span>Change password</span>
               <svg
@@ -614,7 +623,16 @@ const NavBar = () => {
               <div class="text">PassWord</div>
             </button>
           </MenuItem>
-          <MenuItem className="custom-menu" onClick={handleLogout}>
+          <MenuItem
+            className="custom-menu"
+            onClick={handleLogout}
+            style={{
+              width: "160px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             {/* <a href="#" class="wave-link">
               <span>Logout</span>
               <svg
