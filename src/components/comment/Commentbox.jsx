@@ -112,7 +112,6 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
     try {
       const response = await postServer.getCommentByPostId(postId);
       const data = response.listData;
-      console.log("sau khi add", data);
       setCommetPost(data);
     } catch (error) {
       console.error("Error fetching comments:", error);
@@ -151,7 +150,6 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
   };
 
   const handleSendClick = async () => {
-    console.log(parenIds);
     if (isNew) {
       const value = textareaValue;
       const parentd = parenIds;
@@ -165,7 +163,6 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         parentId: parentd, // ID của parent comment
         parentLevel: "",
       };
-      console.log(commentData);
       try {
         // Gọi API để thêm comment
         const reponse = await postServer.uploadComment(
@@ -242,8 +239,6 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         parentComment.children = [];
       }
 
-      console.log("Cấp độ của parentComment:", levels);
-
       if (levels < 3) {
         parentComment.totalChild += 1;
         setParenIds(parentComment.id);
@@ -264,7 +259,6 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
           commentPost,
           parentComment
         );
-        console.log("ddd", grandparentComment);
         if (grandparentComment) {
           if (!grandparentComment.children) {
             parentComment.children = [];
@@ -307,7 +301,6 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
       }
     }
     setCommentsPost(commentPost);
-    console.log(commentPost);
   };
 
   const deleteComment = async (id, parentComments) => {
@@ -334,7 +327,6 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         },
       },
     ]);
-    console.log(comments);
   };
 
   // const setClickparentId = (id) => {

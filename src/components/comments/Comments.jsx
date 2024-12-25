@@ -49,7 +49,6 @@ const Comments = ({ postId }) => {
         },
       },
     ]);
-    console.log(comments);
   };
 
   // const onChange = (comment) => {

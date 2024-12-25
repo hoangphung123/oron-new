@@ -97,16 +97,19 @@ const Post = ({ post }) => {
 
     return (
       <div className="registered-users">
-        {postUsers.length >= 4 && (
-          <Button
-            className="button-lucky"
-            variant="contained"
-            color="primary"
-            onClick={() => setShowLuckyWheel(true)}
-          >
-            Random
-          </Button>
-        )}
+        <div className="button-lucky-container">
+          {postUsers.length >= 4 && (
+            <Button
+              className="button-lucky"
+              variant="contained"
+              color="primary"
+              onClick={() => setShowLuckyWheel(true)}
+            >
+              Random
+            </Button>
+          )}
+        </div>
+
         {postUsers.map((user) => (
           <div key={user.id} className="user-item">
             <div className="user-detailss">

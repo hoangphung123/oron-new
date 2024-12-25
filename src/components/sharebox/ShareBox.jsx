@@ -71,7 +71,6 @@ export default function Share() {
   const fetchCategory = async () => {
     try {
       const response = await UserServices.getCategory(1);
-      console.log("listdata", response);
       const fetchedCategory = response.listData;
 
       setCategory(fetchedCategory);

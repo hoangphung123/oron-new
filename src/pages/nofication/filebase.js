@@ -31,7 +31,7 @@ export const getAndSendTokenToBackend = async () => {
     const currentToken = await getToken(messaging, { vapidKey });
 
     if (currentToken) {
-      console.log("FCM Token generated:", currentToken);
+      // console.log("FCM Token generated:", currentToken);
 
       // Step 1: Check token in localStorage
       const storedToken = localStorage.getItem("fcm_token");

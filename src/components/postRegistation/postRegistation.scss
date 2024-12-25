@@ -13,6 +13,22 @@
     .container {
       padding: 20px;
 
+      .registered-users {
+        display: flex;
+        flex-direction: column;
+        /* align-items: stretch; */
+      }
+
+      .button-lucky-container{
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .button-lucky {
+        width: 100px;
+        margin-bottom: 10px;
+      }
+
       .user {
         display: flex;
         align-items: center;

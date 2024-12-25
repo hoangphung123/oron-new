@@ -144,9 +144,6 @@ const NavBar = () => {
       const fetchedCategory = response.listData;
 
       const reponses = setNotifications(fetchedCategory);
-      if (!reponses) {
-        console.log("notifications", notifications);
-      }
     } catch (error) {
       toast.error(`Error fetching Category: ${error.message}`);
     }
