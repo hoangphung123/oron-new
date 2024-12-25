@@ -541,6 +541,9 @@ const NavBar = () => {
             onClick={handleClose}
             style={{
               width: '160px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
             }}
             className="custom-menu"
           >
