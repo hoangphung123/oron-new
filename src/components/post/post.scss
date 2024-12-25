@@ -188,6 +188,10 @@
         align-items: center;
         gap: 20px;
 
+        .reaction-content{
+          margin-left: -20px;
+        }
+
         .item {
           display: flex;
           align-items: center;

@@ -960,10 +960,10 @@ const Post = ({ post }) => {
                 </div>
               )}
             </div>
-            <div onClick={handleLikeClick}>
+            <div className="reaction-content" onClick={handleLikeClick}>
               {post.currentUserReaction
-                ? `${post.totalReactions} you and others`
-                : `${post.totalReactions}reaction`}
+                ?  ` you and ${(post.totalReactions || 0) - 1} others`
+                : `${post.totalReactions || 0} reaction`}
             </div>
 
             {/* Star Rating */}

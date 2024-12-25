@@ -55,13 +55,14 @@ const FriendPage = ({ type }) => {
 
   return (
     <div className="friend-container">
-      <h2>
+      <h2 className="friend-title">
         {type === "follow"
           ? "Follow"
           : type === "follower"
           ? "Follower"
-          : "Friend Request"}
+          : "Friend"}
       </h2>
+      <hr />
       <div className="friend-request-container" >
         {data.map((person, index) => (
           <div key={index} className="friend-request-card" >
