@@ -539,6 +539,9 @@ const NavBar = () => {
             component={Link}
             to={`/profile/${currentUser.data.id}`}
             onClick={handleClose}
+            style={{
+              width: '160px',
+            }}
             className="custom-menu"
           >
             {/* <a href="#" class="wave-link">
