@@ -523,6 +523,12 @@ const NavBar = () => {
         {/* Material-UI Menu component */}
         <Menu
           className="MEnu"
+          style={{
+            width: '160px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
@@ -539,12 +545,6 @@ const NavBar = () => {
             component={Link}
             to={`/profile/${currentUser.data.id}`}
             onClick={handleClose}
-            style={{
-              width: '160px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
             className="custom-menu"
           >
             {/* <a href="#" class="wave-link">
