@@ -36,7 +36,8 @@ const DetailSavePost = () => {
 
       const results = await Userserver.getSavedPostsByUser(accessToken);
       setSavePostss(results.listData);
-      setSavePost(results.listData);
+      const resultsSave = await Userserver.getSavedPostsByUserWithLimit(accessToken, 3);
+      setSavePost(resultsSave.listData);
       // setSelectedPostIds(false);
       // Xử lý kết quả nếu cần
       console.log("Post unsaved successfully", result);
@@ -51,6 +52,8 @@ const DetailSavePost = () => {
       const accessToken = JSON.parse(localStorage.getItem("access_token"));
       const result = await Userserver.getSavedPostsByUser(accessToken);
       setSavePostss(result.listData);
+      const resultsSave = await Userserver.getSavedPostsByUserWithLimit(accessToken, 3);
+      setSavePost(resultsSave.listData);
     } catch (error) {
       // Xử lý lỗi nếu cần
       console.error("Error while fetching List Friends:", error.message);

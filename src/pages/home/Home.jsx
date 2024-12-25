@@ -96,7 +96,7 @@ const Home = () => {
     try {
       setSavePost([]);
       const accessToken = JSON.parse(localStorage.getItem("access_token"));
-      const result = await postserver.getSavedPostsByUser(accessToken);
+      const result = await postserver.getSavedPostsByUserWithLimit(accessToken, 3);
       setSavePost(result.listData);
     } catch (error) {
       // Xử lý lỗi nếu cần
