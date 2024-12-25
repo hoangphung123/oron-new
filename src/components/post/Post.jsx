@@ -848,7 +848,7 @@ const Post = ({ post }) => {
                       </div>
                     </div>
                     <div className="right">
-                      <h4>Post Information</h4>
+                      <h4>Description</h4>
                       <form>
                         <textarea
                           className="input_Items"

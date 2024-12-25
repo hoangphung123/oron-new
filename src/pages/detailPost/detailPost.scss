@@ -325,10 +325,19 @@
       overflow: hidden;
       z-index: 2;
 
+      input{
+        border: none;
+        width: 96%;
+        margin-bottom: 0px;
+        padding: 20px 0 20px 4%;
+    }
+
       .wide-input{
         width: 70%;
         height: 30px;
         margin-right: 10px;
+        border: 1px solid themed("textColor");
+        color: black;
       }
       
       

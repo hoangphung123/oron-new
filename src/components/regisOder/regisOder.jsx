@@ -115,7 +115,7 @@ const RegisOder = () => {
               <div className="user" key={index}>
                 <div className="userInfo">
                   <img
-                    src={`http://localhost:3500/${registration.post.imageURL}`}
+                    src={registration.post.image[0].url}
                     alt=""
                   />
                   <p>

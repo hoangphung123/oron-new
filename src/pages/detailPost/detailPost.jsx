@@ -97,8 +97,8 @@ const DetailPost = ({ post }) => {
     setSelectedWard(post.wardId);
     console.log('districtId', selectedDistrict, selectedWard )
     setDescription(post.description);
-    setSelectedImages(`http://localhost:3500/${post.imageURL}`);
-    setSelectedImage(post.imageURL)
+    setSelectedImages(post.image[0].url);
+    setSelectedImage(post.image[0].url);
     
 
     setIsEditPopupOpen(true);

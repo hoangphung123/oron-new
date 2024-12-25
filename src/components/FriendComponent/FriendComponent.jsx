@@ -30,7 +30,7 @@ const FriendComponent = () => {
       <div className="friend-list">
         {friendsList.map((friend, index) => (
           <div key={index} className="friend-card">
-            <img src={`http://localhost:3500/${friend.profilePic}`} alt={friend.name} className="avatar" />
+            <img src={friend.profilePic.url} alt={friend.name} className="avatar" />
             <span>{friend.username}</span>
           </div>
         ))}

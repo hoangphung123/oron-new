@@ -278,7 +278,7 @@ const Comments = ({ postId }) => {
         <div className="comment" key={Reviewers.id}>
           <div className="comment-content">
             <img
-              src={`http://localhost:3500/${Reviewers.user.profilePic}`}
+              src={Reviewers.user.profilePic.url}
               alt=""
             />
             <div className="info">

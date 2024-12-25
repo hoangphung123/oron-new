@@ -83,10 +83,17 @@
             }
             p {
               color: themed("textColorSoft");
+              max-width: 153px;
             }
             span {
               font-weight: 500;
+              max-width: 153px;
               color: themed("textColor");
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: inline-block;
+              max-width: 100%;
             }
           }
           .buttons {

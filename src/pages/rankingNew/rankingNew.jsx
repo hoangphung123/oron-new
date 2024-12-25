@@ -177,7 +177,7 @@ const RankingNew = () => {
                 {/* Hình ảnh người dùng */}
                 <div className="img-container">
                   <img
-                    src={`http://localhost:3500/${user.profilePic}`}
+                    src={user.profilePic.url}
                     alt={user.username}
                     className="user-image"
                   />

@@ -10,7 +10,7 @@
     background-color: themed("bgs");
     color: themed("textColor");
     height: 100vh;
-    
+    max-width: 254px;
 
     @include mobile {
       display: none;

@@ -277,7 +277,7 @@ const Register = () => {
               type="phoneNumber"
               placeholder="Phone number"
               value={phoneNumber}
-              onChange={(e) => handleInputChange(e, "name")}
+              onChange={(e) => handleInputChange(e, "phoneNumber")}
             />
             <input
               type="email"
