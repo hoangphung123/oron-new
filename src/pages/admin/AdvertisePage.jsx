@@ -38,6 +38,19 @@ const AdvertisePage = () => {
 
   const [selectedImage, setSelectedImage] = useState(null);
   useEffect(() => {
+    // const fetchBanner = async () => {
+    //   try {
+    //     const accessToken = JSON.parse(
+    //       localStorage.getItem("access_token_admin")
+    //     );
+    //     const data = await AdminServe.getBanner(accessToken);
+    //     console.log("banner", data);
+    //     setAds(data.listData);
+    //     setAdIfomation(data);
+    //   } catch (error) {
+    //     console.error("Error fetching banners:", error);
+    //   }
+    // };
     fetchBanner();
   }, []);
   // Trạng thái để lưu ảnh được chọn
@@ -49,8 +62,12 @@ const AdvertisePage = () => {
       );
       const data = await AdminServe.getBanner(accessToken);
       console.log("banner", data);
-      setAds(data.listData);
-      setAdIfomation(data);
+      if (data) {
+        setAds(data.listData);
+        setAdIfomation(data);
+      }
+      // setAds(data.listData);
+      // setAdIfomation(data);
     } catch (error) {
       console.error("Error fetching banners:", error);
     }
@@ -98,7 +115,7 @@ const AdvertisePage = () => {
             icon={Package}
             value={
               <>
-                {adIfomation.total}
+                {adIfomation?.total || 0}
                 {/* <br />
                 {formatCurrency(adIfomation.totalCost)} */}
               </>
@@ -110,9 +127,9 @@ const AdvertisePage = () => {
             icon={AlertTriangle}
             value={
               <>
-                {adIfomation.pendingForPayment.totalCount}
+                {adIfomation?.pendingForPayment?.totalCount || 0}
                 <br />
-                {formatCurrency(adIfomation.pendingForPayment.totalCost)}
+                {formatCurrency(adIfomation?.pendingForPayment?.totalCost || 0)}
               </>
             }
             color="#F59E0B"
@@ -122,9 +139,9 @@ const AdvertisePage = () => {
             icon={CheckCircle}
             value={
               <>
-                {adIfomation.approved.totalCount}
+                {adIfomation?.approved?.totalCount || 0}
                 <br />
-                {formatCurrency(adIfomation.approved.totalCost)}
+                {formatCurrency(adIfomation?.approved?.totalCost || 0)}
               </>
             }
             color="#10B981"

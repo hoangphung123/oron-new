@@ -7,9 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DatePicker, Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import SimpleMusicPlayer from "../../components/musicplayer/MusicPlayer"
-import Snowfall from "../../components/Snowfall/Snowfall"
-
+import SimpleMusicPlayer from "../../components/musicplayer/MusicPlayer";
+import Snowfall from "../../components/Snowfall/Snowfall";
 
 const Register = () => {
   const [provinces, setProvinces] = useState([]);
@@ -139,7 +138,7 @@ const Register = () => {
         birthDate: birthDate ? birthDate.format("YYYY-MM-DD") : null,
         genderCD: gender,
         // specificAddress: specificAddress,
-        // phoneNumber: phoneNumber,
+        phoneNumber: phoneNumber,
         email: email,
       };
       console.log("userRegis", userData);
@@ -243,6 +242,9 @@ const Register = () => {
       case "username":
         setUsername(value);
         break;
+      case "phoneNumber":
+        setPhoneNumber(value);
+        break;
       case "specificAddress":
         setSpecificAddress(value);
         break;
@@ -253,8 +255,8 @@ const Register = () => {
 
   return (
     <div className="register">
-              <SimpleMusicPlayer />
-              <Snowfall />
+      <SimpleMusicPlayer />
+      <Snowfall />
       <div className="card">
         <h1>Create new account</h1>
         <div className="form-section">
@@ -269,6 +271,12 @@ const Register = () => {
               type="text"
               placeholder="Name"
               value={name}
+              onChange={(e) => handleInputChange(e, "name")}
+            />
+            <input
+              type="phoneNumber"
+              placeholder="Phone number"
+              value={phoneNumber}
               onChange={(e) => handleInputChange(e, "name")}
             />
             <input

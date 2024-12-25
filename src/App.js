@@ -133,25 +133,51 @@ function App() {
   const ProtectedRoute = ({ children }) => {
     const { currentUser } = useContext(AuthContext);
     const [isDelayed, setIsDelayed] = useState(true); // Trạng thái để trì hoãn kiểm tra
-  
+
     useEffect(() => {
       const timer = setTimeout(() => {
         setIsDelayed(false); // Sau 1 giây, cho phép kiểm tra `currentUser`
       }, 100); // 1000ms = 1 giây
-  
+
       return () => clearTimeout(timer); // Dọn dẹp timer khi component bị unmount
     }, []);
-  
+
     // Trong thời gian trì hoãn, hiển thị trạng thái loading
     if (isDelayed) {
-      return  // Bạn có thể thay bằng spinner
+      return; // Bạn có thể thay bằng spinner
     }
-  
+
     // Sau khi hết thời gian trì hoãn, kiểm tra `currentUser`
     if (!currentUser) {
       return <Navigate to="/login" />;
     }
-  
+
+    return children;
+  };
+
+  const ProtectedRouteAdmin = ({ children }) => {
+    const [isDelayed, setIsDelayed] = useState(true); // Trạng thái để trì hoãn kiểm tra
+
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setIsDelayed(false); // Sau 1 giây, cho phép kiểm tra `access_token_admin`
+      }, 100); // 100ms = 0.1 giây
+
+      return () => clearTimeout(timer); // Dọn dẹp timer khi component bị unmount
+    }, []);
+
+    // Trong thời gian trì hoãn, hiển thị trạng thái loading
+    if (isDelayed) {
+      return <div>Loading...</div>; // Bạn có thể thay bằng spinner
+    }
+
+    // Sau khi hết thời gian trì hoãn, kiểm tra `access_token_admin`
+    const accessTokenAdmin = localStorage.getItem("access_token_admin");
+    console.log("accessTokenAdmin", accessTokenAdmin);
+    if (!accessTokenAdmin) {
+      return <Navigate to="/loginAdmin" />;
+    }
+
     return children;
   };
 
@@ -271,7 +297,9 @@ function App() {
       path: "/admin",
       element: (
         <ProtectedRoute>
-          <LayoutAdmin />
+          <ProtectedRouteAdmin>
+            <LayoutAdmin />
+          </ProtectedRouteAdmin>
         </ProtectedRoute>
       ),
       children: [

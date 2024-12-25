@@ -32,6 +32,8 @@ import { messaging } from "../../pages/nofication/filebase";
 import { onMessage } from "firebase/messaging";
 import PostRegistation from "../postRegistation/postRegistation";
 import DetailPost from "../../pages/detailPost/detailPost";
+import QRcodeIamge from "./qrcodethanhtoanadvertise.jpg";
+import { Modal } from "antd";
 // import toast, {Toaster} from "react-hot-toast";
 
 const NavBar = () => {
@@ -54,6 +56,7 @@ const NavBar = () => {
     useState(false);
 
   const [isOpen, setIsOpen] = useState(false); // Đóng/mở dropdown thông báo
+  const [showQrPopup, setShowQrPopup] = useState(false);
   const [notifications, setNotifications] = useState([
     // {
     //   creatorName: "Nguyễn Văn A",
@@ -84,6 +87,9 @@ const NavBar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   // const [notifications, setNotifications] = useState([]);
+  const closeQrPopup = () => {
+    setShowQrPopup(false);
+  };
 
   const handleIconClick = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -126,6 +132,8 @@ const NavBar = () => {
       } catch (error) {
         console.log("error", error);
       }
+    } else if (typeCd === "3") {
+      setShowQrPopup(true);
     }
   };
 
@@ -688,6 +696,14 @@ const NavBar = () => {
             </DialogActions>
           </Dialog>
         </Menu>
+        <Modal
+          title="QR Code"
+          visible={showQrPopup}
+          onCancel={closeQrPopup}
+          footer={null}
+        >
+          <img src={QRcodeIamge} alt="QR Code" style={{ width: "100%" }} />
+        </Modal>
         <ToastContainer />
       </div>
     </div>

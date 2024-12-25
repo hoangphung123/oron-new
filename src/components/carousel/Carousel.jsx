@@ -10,7 +10,7 @@ const CustomCarousel = () => {
   const cards = [
     {
       image: {
-        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1734717635/tfjhlf10gm3kfp4y8stj.png",
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735138931/Banner/jlredwcpq8rty1soh5gx.png",
         alternativeText: "First Slide"
       },
       bannerName: "First Slide",
@@ -18,7 +18,7 @@ const CustomCarousel = () => {
     },
     {
       image: {
-        url: "https://i.pinimg.com/564x/d3/ee/06/d3ee06c64b5f931bb9bd068792b57f39.jpg",
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735138931/Banner/jlredwcpq8rty1soh5gx.png",
         alternativeText: "Second Slide"
       },
       bannerName: "Second Slide",
@@ -26,7 +26,7 @@ const CustomCarousel = () => {
     },
     {
       image: {
-        url: "https://i.pinimg.com/564x/36/d8/99/36d899f2e42dda38b99eb1e5eb7e1ccf.jpg",
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735138931/Banner/jlredwcpq8rty1soh5gx.png",
         alternativeText: "Third Slide"
       },
       bannerName: "Third Slide",
@@ -34,7 +34,7 @@ const CustomCarousel = () => {
     },
     {
       image: {
-        url: "https://i.pinimg.com/736x/a5/59/e3/a559e3e59fd9a38d909f5e016050e229.jpg",
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735138931/Banner/jlredwcpq8rty1soh5gx.png",
         alternativeText: "Fourth Slide"
       },
       bannerName: "Fourth Slide",
@@ -42,7 +42,7 @@ const CustomCarousel = () => {
     },
     {
       image: {
-        url: "https://i.pinimg.com/736x/c0/2d/8f/c02d8f09c7fcd007ace00bb3bca43c7f.jpg",
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735138931/Banner/jlredwcpq8rty1soh5gx.png",
         alternativeText: "Fifth Slide"
       },
       bannerName: "Fifth Slide",

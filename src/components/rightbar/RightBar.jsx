@@ -92,7 +92,7 @@ const RightBar = () => {
   const defaultAds = [
     {
       image: {
-        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZsaCQOFPrS53FPHn3WI6fhaz_71Vo5nPPw&s",
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735139039/Banner/qy77j95bnkytw6iljkxl.png",
         alternativeText: "Ad 1",
       },
       bannerName: "Ad is empty, place your ad now",
@@ -100,7 +100,7 @@ const RightBar = () => {
     },
     {
       image: {
-        url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhZsaCQOFPrS53FPHn3WI6fhaz_71Vo5nPPw&s",
+        url: "https://res.cloudinary.com/dinvkxkt1/image/upload/v1735139039/Banner/qy77j95bnkytw6iljkxl.png",
         alternativeText: "Ad 2",
       },
       bannerName: "Ad is empty, place your ad now",
@@ -192,11 +192,23 @@ const RightBar = () => {
           {/* Replace the hard-coded user data with FriendsDataArray */}
           {friendsList.map((friendData, index) => (
             <div className="user" key={index}>
-              <div className="userInfo">
+              {/* <div className="userInfo">
                 <img src={friendData.profilePic.url} alt="" />
                 <div className="online" />
                 <span>{friendData.username}</span>
-              </div>
+              </div> */}
+              <a
+                href={`https://zalo.me/${friendData.phoneNumber}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: "none", color: "inherit" }} // Đảm bảo không có gạch chân và giữ màu chữ
+              >
+                <div className="userInfo">
+                  <img src={friendData.profilePic.url} alt="" />
+                  <div className="online" />
+                  <span>{friendData.username}</span>
+                </div>
+              </a>
             </div>
           ))}
         </div>

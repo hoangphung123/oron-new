@@ -67,7 +67,7 @@ const Sidebar = () => {
 	};
 
 	const handleLogout = () => {
-		localStorage.removeItem("authToken");
+		localStorage.removeItem("access_token_admin");
 		navigate("/loginAdmin");
 	};
 
