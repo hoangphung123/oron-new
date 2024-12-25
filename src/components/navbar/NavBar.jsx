@@ -449,7 +449,7 @@ const NavBar = () => {
                 notifications.map((notification, index) => (
                   <li
                     key={index}
-                    className="flex items-center p-4 hover:bg-gray-100 border-b last:border-none"
+                    className="flex items-center p-4 hover:bg-gray-100 border-b last:border-none cursor-pointer"
                     onClick={() =>
                       handleNotificationClick(
                         notification.itemRid,
@@ -702,7 +702,14 @@ const NavBar = () => {
           onCancel={closeQrPopup}
           footer={null}
         >
-          <img src={QRcodeIamge} alt="QR Code" style={{ width: "100%" }} />
+          <a href="https://zalo.me/0825845123" target="_blank" rel="noreferrer">
+            <img
+              className="image-qrcode"
+              src={QRcodeIamge}
+              alt="QR Code"
+              style={{ width: "100%" }}
+            />
+          </a>
         </Modal>
         <ToastContainer />
       </div>
