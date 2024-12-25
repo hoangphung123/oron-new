@@ -134,7 +134,7 @@ const RankingNew = () => {
       <div className="ranking-content">
         <h2>Ranking</h2>
         <div className="top-ranking">
-          {data.slice(0, 3).map((user, index) => {
+          {updatedData.slice(0, 3).map((user, index) => {
             // Xác định class cho từng vị trí Top
             let topClass = "top-3"; // Mặc định cho vị trí 3
             if (updatedData.length === 1) {

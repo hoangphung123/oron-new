@@ -269,6 +269,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
           if (!grandparentComment.children) {
             parentComment.children = [];
           }
+          setParenIds(grandparentComment.id);
           grandparentComment.children.push({
             value: "",
             parentId: grandparentComment.id,
@@ -305,6 +306,7 @@ const CommentBox = ({ comments, level = 1, postIds }) => {
         }
       }
     }
+    setCommentsPost(commentPost);
     console.log(commentPost);
   };
 
