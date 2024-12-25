@@ -161,7 +161,7 @@ const RightBar = () => {
         </div>
         {/* Third Item */}
         <div className="advertisement">
-          <span>Sponsored</span>
+          <span>Advertisement</span>
           <hr className="divider" />
           <div className="ad-container">
             {adsToDisplay.map((ad, index) => (

@@ -355,7 +355,7 @@ const Register = () => {
         <p>Our redundancies other necessaries.</p>
         <span>Have an account?</span>
         <Link to="/login">
-          <button>Login</button>
+          <button>Sign in</button>
         </Link>
       </div>
       {showPopup && (

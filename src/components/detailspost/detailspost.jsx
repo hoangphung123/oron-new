@@ -564,7 +564,7 @@ const Detailspost = ({ post }) => {
                         <div onClick={handleLikeClick}>
                             {post.currentUserReaction
                                 ? `${post.totalReactions} you and others`
-                                : `${post.totalReactions} others`}
+                                : `${post.totalReactions}reaction`}
                         </div>
 
                         {/* Star Rating */}

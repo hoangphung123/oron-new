@@ -171,7 +171,7 @@ const Sidebar = () => {
 							animate={{ scale: 1, opacity: 1 }}
 							exit={{ scale: 0.8, opacity: 0 }}
 						>
-							<h2 className='text-lg font-semibold mb-4'>Change Password</h2>
+							<h2 className='text-black text-lg font-semibold mb-4 '>Change Password</h2>
 							{errorMessage && <p className='text-red-500 text-sm mb-4'>{errorMessage}</p>}
 							{successMessage && <p className='text-green-500 text-sm mb-4'>{successMessage}</p>}
 							<div className='mb-4'>
