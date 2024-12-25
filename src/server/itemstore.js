@@ -360,6 +360,25 @@ export const getSavedPostsByUser = async (accessToken) => {
   }
 };
 
+export const getSavedPostsByUserWithLimit = async (accessToken, limit) => {
+  try {
+    const response = await axios.get(`${api_url}/post/saved/user`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+      params: {
+        limit: limit,
+      },
+    });
+
+    const savedPosts = response.data; // Cập nhật dòng này dựa trên cấu trúc dữ liệu trả về từ API của bạn
+    return savedPosts;
+  } catch (error) {
+    console.error("Error while fetching saved posts with limit:", error.message);
+    throw error;
+  }
+};
+
 export const getRegistrationsByPostId = async (accessToken, postId) => {
   try {
     const response = await axios.get(
