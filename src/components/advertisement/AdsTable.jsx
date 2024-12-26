@@ -139,7 +139,7 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {filteredReport.map((ad) => (
+            {ads.map((ad) => (
               <tr key={ad.id} className="hover:bg-gray-700 transition">
                 <td className="w-115 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   <span
