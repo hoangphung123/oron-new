@@ -8,6 +8,8 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
   const [bannerId, setBannerId] = useState(null);
   const [pendingStatusCd, setPendingStatusCd] = useState(null); // Lưu trạng thái chờ
   const [rejectReason, setRejectReason] = useState(""); // Lưu lý do từ chối
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredReport, setFilteredReport] = useState([]);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -67,6 +69,15 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
     handleStatusUpdate(pendingStatusCd, bannerId);
   };
 
+  const handleSearch = (e) => {
+    const term = e.target.value.toLowerCase();
+    setSearchTerm(term);
+    const filtered = ads.filter((report) =>
+      report.bannerName.toLowerCase().includes(term)
+    );
+    setFilteredReport(filtered);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -82,8 +93,10 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
           <div className="relative z-20">
             <input
               type="text"
-              placeholder="Search reports..."
+              placeholder="Search users..."
               className="bg-gray-700 text-white placeholder-gray-400 rounded-lg pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value={searchTerm}
+              onChange={handleSearch}
             />
             <Search
               className="absolute left-3 top-2.5 text-gray-400"
@@ -126,7 +139,7 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {ads.map((ad) => (
+            {filteredReport.map((ad) => (
               <tr key={ad.id} className="hover:bg-gray-700 transition">
                 <td className="w-115 px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   <span
