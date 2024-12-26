@@ -116,8 +116,8 @@ const AdvertisePage = () => {
             value={
               <>
                 {adIfomation?.total || 0}
-                {/* <br />
-                {formatCurrency(adIfomation.totalCost)} */}
+                <br />
+                {formatCurrency(adIfomation.totalRevenue)}
               </>
             }
             color="#6366F1"

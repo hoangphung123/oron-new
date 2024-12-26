@@ -106,6 +106,9 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
                 End Date
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                Total cost
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Redirect URL
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
@@ -138,6 +141,9 @@ const AdsTable = ({ ads, onImageClick, onUpdateSuccess }) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   {formatDate(ad.endDate)}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
+                  {ad.totalCost}
                 </td>
                 <td className="px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-100">
                   <a
